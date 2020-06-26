@@ -85,8 +85,6 @@ const postMessage = data => {
   const message = JSON.stringify(data);
   if (window.parent.postMessage) {
     window.parent.postMessage(message, '*');
-  } else {
-    console.error('unable to find postMessage');
   }
 };
 
@@ -110,7 +108,6 @@ const receiveMessage = dispatch => event => {
         return false;
     }
   } catch (err) {
-    console.error(err);
     return false;
   }
 };

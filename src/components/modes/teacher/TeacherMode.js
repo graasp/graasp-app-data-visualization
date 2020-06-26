@@ -1,8 +1,10 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/no-unused-prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TeacherView from './TeacherView';
-import { DEFAULT_VIEW, DASHBOARD_VIEW } from '../../../config/views';
+import { DASHBOARD_VIEW, DEFAULT_VIEW } from '../../../config/views';
 import { getActions, getAppInstanceResources } from '../../../actions';
 import Loader from '../../common/Loader';
 
@@ -11,6 +13,7 @@ class TeacherMode extends Component {
     appInstanceId: PropTypes.string,
     view: PropTypes.string,
     activity: PropTypes.bool,
+    actions: PropTypes.array,
     dispatchGetAppInstanceResources: PropTypes.func.isRequired,
     dispatchGetActions: PropTypes.func.isRequired,
   };
@@ -19,6 +22,7 @@ class TeacherMode extends Component {
     view: 'normal',
     appInstanceId: null,
     activity: false,
+    actions: [],
   };
 
   componentDidMount() {

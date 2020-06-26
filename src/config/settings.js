@@ -9,7 +9,6 @@ try {
   defaultApiHost =
     window.parent.location.hostname === 'localhost' ? LOCAL_API_HOST : null;
 } catch (e) {
-  console.error(e);
   defaultApiHost = null;
 }
 
