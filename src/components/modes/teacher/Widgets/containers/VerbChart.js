@@ -12,6 +12,7 @@ import {
 const id = 'VerbChart';
 const xAxis = 'date';
 const yAxis = 'Occurrence';
+
 const BarData = (actions, from, to) => {
   if (actions && from && to) {
     const verbs = Occurrence(actions, 'verb');

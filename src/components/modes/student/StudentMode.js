@@ -33,7 +33,7 @@ class StudentMode extends Component {
     // by default get the resources for this user
     dispatchGetAppInstanceResources({ userId });
     // by default get all actions for this user
-    dispatchGetActions({ userId: [userId] });
+    dispatchGetActions();
   }
 
   componentDidUpdate({ appInstanceId: prevAppInstanceId }) {
@@ -61,11 +61,12 @@ class StudentMode extends Component {
     }
   }
 }
-const mapStateToProps = ({ context, appInstanceResources }) => {
+const mapStateToProps = ({ context, appInstanceResources, action }) => {
   const { userId, appInstanceId } = context;
   return {
     userId,
     appInstanceId,
+    action,
     activity: appInstanceResources.activity.length,
   };
 };
