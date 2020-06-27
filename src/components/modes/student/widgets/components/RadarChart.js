@@ -2,13 +2,13 @@ import React from 'react';
 import { ResponsiveRadar } from '@nivo/radar';
 import PropTypes from 'prop-types';
 
-const RadarChart = ({ data }) => {
+const RadarChart = ({ data, keys, indexBy }) => {
   return (
     <div style={{ height: 500 }}>
       <ResponsiveRadar
         data={data}
-        keys={['user', 'avg']}
-        indexBy="verb"
+        keys={keys}
+        indexBy={indexBy}
         maxValue="auto"
         margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
         curve="linearClosed"
@@ -60,6 +60,8 @@ const RadarChart = ({ data }) => {
 
 RadarChart.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  keys: PropTypes.arrayOf(PropTypes.string).isRequired,
+  indexBy: PropTypes.string.isRequired,
 };
 
 export default RadarChart;

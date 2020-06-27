@@ -16,24 +16,37 @@ export const formatDataForChart = (key, value, attribute) => {
   key.forEach(entry => {
     const entryObj = {};
     entryObj[attribute] = entry;
-
     value.forEach(v => {
       entryObj[v] = 0;
     });
-
     data.push(entryObj);
   });
 
   return data;
 };
 
+function isActionInRange(data, createdAt) {
+  const correspondingObject = data.find(
+    obj => obj.date === new Date(createdAt).toLocaleDateString(),
+  );
+  return correspondingObject;
+}
+
+function calculateAvg(verbs, data, nbOfUsers) {
+  const verbsAvg = verbs.filter(e => e.indexOf('Avg') !== -1);
+  data.forEach(e => {
+    verbsAvg.forEach(verbAvg => {
+      e[verbAvg] /= nbOfUsers;
+    });
+  });
+  return data;
+}
+
 export const fillData = (actions, dataFormat, id, verbs, nbOfUsers) => {
   const data = dataFormat;
   actions.forEach(entry => {
     const { createdAt, verb, userId } = entry;
-    const correspondingObject = data.find(
-      obj => obj.date === new Date(createdAt).toLocaleDateString(),
-    );
+    const correspondingObject = isActionInRange(data, createdAt);
 
     // if the action is done by this user in the date range chosen: Increment the type of verb that he had done
     if (userId === id && verb && correspondingObject) {
@@ -43,12 +56,5 @@ export const fillData = (actions, dataFormat, id, verbs, nbOfUsers) => {
       correspondingObject[`${verb}Avg`] += 1;
     }
   });
-  const verbsAvg = verbs.filter(e => e.indexOf('Avg') !== -1);
-  data.forEach(e => {
-    verbsAvg.forEach(verbAvg => {
-      e[verbAvg] /= nbOfUsers;
-    });
-  });
-
-  return data;
+  return calculateAvg(verbs, data, nbOfUsers);
 };

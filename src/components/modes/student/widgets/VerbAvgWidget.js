@@ -12,7 +12,7 @@ const VerbAvgWidget = () => {
   return (
     <div>
       <VerbAvgChart />
-      <KeyedDatePicker id="VerbChart" initialValue={initialState} />
+      <KeyedDatePicker id="VerbBarChart" initialValue={initialState} />
     </div>
   );
 };

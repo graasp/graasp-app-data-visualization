@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import BarChart from '../components/BarChart';
-
 import {
   fromDate,
   toDate,
@@ -9,11 +8,11 @@ import {
   Occurrence,
   formatDataForChart,
   getVerbsTypesForBarChart,
+  VERB_BAR_CHART_ID,
+  DATE,
+  USER_ID,
 } from '../util';
 
-import { DATE, USER_ID } from '../util/types';
-
-const id = 'VerbChart';
 const xAxis = 'date';
 const yAxis = 'Occurrence';
 const colors = {
@@ -61,8 +60,8 @@ const mapStateToProps = ({
   data: BarData(
     content,
     userId,
-    fromDate(chartDateById, id),
-    toDate(chartDateById, id),
+    fromDate(chartDateById, VERB_BAR_CHART_ID),
+    toDate(chartDateById, VERB_BAR_CHART_ID),
   ),
   keys: getVerbsTypesForBarChart(content),
   colors,
