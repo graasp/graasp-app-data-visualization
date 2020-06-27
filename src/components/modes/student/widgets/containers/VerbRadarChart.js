@@ -1,17 +1,18 @@
 import { connect } from 'react-redux';
 import RadarChart from '../components/RadarChart';
 import {
-  VERB_RADAR_WIDGET_ID,
-  VERB,
-  USER_ID,
-  USER,
   AVG,
-  fromDate,
-  toDate,
   buildDateRange,
-  formatDataForRadar,
-  Occurrence,
   fillDataForRadar,
+  formatDataForRadar,
+  fromDate,
+  Occurrence,
+  RemoveObjectWithAttributeFromArray,
+  toDate,
+  USER,
+  USER_ID,
+  VERB,
+  VERB_RADAR_WIDGET_ID,
 } from '../util';
 
 const chartProperties = [USER, AVG];
@@ -20,13 +21,19 @@ const RadarData = (actions, userId, from, to) => {
   const verbList = Occurrence(actions, VERB);
   const formattedData = formatDataForRadar(verbList, VERB, chartProperties);
   const userList = Occurrence(actions, USER_ID);
-  const data = fillDataForRadar(
+  let data = fillDataForRadar(
     actions,
     formattedData,
     userId,
     dateRange,
     userList.length,
   );
+
+  data = RemoveObjectWithAttributeFromArray(data, VERB, [
+    'logout',
+    'login',
+    'unload',
+  ]);
   return data;
 };
 

@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 import './TeacherView.css';
 import { getUsers } from '../../../actions';
@@ -12,62 +13,61 @@ import { getUsers } from '../../../actions';
 import VerbWidget from './Widgets/VerbWidget';
 import AccessWidget from './Widgets/AccessWidget';
 
-export class TeacherView extends Component {
+export class TeacherView extends PureComponent {
   static propTypes = {
     classes: PropTypes.shape({
-      root: PropTypes.string,
-      table: PropTypes.string,
       main: PropTypes.string,
-      button: PropTypes.string,
-      message: PropTypes.string,
-      fab: PropTypes.string,
+      widget: PropTypes.string,
+      paper: PropTypes.string,
+      title: PropTypes.string,
     }).isRequired,
   };
 
-  useStyles = theme => ({
-    root: {
-      flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(10),
-      margin: '50px',
+  static styles = theme => ({
+    main: {
       textAlign: 'center',
-      color: theme.palette.text.secondary,
+      margin: theme.spacing(),
+    },
+    widget: {},
+    paper: {
+      width: 'auto',
+      margin: theme.spacing(),
+      padding: theme.spacing(3),
+      textAlign: 'center',
+      border: 1,
+      borderColor: '#5050d2',
+      borderStyle: 'solid',
+      borderRadius: 20,
+    },
+    title: {
+      ...theme.typography.h4,
+      marginTop: 10,
+      color: '#5050d2',
     },
   });
 
   render() {
     const { classes } = this.props;
 
-    // const classes = this.useStyles();
-
-    // extract properties from the props object
     return (
-      <div className={classes.root}>
-        <Grid container spacing={1}>
-          <Grid container item xs={12} spacing={10}>
-            <>
-              <Grid item xs={6}>
-                <Paper>
-                  <AccessWidget />
-                </Paper>
-              </Grid>
-              <Grid item xs={6}>
-                <Paper>
-                  <VerbWidget />
-                </Paper>
-              </Grid>
-            </>
+      <div className={classes.main}>
+        <Grid container sm={12}>
+          <Grid item sm={6} className={classes.widget}>
+            <Paper className={classes.paper}>
+              <Typography className={classes.title} gutterBottom>
+                Number of Visits
+              </Typography>
+              <AccessWidget />
+            </Paper>
           </Grid>
-        </Grid>
-        <Grid container item xs={12} spacing={3}>
-          <>
-            <Grid item xs={12}>
-              <Paper>
-                <AccessWidget />
-              </Paper>
-            </Grid>
-          </>
+          <Grid item sm={6} className={classes.widget}>
+            <Paper className={classes.paper}>
+              <Typography className={classes.title} gutterBottom>
+                Actions
+              </Typography>
+              <VerbWidget />
+            </Paper>
+          </Grid>
         </Grid>
       </div>
     );
@@ -89,7 +89,6 @@ const mapStateToProps = ({ users, appInstanceResources }) => ({
 // request to create an app instance resource
 const mapDispatchToProps = {
   dispatchGetUsers: getUsers,
-  // dispatchGetActios: getActions,
 };
 
 const ConnectedComponent = connect(

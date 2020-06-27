@@ -3,6 +3,7 @@ import getDateById from '../../../../../reducers/chartDateById';
 
 import LineChart from '../components/LineChart';
 import {
+  changeDateFormatForLineChart,
   ChangePropertyNameOfObjectFromArray,
   createObjectForLine,
   DataPicking,
@@ -17,27 +18,39 @@ const xAxis = 'date';
 const yAxis = 'Visits';
 
 const AccessData = (actions, from, to) => {
-  const data = [];
-  const date = fillTheDates(from, to);
+  let data = [];
 
-  let accesses = DataPicking(
-    actions,
-    ['createdAt', 'verb', 'userId'],
-    [undefined, 'navigate', undefined],
-  );
+  if (actions.length > 0) {
+    const date = fillTheDates(from, to);
 
-  accesses = RemovePropertyOfObjectFromArray(accesses, 'verb');
+    let accesses = DataPicking(
+      actions,
+      ['createdAt', 'verb', 'userId'],
+      [undefined, 'navigate', undefined],
+    );
 
-  accesses = ChangePropertyNameOfObjectFromArray(accesses, 'createdAt', 'date');
+    accesses = RemovePropertyOfObjectFromArray(accesses, 'verb');
 
-  let totalAccesses = TotalAccesses(accesses, 'date', date);
+    accesses = ChangePropertyNameOfObjectFromArray(
+      accesses,
+      'createdAt',
+      'date',
+    );
 
-  let uniqueAccesses = UniqueAccesses(accesses, 'date', 'userId', date);
+    let totalAccesses = TotalAccesses(accesses, 'date', date);
 
-  totalAccesses = createObjectForLine('Total', totalAccesses);
-  uniqueAccesses = createObjectForLine('Unique', uniqueAccesses);
-  data.push(totalAccesses);
-  data.push(uniqueAccesses);
+    let uniqueAccesses = UniqueAccesses(accesses, 'date', 'userId', date);
+
+    totalAccesses = createObjectForLine('Total', totalAccesses);
+
+    uniqueAccesses = createObjectForLine('Unique', uniqueAccesses);
+
+    data.push(totalAccesses);
+
+    data.push(uniqueAccesses);
+
+    data = changeDateFormatForLineChart(data);
+  }
 
   return data;
 };

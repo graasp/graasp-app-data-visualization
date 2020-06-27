@@ -1,16 +1,17 @@
 import { connect } from 'react-redux';
 import BarChart from '../components/BarChart';
 import {
-  fromDate,
-  toDate,
   buildDateRange,
-  fillData,
-  Occurrence,
-  formatDataForChart,
-  getVerbsTypesForBarChart,
-  VERB_BAR_CHART_ID,
+  changeDateFormatForBarChart,
   DATE,
+  fillData,
+  formatDataForChart,
+  fromDate,
+  getVerbsTypesForBarChart,
+  Occurrence,
+  toDate,
   USER_ID,
+  VERB_BAR_CHART_ID,
 } from '../util';
 
 const xAxis = 'date';
@@ -42,13 +43,16 @@ const BarData = (actions, userId, from, to) => {
   const formattedData = formatDataForChart(dateRange, verbList, DATE);
   const userList = Occurrence(actions, USER_ID);
   // The below function will compute the average of each type of action with respect to a user
-  const data = fillData(
+  let data = fillData(
     actions,
     formattedData,
     userId,
     verbList,
     userList.length,
   );
+
+  data = changeDateFormatForBarChart(data);
+
   return data;
 };
 

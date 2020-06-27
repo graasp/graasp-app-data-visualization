@@ -3,6 +3,7 @@ import getDateById from '../../../../../reducers/chartDateById';
 
 import BarChart from '../components/BarChart';
 import {
+  changeDateFormatForBarChart,
   createDataForBarChart,
   fillDataForBarChart,
   fillTheDates,
@@ -14,6 +15,8 @@ const xAxis = 'date';
 const yAxis = 'Occurrence';
 
 const BarData = (actions, from, to) => {
+  let data = [];
+
   if (actions && from && to) {
     const verbs = Occurrence(actions, 'verb');
 
@@ -21,19 +24,11 @@ const BarData = (actions, from, to) => {
 
     const dataFormat = createDataForBarChart(dates, verbs, 'date');
 
-    return fillDataForBarChart(actions, dataFormat);
+    data = fillDataForBarChart(actions, dataFormat);
+
+    data = changeDateFormatForBarChart(data);
   }
-  if (actions) {
-    const verbs = Occurrence(actions, 'verb');
-    let dates = Occurrence(actions, 'createdAt');
-
-    dates = fillTheDates(dates[0], dates[dates.length - 1]);
-
-    const dataFormat = createDataForBarChart(dates, verbs, 'date');
-
-    return fillDataForBarChart(actions, dataFormat);
-  }
-  return {};
+  return data;
 };
 const colors = {
   change: '#9696ff',

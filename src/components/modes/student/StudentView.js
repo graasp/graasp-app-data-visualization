@@ -4,6 +4,7 @@ import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import Header from '../../layout/Header';
 import VerbAvgWidget from './widgets/VerbAvgWidget';
 import VerbRadarWidget from './widgets/VerbRadarWidget';
@@ -13,46 +14,56 @@ const styles = theme => ({
     textAlign: 'center',
     margin: theme.spacing(),
   },
-  message: {
-    padding: theme.spacing(),
-    backgroundColor: theme.status.danger.background[500],
-    color: theme.status.danger.color,
-    marginBottom: theme.spacing(2),
+  widget: {},
+  paper: {
+    width: 'auto',
+    margin: theme.spacing(),
+    padding: theme.spacing(3),
+    textAlign: 'center',
+    border: 1,
+    borderColor: '#5050d2',
+    borderStyle: 'solid',
+    borderRadius: 20,
+  },
+  title: {
+    ...theme.typography.h4,
+    marginTop: 10,
+    color: '#5050d2',
   },
 });
 
 export const StudentView = ({ classes }) => (
-  <>
+  <div>
     <Header />
-    <Grid container spacing={10}>
-      <Grid item xs={12} className={classes.main}>
-        <Grid container item xs={12} spacing={10}>
-          <Grid item xs={6}>
-            <Paper>
-              <VerbAvgWidget />
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper>
-              <VerbRadarWidget />
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper>Hello</Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper>Hello</Paper>
-          </Grid>
+    <div className={classes.main}>
+      <Grid container sm={12}>
+        <Grid item sm={6} className={classes.widget}>
+          <Paper className={classes.paper}>
+            <Typography className={classes.title} gutterBottom>
+              Actions
+            </Typography>
+            <VerbAvgWidget />
+          </Paper>
+        </Grid>
+        <Grid item sm={6} className={classes.widget}>
+          <Paper className={classes.paper}>
+            <Typography className={classes.title} gutterBottom>
+              Average Actions
+            </Typography>
+            <VerbRadarWidget />
+          </Paper>
         </Grid>
       </Grid>
-    </Grid>
-  </>
+    </div>
+  </div>
 );
 
 StudentView.propTypes = {
   classes: PropTypes.shape({
     main: PropTypes.string,
-    message: PropTypes.string,
+    widget: PropTypes.string,
+    paper: PropTypes.string,
+    title: PropTypes.string,
   }).isRequired,
 };
 

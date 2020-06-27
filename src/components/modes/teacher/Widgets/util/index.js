@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const fillTheDates = (from, to) => {
   let dates = [];
 
@@ -91,7 +93,6 @@ export const fillDataForBarChart = (actions, dataFormat) => {
       correspondingObject[verb] += 1;
     }
   });
-
   return data;
 };
 
@@ -109,6 +110,36 @@ export const createDataForBarChart = (key, value, property) => {
   });
 
   return data;
+};
+
+export const changeDateFormat = date => {
+  return moment(date).format('D/M');
+};
+
+export const changeDateFormatForBarChart = arr => {
+  const newArr = [...arr];
+
+  newArr.forEach(e => {
+    const { date } = e;
+
+    e.date = changeDateFormat(date);
+  });
+  return newArr;
+};
+
+export const changeDateFormatForLineChart = arr => {
+  const newArr = [...arr];
+
+  newArr.forEach(entry => {
+    const { data } = entry;
+
+    data.forEach(e => {
+      const { x } = e;
+
+      e.x = changeDateFormat(x);
+    });
+  });
+  return newArr;
 };
 
 export const createObjectForLine = (id, arr) => {
@@ -130,6 +161,7 @@ export const createObjectForLine = (id, arr) => {
   });
 
   data.data = dataArr;
+
   return data;
 };
 

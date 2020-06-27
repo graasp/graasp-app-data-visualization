@@ -5,7 +5,27 @@ import PropTypes from 'prop-types';
 import Loader from '../../../../common/Loader';
 
 const LineChart = ({ data, colors, xAxis, yAxis }) => {
-  if (data && colors) {
+  const maxY = d => {
+    const Max = [];
+
+    d.forEach(entry => {
+      Max.push(
+        Math.max(
+          ...entry.data.map(o => {
+            return o.y;
+          }),
+        ),
+      );
+    });
+
+    return Math.max(...Max);
+  };
+
+  const tickValue = () => {
+    return Array.from(Array(maxY(data) + 1).keys());
+  };
+
+  if (data.length > 0 && colors) {
     return (
       <div style={{ height: 500 }}>
         <ResponsiveLine
@@ -31,7 +51,7 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
             legendOffset: 30,
           }}
           axisLeft={{
-            tickValues: data.reduce((set, { y }) => set.add(y), new Set()).size,
+            tickValues: tickValue(),
             orient: 'left',
             tickSize: 5,
             tickPadding: 5,
