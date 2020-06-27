@@ -1,7 +1,6 @@
 import React from 'react';
-
-import VerbAvgChart from './containers/VerbAvgChart';
 import KeyedDatePicker from '../../../common/KeyedDatePicker';
+import VerbRadarChart from './containers/VerbRadarChart';
 
 const VerbAvgWidget = () => {
   const initialState = {
@@ -11,8 +10,8 @@ const VerbAvgWidget = () => {
 
   return (
     <div>
-      <VerbAvgChart />
-      <KeyedDatePicker id="VerbBarChart" initialValue={initialState} />
+      <VerbRadarChart />
+      <KeyedDatePicker id="VerbRadarWidget" initialValue={initialState} />
     </div>
   );
 };
