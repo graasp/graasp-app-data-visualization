@@ -1,27 +1,32 @@
 /* eslint-disable no-param-reassign */
-export const getVerbsTypesForRadar = actions => {
-  const verbs = [];
-  actions.forEach(action => {
-    const { verb } = action;
-    if (verb && !verbs.includes(verb)) {
-      verbs.push(verb);
-    }
-  });
-  verbs.sort();
-  return verbs;
-};
 
-export const formatDataForRadar = (key, value, attribute) => {
+export const formatDataForRadar = (key, attribute, properties = []) => {
   const data = [];
   key.forEach(entry => {
     const entryObj = {};
     entryObj[attribute] = entry;
-    entryObj.user = 0;
-    entryObj.avg = 0;
+    properties.forEach(property => {
+      entryObj[property] = 0;
+    });
     data.push(entryObj);
   });
+
   return data;
 };
+
+const isActionInRange = (dateRange, createdAt) => {
+  const correspondingObject = dateRange.find(
+    date => date === new Date(createdAt).toLocaleDateString(),
+  );
+  return correspondingObject;
+};
+
+function calculateAverage(dataFormat, nbOfUsers) {
+  dataFormat.forEach(verbs => {
+    verbs.avg /= nbOfUsers;
+  });
+  return dataFormat;
+}
 
 export const fillDataForRadar = (
   actions,
@@ -32,11 +37,9 @@ export const fillDataForRadar = (
 ) => {
   actions.forEach(entry => {
     const { createdAt, verb, userId } = entry;
-    const correspondingObject = dateRange.find(
-      date => date === new Date(createdAt).toLocaleDateString(),
-    );
-
+    const correspondingObject = isActionInRange(dateRange, createdAt);
     const verbObj = dataFormat.find(obj => obj.verb === verb);
+
     if (userId === id && verb && correspondingObject) {
       verbObj.user += 1;
       verbObj.avg += 1;
@@ -46,9 +49,5 @@ export const fillDataForRadar = (
     }
   });
 
-  dataFormat.forEach(verbs => {
-    verbs.avg /= nbOfUsers;
-  });
-
-  return dataFormat;
+  return calculateAverage(dataFormat, nbOfUsers);
 };

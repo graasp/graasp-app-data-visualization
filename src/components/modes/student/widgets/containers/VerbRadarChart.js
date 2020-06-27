@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import RadarChart from '../components/RadarChart';
-import getDateById from '../../../../../reducers/chartDateById';
-import { VERB, USER_ID } from '../util/types';
+import { VERB, USER_ID, USER, AVG } from '../util/types';
 import {
+  fromDate,
+  toDate,
   buildDateRange,
   formatDataForRadar,
   Occurrence,
@@ -11,10 +12,10 @@ import {
 
 const id = 'VerbRadarWidget';
 
-const BarData = (actions, userId, fromDate, toDate) => {
-  const dateRange = buildDateRange(fromDate, toDate);
+const RadarData = (actions, userId, from, to) => {
+  const dateRange = buildDateRange(from, to);
   const verbList = Occurrence(actions, VERB);
-  const formattedData = formatDataForRadar(verbList, dateRange, VERB);
+  const formattedData = formatDataForRadar(verbList, VERB, [USER, AVG]);
   const userList = Occurrence(actions, USER_ID);
   const data = fillDataForRadar(
     actions,
@@ -26,36 +27,16 @@ const BarData = (actions, userId, fromDate, toDate) => {
   return data;
 };
 
-const fromDate = chartDateById => {
-  if (chartDateById) {
-    const Obj = getDateById(chartDateById, id)[id];
-    if (Obj) {
-      return Obj.from;
-    }
-  }
-  return undefined;
-};
-
-const toDate = chartDateById => {
-  if (chartDateById) {
-    const Obj = getDateById(chartDateById, id)[id];
-    if (Obj) {
-      return Obj.to;
-    }
-  }
-  return undefined;
-};
-
 const mapStateToProps = ({
   action: { content },
   context: { userId },
   chartDateById,
 }) => ({
-  data: BarData(
+  data: RadarData(
     content,
     userId,
-    fromDate(chartDateById),
-    toDate(chartDateById),
+    fromDate(chartDateById, id),
+    toDate(chartDateById, id),
   ),
 });
 

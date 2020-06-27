@@ -2,13 +2,15 @@ import { connect } from 'react-redux';
 import BarChart from '../components/BarChart';
 
 import {
+  fromDate,
+  toDate,
   buildDateRange,
   fillData,
   Occurrence,
   formatDataForChart,
   getVerbsTypesForBarChart,
 } from '../util';
-import getDateById from '../../../../../reducers/chartDateById';
+
 import { DATE, USER_ID } from '../util/types';
 
 const id = 'VerbChart';
@@ -35,8 +37,8 @@ const colors = {
   logoutAvg: '#5050d2',
 };
 
-const BarData = (actions, userId, fromDate, toDate) => {
-  const dateRange = buildDateRange(fromDate, toDate);
+const BarData = (actions, userId, from, to) => {
+  const dateRange = buildDateRange(from, to);
   const verbList = getVerbsTypesForBarChart(actions);
   const formattedData = formatDataForChart(dateRange, verbList, DATE);
   const userList = Occurrence(actions, USER_ID);
@@ -51,26 +53,6 @@ const BarData = (actions, userId, fromDate, toDate) => {
   return data;
 };
 
-const fromDate = chartDateById => {
-  if (chartDateById) {
-    const Obj = getDateById(chartDateById, id)[id];
-    if (Obj) {
-      return Obj.from;
-    }
-  }
-  return undefined;
-};
-
-const toDate = chartDateById => {
-  if (chartDateById) {
-    const Obj = getDateById(chartDateById, id)[id];
-    if (Obj) {
-      return Obj.to;
-    }
-  }
-  return undefined;
-};
-
 const mapStateToProps = ({
   action: { content },
   context: { userId },
@@ -79,8 +61,8 @@ const mapStateToProps = ({
   data: BarData(
     content,
     userId,
-    fromDate(chartDateById),
-    toDate(chartDateById),
+    fromDate(chartDateById, id),
+    toDate(chartDateById, id),
   ),
   keys: getVerbsTypesForBarChart(content),
   colors,

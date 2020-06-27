@@ -1,12 +1,33 @@
-export const buildDateRange = (fromDate, toDate) => {
-  let dates = [];
-  const fromTemp = new Date(fromDate);
-  const toTemp = new Date(toDate);
+import getDateById from '../../../../../reducers/chartDateById';
+
+export const fromDate = (chartDateById, id) => {
+  if (chartDateById) {
+    const Obj = getDateById(chartDateById, id)[id];
+    if (Obj) {
+      return Obj.from;
+    }
+  }
+  return undefined;
+};
+
+export const toDate = (chartDateById, id) => {
+  if (chartDateById) {
+    const Obj = getDateById(chartDateById, id)[id];
+    if (Obj) {
+      return Obj.to;
+    }
+  }
+  return undefined;
+};
+
+export const buildDateRange = (from, to) => {
+  const dates = [];
+  const fromTemp = new Date(from);
+  const toTemp = new Date(to);
   while (fromTemp <= toTemp) {
     dates.push(fromTemp.toLocaleDateString());
     fromTemp.setDate(fromTemp.getDate() + 1);
   }
-  dates = Array.from(dates);
   return dates;
 };
 
@@ -14,6 +35,7 @@ export const Occurrence = (actions, attribute) => {
   const data = [];
   actions.forEach(action => {
     let entry = action[attribute];
+
     if (attribute === 'createdAt') {
       entry = entry.slice(0, 10);
     }
