@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Header from '../../layout/Header';
 import VerbAvgWidget from './widgets/VerbAvgWidget';
+import VerbRadarWidget from './widgets/VerbRadarWidget';
 
 const styles = theme => ({
   main: {
@@ -32,7 +33,9 @@ export const StudentView = ({ classes }) => (
             </Paper>
           </Grid>
           <Grid item xs={6}>
-            <Paper>Hello</Paper>
+            <Paper>
+              <VerbRadarWidget />
+            </Paper>
           </Grid>
           <Grid item xs={6}>
             <Paper>Hello</Paper>

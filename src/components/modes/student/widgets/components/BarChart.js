@@ -1,12 +1,9 @@
 import { ResponsiveBar } from '@nivo/bar';
 import PropTypes from 'prop-types';
-
 import React from 'react';
 import Loader from '../../../../common/Loader';
 
 const BarChart = ({ data, keys, colors, indexBy, yAxis, xAxis }) => {
-  console.log(data);
-
   if (data && keys && colors && indexBy) {
     return (
       <div style={{ height: 500 }}>
