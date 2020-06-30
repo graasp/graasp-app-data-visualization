@@ -12,10 +12,16 @@ import {
   TotalAccesses,
   UniqueAccesses,
 } from '../util';
+import { CREATED_AT, DATE, USER_ID, VERB } from '../types';
 
 const id = 'AccessChart';
 const xAxis = 'date';
 const yAxis = 'Visits';
+
+const colors = {
+  Total: '#BBAAFF',
+  Unique: '#756DF4',
+};
 
 const AccessData = (actions, from, to) => {
   let data = [];
@@ -25,21 +31,17 @@ const AccessData = (actions, from, to) => {
 
     let accesses = DataPicking(
       actions,
-      ['createdAt', 'verb', 'userId'],
+      [CREATED_AT, VERB, USER_ID],
       [undefined, 'navigate', undefined],
     );
 
-    accesses = RemovePropertyOfObjectFromArray(accesses, 'verb');
+    accesses = RemovePropertyOfObjectFromArray(accesses, VERB);
 
-    accesses = ChangePropertyNameOfObjectFromArray(
-      accesses,
-      'createdAt',
-      'date',
-    );
+    accesses = ChangePropertyNameOfObjectFromArray(accesses, CREATED_AT, DATE);
 
-    let totalAccesses = TotalAccesses(accesses, 'date', date);
+    let totalAccesses = TotalAccesses(accesses, DATE, date);
 
-    let uniqueAccesses = UniqueAccesses(accesses, 'date', 'userId', date);
+    let uniqueAccesses = UniqueAccesses(accesses, DATE, USER_ID, date);
 
     totalAccesses = createObjectForLine('Total', totalAccesses);
 
@@ -53,11 +55,6 @@ const AccessData = (actions, from, to) => {
   }
 
   return data;
-};
-
-const colors = {
-  Total: '#BBAAFF',
-  Unique: '#756DF4',
 };
 
 const from = state => {

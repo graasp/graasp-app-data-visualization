@@ -9,20 +9,21 @@ import {
   fillTheDates,
   Occurrence,
 } from '../util';
+import { DATE, VERB } from '../types';
 
 const id = 'VerbChart';
-const xAxis = 'date';
+const xAxis = DATE;
 const yAxis = 'Occurrence';
 const exceptions = ['unload', 'login', 'logout', 'access', 'cancel'];
 const BarData = (actions, from, to) => {
   let data = [];
 
   if (actions && from && to) {
-    const verbs = Occurrence(actions, 'verb', exceptions);
+    const verbs = Occurrence(actions, VERB, exceptions);
 
     const dates = fillTheDates(from, to);
 
-    const dataFormat = createDataForBarChart(dates, verbs, 'date');
+    const dataFormat = createDataForBarChart(dates, verbs, DATE);
 
     data = fillDataForBarChart(actions, dataFormat);
 
