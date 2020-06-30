@@ -1,12 +1,6 @@
 import { connect } from 'react-redux';
 import RadarChart from '../components/RadarChart';
-import {
-  AVG,
-  USER,
-  USER_ID,
-  VERB,
-  VERB_RADAR_DATE_PICKER_ID,
-} from '../types/types';
+import { AVG, USER, USER_ID, VERB, VERB_RADAR_DATE_PICKER_ID } from '../types';
 import {
   buildDateRange,
   fillDataForRadar,

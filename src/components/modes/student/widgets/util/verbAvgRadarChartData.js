@@ -1,4 +1,4 @@
-import { AVG, USER } from '../types/types';
+import { AVG, USER } from '../types/attributes';
 
 export const formatDataForRadar = (key, attribute, properties = []) => {
   const data = [];
