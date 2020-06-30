@@ -11,7 +11,7 @@ const VerbWidget = () => {
 
   return (
     <div>
-      <VerbChart />
+      <VerbChart style={{ height: '100%' }} />
       <KeyedDatePicker id="VerbChart" initialValue={initialState} />
     </div>
   );

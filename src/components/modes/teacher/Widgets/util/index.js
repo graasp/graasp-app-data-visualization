@@ -15,9 +15,12 @@ export const fillTheDates = (from, to) => {
   return dates;
 };
 
-export const Occurrence = (actions, property) => {
+export const Occurrence = (actions, property, attributes) => {
   const data = [];
-
+  let condition = [];
+  if (attributes) {
+    condition = attributes;
+  }
   actions.forEach(action => {
     let entry = action[property];
 
@@ -25,7 +28,7 @@ export const Occurrence = (actions, property) => {
       entry = entry.slice(0, 10);
     }
 
-    if (entry && !data.includes(entry)) {
+    if (entry && !data.includes(entry) && !condition.includes(entry)) {
       data.push(entry);
     }
   });
@@ -96,6 +99,21 @@ export const fillDataForBarChart = (actions, dataFormat) => {
   return data;
 };
 
+export const RemoveObjectWithAttributeFromArray = (
+  arr,
+  property,
+  attribute,
+) => {
+  const newArr = [];
+
+  arr.forEach(e => {
+    if (!attribute.includes(e[property])) {
+      newArr.push(e);
+    }
+  });
+  return newArr;
+};
+
 export const createDataForBarChart = (key, value, property) => {
   const data = [];
   key.forEach(e => {
@@ -113,7 +131,7 @@ export const createDataForBarChart = (key, value, property) => {
 };
 
 export const changeDateFormat = date => {
-  return moment(date).format('D/M');
+  return moment(date).format('DD/MM');
 };
 
 export const changeDateFormatForBarChart = arr => {

@@ -19,6 +19,7 @@ const flag = [];
 
 const KeyedDatePicker = ({ id, initialValue }) => {
   const [from, setFrom] = useState(initialValue.from);
+  const [fromPrev, setFromPrev] = useState(initialValue.from);
   const [to, setTo] = useState(initialValue.to);
   const [enteredTo, setEnteredTo] = useState(initialValue.to);
   const [modifiers, setModifiers] = useState({ start: from, end: enteredTo });
@@ -31,7 +32,11 @@ const KeyedDatePicker = ({ id, initialValue }) => {
   const PopId = open ? 'simple-popover' : undefined;
 
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    if (from !== null) {
+      setFromPrev(from);
+    }
+  }, [from]);
   if (!flag.includes(id)) {
     flag.push(id);
     dispatch(updateDateById(from, to, id));
@@ -245,7 +250,7 @@ const KeyedDatePicker = ({ id, initialValue }) => {
             </Box>
             <Box p={1} flexGrow={1}>
               <DayPicker
-                month={from}
+                month={fromPrev}
                 className="Range"
                 numberOfMonths={2}
                 selectedDays={selectedDays}
@@ -264,14 +269,30 @@ const KeyedDatePicker = ({ id, initialValue }) => {
               <Helmet>
                 <style>
                   {`
-  .Range .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
-    background-color: #f0f8ff !important;
-    color: #4a90e2;
-  }
-  .Range .DayPicker-Day {
-    border-radius: 0 !important;
-  }
-`}
+                  .Range .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+                  background-color:rgba(222,202,255,0.44) !important;
+                  color: #988BFF;
+                }
+                  .Range .DayPicker-Day {
+                  border-radius: 0 !important;
+                }
+                  .Range .DayPicker-Day--start {
+                  border-top-left-radius: 50% !important;
+                  border-bottom-left-radius: 50% !important;
+                }
+                  .Range .DayPicker-Day--end {
+                  border-top-right-radius: 50% !important;
+                  border-bottom-right-radius: 50% !important;
+                }
+                .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside){
+                
+                background-color: #5050d2 !important;
+                }
+                .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover{
+                background-color: #5050d2 !important;
+
+                }
+                  `}
                 </style>
               </Helmet>
             </Box>

@@ -45,9 +45,9 @@ const AccessData = (actions, from, to) => {
 
     uniqueAccesses = createObjectForLine('Unique', uniqueAccesses);
 
-    data.push(totalAccesses);
-
     data.push(uniqueAccesses);
+
+    data.push(totalAccesses);
 
     data = changeDateFormatForLineChart(data);
   }
@@ -56,11 +56,9 @@ const AccessData = (actions, from, to) => {
 };
 
 const colors = {
-  Unique: '#82ca9d',
-  Download: '#8884d8',
+  Total: '#BBAAFF',
+  Unique: '#756DF4',
 };
-
-const getColor = bar => colors[bar.id];
 
 const from = state => {
   const { chartDateById } = state;
@@ -86,7 +84,7 @@ const to = state => {
 
 const mapStateToProps = state => ({
   data: AccessData(state.action.content, from(state), to(state)),
-  colors: getColor,
+  colors,
   xAxis,
   yAxis,
 });
