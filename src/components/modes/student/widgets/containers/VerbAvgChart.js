@@ -3,41 +3,36 @@ import BarChart from '../components/BarChart';
 import {
   buildDateRange,
   changeDateFormatForBarChart,
-  DATE,
+  selectedActions,
   fillData,
   formatDataForChart,
   fromDate,
   getVerbsTypesForBarChart,
+  displayTheSelectedData,
   Occurrence,
   toDate,
-  USER_ID,
-  VERB_BAR_CHART_ID,
 } from '../util';
+import {
+  DATE,
+  USER_ID,
+  VERB_BAR_DATE_PICKER_ID,
+  VERB_BAR_LEGEND_ID,
+} from '../types/types';
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
 const colors = {
-  change: '#9696ff',
-  changeAvg: '#9696ff',
-  access: '#7878fa',
-  accessAvg: '#7878fa',
-  open: '#6464e6',
-  openAvg: '#6464e6',
-  login: '#3f3cbe',
-  loginAvg: '#3f3cbe',
-  navigate: '#5a5adc',
-  navigateAvg: '#5a5adc',
-  create: '#3232b4',
-  createAvg: '#3232b4',
-  unload: '#8082a5',
-  unloadAvg: '#8082a5',
-  cancel: '#8082a5',
-  cancelAvg: '#8082a5',
-  logout: '#5050d2',
-  logoutAvg: '#5050d2',
+  change: '#F5B7B1',
+  changeAvg: '#F5B7B1',
+  open: '#8E44AD',
+  openAvg: '#8E44AD',
+  navigate: '#bb93dd',
+  navigateAvg: '#bb93dd',
+  create: '#fe9788',
+  createAvg: '#fe9788',
 };
 
-const BarData = (actions, userId, from, to) => {
+const BarData = (actions, userId, from, to, selectedActionsList) => {
   const dateRange = buildDateRange(from, to);
   const verbList = getVerbsTypesForBarChart(actions);
   const formattedData = formatDataForChart(dateRange, verbList, DATE);
@@ -50,22 +45,22 @@ const BarData = (actions, userId, from, to) => {
     verbList,
     userList.length,
   );
-
   data = changeDateFormatForBarChart(data);
-
+  data = displayTheSelectedData(data, selectedActionsList);
   return data;
 };
 
 const mapStateToProps = ({
   action: { content },
   context: { userId },
-  chartDateById,
+  chartDataById,
 }) => ({
   data: BarData(
     content,
     userId,
-    fromDate(chartDateById, VERB_BAR_CHART_ID),
-    toDate(chartDateById, VERB_BAR_CHART_ID),
+    fromDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
+    toDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
+    selectedActions(chartDataById, VERB_BAR_LEGEND_ID),
   ),
   keys: getVerbsTypesForBarChart(content),
   colors,

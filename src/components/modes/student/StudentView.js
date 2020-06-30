@@ -48,7 +48,7 @@ export const StudentView = ({ classes }) => (
         <Grid item sm={6} className={classes.widget}>
           <Paper className={classes.paper}>
             <Typography className={classes.title} gutterBottom>
-              Average Actions
+              Your Activity Levels
             </Typography>
             <VerbRadarWidget />
           </Paper>

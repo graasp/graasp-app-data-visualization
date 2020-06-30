@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import getDateById from '../../../../../reducers/chartDateById';
+import getDateById from '../../../../../reducers/chartDataById';
 
 import LineChart from '../components/LineChart';
 import {
@@ -61,9 +61,9 @@ const colors = {
 };
 
 const from = state => {
-  const { chartDateById } = state;
-  if (chartDateById) {
-    const Obj = getDateById(chartDateById, id)[id];
+  const { chartDataById } = state;
+  if (chartDataById) {
+    const Obj = getDateById(chartDataById, id)[id];
     if (Obj) {
       return Obj.from;
     }
@@ -72,9 +72,9 @@ const from = state => {
 };
 
 const to = state => {
-  const { chartDateById } = state;
-  if (chartDateById) {
-    const Obj = getDateById(chartDateById, id)[id];
+  const { chartDataById } = state;
+  if (chartDataById) {
+    const Obj = getDateById(chartDataById, id)[id];
     if (Obj) {
       return Obj.to;
     }

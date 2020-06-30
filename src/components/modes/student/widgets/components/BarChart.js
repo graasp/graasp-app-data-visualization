@@ -44,9 +44,23 @@ const BarChart = ({ data, keys, colors, indexBy, yAxis, xAxis }) => {
             },
             {
               match: {
-                id: 'unload',
+                id: 'navigate',
               },
-              id: 'lines',
+              id: 'dots',
+            },
+
+            {
+              match: {
+                id: 'create',
+              },
+              id: 'dots',
+            },
+
+            {
+              match: {
+                id: 'open',
+              },
+              id: 'dots',
             },
           ]}
           borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}

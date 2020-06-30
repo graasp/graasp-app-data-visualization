@@ -1,7 +1,8 @@
 import React from 'react';
-
 import VerbAvgChart from './containers/VerbAvgChart';
 import KeyedDatePicker from '../../../common/KeyedDatePicker';
+import Legend from '../../../common/Legend';
+import { VERB_BAR_DATE_PICKER_ID, VERB_BAR_LEGEND_ID } from './types/types';
 
 const VerbAvgWidget = () => {
   const initialState = {
@@ -11,8 +12,12 @@ const VerbAvgWidget = () => {
 
   return (
     <div>
+      <Legend id={VERB_BAR_LEGEND_ID} />
       <VerbAvgChart />
-      <KeyedDatePicker id="VerbBarChart" initialValue={initialState} />
+      <KeyedDatePicker
+        id={VERB_BAR_DATE_PICKER_ID}
+        initialValue={initialState}
+      />
     </div>
   );
 };
