@@ -9,20 +9,21 @@ import {
   fillTheDates,
   Occurrence,
 } from '../util';
+import { DATE, VERB } from '../types';
 
 const id = 'VerbChart';
-const xAxis = 'date';
+const xAxis = DATE;
 const yAxis = 'Occurrence';
-
+const exceptions = ['unload', 'login', 'logout', 'access', 'cancel'];
 const BarData = (actions, from, to) => {
   let data = [];
 
   if (actions && from && to) {
-    const verbs = Occurrence(actions, 'verb');
+    const verbs = Occurrence(actions, VERB, exceptions);
 
     const dates = fillTheDates(from, to);
 
-    const dataFormat = createDataForBarChart(dates, verbs, 'date');
+    const dataFormat = createDataForBarChart(dates, verbs, DATE);
 
     data = fillDataForBarChart(actions, dataFormat);
 
@@ -31,15 +32,10 @@ const BarData = (actions, from, to) => {
   return data;
 };
 const colors = {
-  change: '#9696ff',
-  access: '#7878fa',
-  open: '#6464e6',
-  login: '#3f3cbe',
-  navigate: '#5a5adc',
-  create: '#3232b4',
-  unload: '#8082a5',
-  cancel: '#8082a5',
-  logout: '#5050d2',
+  open: '#decaff',
+  navigate: '#BBAAFF',
+  create: '#988BFF',
+  change: '#756DF4',
 };
 
 const from = state => {
@@ -66,7 +62,7 @@ const to = state => {
 
 const mapStateToProps = state => ({
   data: BarData(state.action.content, from(state), to(state)),
-  keys: Occurrence(state.action.content, 'verb'),
+  keys: Occurrence(state.action.content, 'verb', exceptions),
   colors,
   indexBy: 'date',
   xAxis,

@@ -13,26 +13,30 @@ import {
   formatDataForRadar,
   fromDate,
   Occurrence,
-  RemoveObjectWithAttributeFromArray,
   toDate,
 } from '../util';
 
 const chartProperties = [USER, AVG];
-const filteredVerbs = ['logout', 'login', 'unload', 'access', 'cancel'];
+const exceptions = ['unload', 'login', 'logout', 'access', 'cancel'];
+const colors = {};
+
+colors[USER] = '#decaff';
+colors[AVG] = '#BBAAFF';
+
 const RadarData = (actions, userId, from, to) => {
   const dateRange = buildDateRange(from, to);
-  const verbList = Occurrence(actions, VERB);
+  const verbList = Occurrence(actions, VERB, exceptions);
   const formattedData = formatDataForRadar(verbList, VERB, chartProperties);
   const userList = Occurrence(actions, USER_ID);
-  let data = fillDataForRadar(
+
+  return fillDataForRadar(
     actions,
     formattedData,
     userId,
     dateRange,
+    verbList,
     userList.length,
   );
-  data = RemoveObjectWithAttributeFromArray(data, VERB, filteredVerbs);
-  return data;
 };
 
 const mapStateToProps = ({
@@ -46,6 +50,7 @@ const mapStateToProps = ({
     fromDate(chartDataById, VERB_RADAR_DATE_PICKER_ID),
     toDate(chartDataById, VERB_RADAR_DATE_PICKER_ID),
   ),
+  colors,
   keys: chartProperties,
   indexBy: VERB,
 });

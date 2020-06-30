@@ -6,15 +6,34 @@ import Loader from '../../../../common/Loader';
 const BarChart = ({ data, keys, colors, indexBy, yAxis, xAxis }) => {
   if (data && keys && colors && indexBy) {
     return (
-      <div style={{ height: 500 }}>
+      <div style={{ height: 400, width: '100%' }}>
         <ResponsiveBar
           data={data}
           keys={keys}
           indexBy={indexBy}
-          margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+          margin={{ top: 50, right: 130, bottom: 60, left: 60 }}
           padding={0.7}
           colors={bar => colors[bar.id]}
           groupMode="stacked"
+          borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+          axisTop={null}
+          axisRight={null}
+          axisBottom={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: `${xAxis}`,
+            legendPosition: 'middle',
+            legendOffset: 45,
+          }}
+          axisLeft={{
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: `${yAxis}`,
+            legendPosition: 'middle',
+            legendOffset: -40,
+          }}
           defs={[
             {
               id: 'dots',
@@ -63,26 +82,6 @@ const BarChart = ({ data, keys, colors, indexBy, yAxis, xAxis }) => {
               id: 'dots',
             },
           ]}
-          borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
-          axisTop={null}
-          axisRight={null}
-          axisBottom={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 45,
-            legend: `${xAxis}`,
-            legendPosition: 'middle',
-            legendOffset: 30,
-          }}
-          axisLeft={{
-            format: e => Math.floor(e) === e && e,
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: `${yAxis}`,
-            legendPosition: 'middle',
-            legendOffset: -40,
-          }}
           enableLabel={false}
           labelSkipWidth={6}
           labelSkipHeight={12}
@@ -107,6 +106,7 @@ const BarChart = ({ data, keys, colors, indexBy, yAxis, xAxis }) => {
               itemsSpacing: 11,
               symbolSize: 22,
               itemDirection: 'left-to-right',
+              symbolShape: 'circle',
               effects: [
                 {
                   on: 'hover',

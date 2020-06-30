@@ -42,18 +42,24 @@ export const buildDateRange = (from, to) => {
   return dates;
 };
 
-export const Occurrence = (actions, attribute) => {
+export const Occurrence = (actions, property, attributes) => {
   const data = [];
+  let condition = [];
+  if (attributes) {
+    condition = attributes;
+  }
   actions.forEach(action => {
-    let entry = action[attribute];
+    let entry = action[property];
 
-    if (attribute === 'createdAt') {
+    if (property === 'createdAt' || property === 'date') {
       entry = entry.slice(0, 10);
     }
-    if (entry && !data.includes(entry)) {
+
+    if (entry && !data.includes(entry) && !condition.includes(entry)) {
       data.push(entry);
     }
   });
+
   data.sort();
 
   return data;

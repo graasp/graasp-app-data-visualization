@@ -1,10 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import PropTypes from 'prop-types';
-
 import Loader from '../../../../common/Loader';
 
 const LineChart = ({ data, colors, xAxis, yAxis }) => {
+  const [hiddenKeys, setHiddenKeys] = useState([]);
+  const [filteredData, setFilteredData] = useState(data);
+  const [filteredColor, setFilteredColor] = useState(colors);
+
+  const enabledData = hidden => {
+    const dataFiltered = [];
+    const colorFiltered = {};
+    data.forEach(d => {
+      if (hidden.includes(d.id)) {
+        const Obj = {};
+        Obj.id = d.id;
+        const ObjData = [];
+        d.data.forEach(e => {
+          ObjData.push({
+            x: e.x,
+            y: 0,
+          });
+        });
+        Obj.data = ObjData;
+        dataFiltered.push(Obj);
+        colorFiltered[d.id] = 'black';
+      } else {
+        dataFiltered.push(d);
+        colorFiltered[d.id] = colors[d.id];
+      }
+    });
+    setFilteredColor(colorFiltered);
+    setFilteredData(dataFiltered);
+  };
+
+  useEffect(() => enabledData(hiddenKeys), [data]);
+  const toggle = d => {
+    let temp = hiddenKeys;
+    if (!hiddenKeys.includes(d.id)) {
+      temp.push(d.id);
+      setHiddenKeys(temp);
+    } else {
+      temp = temp.filter(e => e !== d.id);
+      setHiddenKeys(temp);
+    }
+    enabledData(temp);
+  };
+
   const maxY = d => {
     const Max = [];
 
@@ -27,11 +69,11 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
 
   if (data.length > 0 && colors) {
     return (
-      <div style={{ height: 500 }}>
+      <div style={{ height: 400 }}>
         <ResponsiveLine
-          data={data}
-          colors={{ scheme: 'nivo' }}
-          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+          data={filteredData}
+          colors={bar => filteredColor[bar.id]}
+          margin={{ top: 50, right: 110, bottom: 60, left: 60 }}
           xScale={{ type: 'point' }}
           yScale={{
             type: 'linear',
@@ -45,10 +87,10 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
           axisBottom={{
             tickSize: 5,
             tickPadding: 5,
-            tickRotation: 45,
+            tickRotation: 0,
             legend: `${xAxis}`,
             legendPosition: 'middle',
-            legendOffset: 30,
+            legendOffset: 36,
           }}
           axisLeft={{
             tickValues: tickValue(),
@@ -67,6 +109,9 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
           pointLabel="y"
           pointLabelYOffset={-12}
           useMesh
+          animate
+          motionStiffness={200}
+          motionDamping={50}
           legends={[
             {
               anchor: 'top-right',
@@ -79,12 +124,14 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
               itemsSpacing: 11,
               symbolSize: 22,
               itemDirection: 'left-to-right',
+              symbolShape: 'circle',
+              onClick: toggle,
               effects: [
                 {
                   on: 'hover',
                   style: {
-                    itemBackground: 'rgba(0, 0, 0, .03)',
-                    itemOpacity: 1,
+                    itemTextColor: '#000',
+                    itemBackground: '#eee',
                   },
                 },
               ],
@@ -94,13 +141,12 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
       </div>
     );
   }
-
   return <Loader />;
 };
 
 LineChart.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  colors: PropTypes.func.isRequired,
+  colors: PropTypes.instanceOf(Object).isRequired,
   xAxis: PropTypes.string.isRequired,
   yAxis: PropTypes.string.isRequired,
 };

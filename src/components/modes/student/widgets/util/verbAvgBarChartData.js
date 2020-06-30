@@ -1,8 +1,12 @@
-export const getVerbsTypesForBarChart = actions => {
+export const getVerbsTypesForBarChart = (actions, attributes) => {
   const verbs = [];
+  let condition = [];
+  if (attributes) {
+    condition = attributes;
+  }
   actions.forEach(action => {
     const { verb } = action;
-    if (verb && !verbs.includes(verb)) {
+    if (verb && !verbs.includes(verb) && !condition.includes(verb)) {
       verbs.push(verb);
       verbs.push(`${verb}Avg`);
     }
@@ -26,10 +30,9 @@ export const formatDataForChart = (key, value, attribute) => {
 };
 
 function isActionInRange(data, createdAt) {
-  const correspondingObject = data.find(
+  return data.find(
     obj => obj.date === new Date(createdAt).toLocaleDateString(),
   );
-  return correspondingObject;
 }
 
 function calculateAvg(verbs, data, nbOfUsers) {

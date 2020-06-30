@@ -1,114 +1,131 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import PropTypes from 'prop-types';
-
+import { BoxLegendSvg } from '@nivo/legends';
+import _ from 'lodash';
 import Loader from '../../../../common/Loader';
 
 const BarChart = ({ data, keys, colors, indexBy, xAxis, yAxis }) => {
   const [hiddenKeys, setHiddenKeys] = useState([]);
-  // const [shownKeys,setShownKeys] = useState(keys);
-  const [filteredData, setFilteredData] = useState(data);
-
-  const enabledData = hidden => {
-    const dataFilter = [];
-    let temp = [];
-    if (hidden) {
-      temp = hidden;
-    }
-    data.forEach(d => {
-      const Obj = {};
-      Object.keys(d).forEach(key => {
-        Obj[key] = d[key];
-        if (temp.includes(key)) {
-          Obj[key] = 0.01;
-        }
-      });
-
-      dataFilter.push(Obj);
-    });
-
-    setFilteredData(dataFilter);
-  };
-
-  useEffect(enabledData, [data]);
-  // useEffect(()=> (setShownKeys(keys)),[keys])
 
   const toggle = d => {
-    let temp = hiddenKeys;
-    if (!hiddenKeys.includes(d.id)) {
-      temp.push(d.id);
-      setHiddenKeys(temp);
+    let hidden = hiddenKeys;
+    if (hiddenKeys.includes(d.id)) {
+      hidden = hidden.filter(e => e !== d.id);
+      setHiddenKeys(hidden);
     } else {
-      temp = temp.filter(e => e !== d.id);
-      setHiddenKeys(temp);
+      hidden = [...hidden, d.id];
+      hidden.sort((a, b) => (a > b ? 1 : -1));
+      setHiddenKeys(hidden);
     }
-    enabledData(temp);
-    // if(shownKeys.includes(d.id)){
-    //   setShownKeys(shownKeys.filter(e => e!==d.id))
-    // }
-    // else{
-    //   setShownKeys([...hiddenKeys,d])
-    // }
   };
 
-  if (data && keys && colors && indexBy) {
+  const customLegend = d => {
+    const { bars, height, width, fill } = d;
+
+    const keysProperties = [];
+
+    if (keys.length > 0) {
+      keys.forEach(key => {
+        const Obj = {};
+        Obj.id = key;
+        Obj.label = key;
+        Obj.color = colors[key];
+        Obj.itemTextColor = 'white';
+        keysProperties.push(Obj);
+      });
+      fill.forEach(e => {
+        const { match } = e;
+        const correspondingObject = keysProperties.find(
+          obj => obj.id === match.id,
+        );
+        correspondingObject.fill = `url(#${e.id}.bg.${colors[match.id]}`;
+      });
+    }
+    hiddenKeys.forEach(hiddenKey => {
+      const correspondingObject = keysProperties.find(
+        obj => obj.id === hiddenKey,
+      );
+      correspondingObject.color = 'black';
+      // correspondingObject = _.pick(correspondingObject,['id','label','color'])
+      delete correspondingObject.fill;
+    });
+
+    bars.sort((a, b) => (a.key > b.key ? 1 : -1));
+    const legend = {
+      data: keysProperties.reverse(),
+      dataFrom: 'keys',
+      anchor: 'top-right',
+      direction: 'column',
+      justify: false,
+      translateX: 121,
+      translateY: 0,
+      itemWidth: 84,
+      itemHeight: 20,
+      itemsSpacing: 11,
+      symbolSize: 22,
+      itemDirection: 'left-to-right',
+      symbolShape: 'circle',
+      onClick: toggle,
+      effects: [
+        {
+          on: 'hover',
+          style: {
+            itemTextColor: '#000',
+            itemBackground: '#eee',
+          },
+        },
+      ],
+    };
+
     return (
-      <div style={{ height: 500 }}>
+      <>
+        <BoxLegendSvg
+          data={legend.data}
+          dataFrom={legend.dataFrom}
+          anchor={legend.anchor}
+          direction={legend.direction}
+          justify={legend.justify}
+          translateX={legend.translateX}
+          translateY={legend.translateY}
+          itemWidth={legend.itemWidth}
+          itemHeight={legend.itemHeight}
+          itemsSpacing={legend.itemsSpacing}
+          symbolSize={legend.symbolSize}
+          itemDirection={legend.itemDirection}
+          symbolShape={legend.symbolShape}
+          onClick={legend.onClick}
+          effects={legend.effects}
+          containerHeight={height}
+          containerWidth={width}
+        />
+      </>
+    );
+  };
+
+  if (data.length > 0 && keys && colors && indexBy) {
+    return (
+      <div style={{ height: 400 }}>
         <ResponsiveBar
-          data={filteredData}
-          keys={keys}
+          data={data}
+          keys={_.difference(keys, hiddenKeys)}
           indexBy={indexBy}
-          margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+          margin={{ top: 50, right: 130, bottom: 60, left: 60 }}
           padding={0.7}
           colors={bar => colors[bar.id]}
           groupMode="stacked"
-          defs={[
-            {
-              id: 'dots',
-              type: 'patternDots',
-              background: 'inherit',
-              color: '#ffffff',
-              size: 4,
-              padding: 1,
-              stagger: true,
-            },
-            {
-              id: 'lines',
-              type: 'patternLines',
-              background: 'inherit',
-              color: '#ffffff',
-              rotation: 32,
-              lineWidth: 4,
-              spacing: 7,
-            },
-          ]}
-          fill={[
-            {
-              match: {
-                id: 'change',
-              },
-              id: 'dots',
-            },
-            {
-              match: {
-                id: 'unload',
-              },
-              id: 'lines',
-            },
-          ]}
           borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
           axisTop={null}
           axisRight={null}
           axisBottom={{
             tickSize: 5,
             tickPadding: 5,
-            tickRotation: 45,
+            tickRotation: 0,
             legend: `${xAxis}`,
             legendPosition: 'middle',
-            legendOffset: 30,
+            legendOffset: 45,
           }}
           axisLeft={{
-            format: e => Math.floor(e) === e && e,
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
@@ -116,10 +133,6 @@ const BarChart = ({ data, keys, colors, indexBy, xAxis, yAxis }) => {
             legendPosition: 'middle',
             legendOffset: -40,
           }}
-          enableLabel={false}
-          labelSkipWidth={6}
-          labelSkipHeight={12}
-          labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
           legends={[
             {
               data: keys.map(id => {
@@ -140,6 +153,7 @@ const BarChart = ({ data, keys, colors, indexBy, xAxis, yAxis }) => {
               itemsSpacing: 11,
               symbolSize: 22,
               itemDirection: 'left-to-right',
+              symbolShape: 'circle',
               onClick: toggle,
               effects: [
                 {
@@ -152,9 +166,14 @@ const BarChart = ({ data, keys, colors, indexBy, xAxis, yAxis }) => {
               ],
             },
           ]}
+          enableLabel={false}
+          labelSkipWidth={6}
+          labelSkipHeight={12}
+          labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
           animate
           motionStiffness={200}
           motionDamping={50}
+          layers={['grid', 'bars', 'markers', 'axes', customLegend]}
         />
       </div>
     );

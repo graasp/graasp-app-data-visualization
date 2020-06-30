@@ -38,6 +38,7 @@ export class TeacherView extends PureComponent {
       borderColor: '#5050d2',
       borderStyle: 'solid',
       borderRadius: 20,
+      backgroundColor: '#FBF8FF',
     },
     title: {
       ...theme.typography.h4,
@@ -51,7 +52,7 @@ export class TeacherView extends PureComponent {
 
     return (
       <div className={classes.main}>
-        <Grid container sm={12}>
+        <Grid container>
           <Grid item sm={6} className={classes.widget}>
             <Paper className={classes.paper}>
               <Typography className={classes.title} gutterBottom>
