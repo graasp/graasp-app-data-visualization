@@ -1,25 +1,34 @@
 import moment from 'moment';
+import getComponentById from '../../../../../reducers/chartDataById';
 
-import getDateById from '../../../../../reducers/chartDateById';
-
-export const fromDate = (chartDateById, id) => {
-  if (chartDateById) {
-    const Obj = getDateById(chartDateById, id)[id];
-    if (Obj) {
-      return Obj.from;
+export const fromDate = (chartDataById, id) => {
+  if (chartDataById) {
+    const componentByIdElement = getComponentById(chartDataById, id)[id];
+    if (componentByIdElement) {
+      return componentByIdElement.from;
     }
   }
   return undefined;
 };
 
-export const toDate = (chartDateById, id) => {
-  if (chartDateById) {
-    const Obj = getDateById(chartDateById, id)[id];
-    if (Obj) {
-      return Obj.to;
+export const toDate = (chartDataById, id) => {
+  if (chartDataById) {
+    const componentByIdElement = getComponentById(chartDataById, id)[id];
+    if (componentByIdElement) {
+      return componentByIdElement.to;
     }
   }
   return undefined;
+};
+
+export const selectedActions = (chartDataById, id) => {
+  if (chartDataById) {
+    const componentByIdElement = getComponentById(chartDataById, id)[id];
+    if (componentByIdElement) {
+      return componentByIdElement.payload;
+    }
+  }
+  return [];
 };
 
 export const buildDateRange = (from, to) => {
@@ -46,7 +55,19 @@ export const Occurrence = (actions, attribute) => {
     }
   });
   data.sort();
+
   return data;
+};
+
+export const filterVerbs = (verbList, list) => {
+  let filteredList = [];
+  verbList.forEach(verb => {
+    if (list.indexOf(verb) === -1) {
+      filteredList = [...filteredList, verb];
+    }
+  });
+
+  return filteredList;
 };
 
 export const RemovePropertyOfObject = (Obj, property) => {
@@ -96,6 +117,7 @@ export const RemoveObjectWithAttributeFromArray = (
       newArr.push(e);
     }
   });
+
   return newArr;
 };
 
@@ -103,13 +125,13 @@ export const changeDateFormat = date => {
   return moment(date).format('D/M');
 };
 
-export const changeDateFormatForBarChart = arr => {
-  const newArr = [...arr];
+export const changeDateFormatForBarChart = dataArray => {
+  const updatedDataArray = [...dataArray];
 
-  newArr.forEach(e => {
+  updatedDataArray.forEach(e => {
     const { date } = e;
 
     e.date = changeDateFormat(date);
   });
-  return newArr;
+  return updatedDataArray;
 };

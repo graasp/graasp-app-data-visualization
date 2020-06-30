@@ -2,6 +2,12 @@ import { connect } from 'react-redux';
 import RadarChart from '../components/RadarChart';
 import {
   AVG,
+  USER,
+  USER_ID,
+  VERB,
+  VERB_RADAR_DATE_PICKER_ID,
+} from '../types/types';
+import {
   buildDateRange,
   fillDataForRadar,
   formatDataForRadar,
@@ -9,13 +15,10 @@ import {
   Occurrence,
   RemoveObjectWithAttributeFromArray,
   toDate,
-  USER,
-  USER_ID,
-  VERB,
-  VERB_RADAR_WIDGET_ID,
 } from '../util';
 
 const chartProperties = [USER, AVG];
+const filteredVerbs = ['logout', 'login', 'unload', 'access', 'cancel'];
 const RadarData = (actions, userId, from, to) => {
   const dateRange = buildDateRange(from, to);
   const verbList = Occurrence(actions, VERB);
@@ -28,25 +31,20 @@ const RadarData = (actions, userId, from, to) => {
     dateRange,
     userList.length,
   );
-
-  data = RemoveObjectWithAttributeFromArray(data, VERB, [
-    'logout',
-    'login',
-    'unload',
-  ]);
+  data = RemoveObjectWithAttributeFromArray(data, VERB, filteredVerbs);
   return data;
 };
 
 const mapStateToProps = ({
   action: { content },
   context: { userId },
-  chartDateById,
+  chartDataById,
 }) => ({
   data: RadarData(
     content,
     userId,
-    fromDate(chartDateById, VERB_RADAR_WIDGET_ID),
-    toDate(chartDateById, VERB_RADAR_WIDGET_ID),
+    fromDate(chartDataById, VERB_RADAR_DATE_PICKER_ID),
+    toDate(chartDataById, VERB_RADAR_DATE_PICKER_ID),
   ),
   keys: chartProperties,
   indexBy: VERB,

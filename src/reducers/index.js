@@ -5,7 +5,7 @@ import users from './users';
 import appInstance from './appInstance';
 import layout from './layout';
 import action from './action';
-import chartDateById from './chartDateById';
+import chartDataById from './chartDataById';
 
 export default combineReducers({
   // keys should always be lowercase
@@ -15,5 +15,5 @@ export default combineReducers({
   appInstance,
   layout,
   action,
-  chartDateById,
+  chartDataById,
 });
