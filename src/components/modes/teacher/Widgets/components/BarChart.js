@@ -154,7 +154,6 @@ const BarChart = ({ data, keys, colors, indexBy, xAxis, yAxis }) => {
               symbolSize: 22,
               itemDirection: 'left-to-right',
               symbolShape: 'circle',
-              itemTextColor: '#eee',
               onClick: toggle,
               effects: [
                 {

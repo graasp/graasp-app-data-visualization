@@ -107,6 +107,7 @@ const BarChart = ({ data, keys, colors, indexBy, yAxis, xAxis }) => {
               itemsSpacing: 11,
               symbolSize: 22,
               itemDirection: 'left-to-right',
+              symbolShape: 'circle',
               effects: [
                 {
                   on: 'hover',

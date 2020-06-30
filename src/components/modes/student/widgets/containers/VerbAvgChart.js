@@ -3,13 +3,13 @@ import BarChart from '../components/BarChart';
 import {
   buildDateRange,
   changeDateFormatForBarChart,
-  selectedActions,
+  displayTheSelectedData,
   fillData,
   formatDataForChart,
   fromDate,
   getVerbsTypesForBarChart,
-  displayTheSelectedData,
   Occurrence,
+  selectedActions,
   toDate,
 } from '../util';
 import {
@@ -32,9 +32,11 @@ const colors = {
   createAvg: '#fe9788',
 };
 
+const exceptions = ['unload', 'login', 'logout', 'access', 'cancel'];
+
 const BarData = (actions, userId, from, to, selectedActionsList) => {
   const dateRange = buildDateRange(from, to);
-  const verbList = getVerbsTypesForBarChart(actions);
+  const verbList = getVerbsTypesForBarChart(actions, exceptions);
   const formattedData = formatDataForChart(dateRange, verbList, DATE);
   const userList = Occurrence(actions, USER_ID);
   // The below function will compute the average of each type of action with respect to a user
@@ -62,7 +64,7 @@ const mapStateToProps = ({
     toDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
     selectedActions(chartDataById, VERB_BAR_LEGEND_ID),
   ),
-  keys: getVerbsTypesForBarChart(content),
+  keys: getVerbsTypesForBarChart(content, exceptions),
   colors,
   indexBy: 'date',
   xAxis,

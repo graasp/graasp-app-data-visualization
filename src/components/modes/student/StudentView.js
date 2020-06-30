@@ -36,7 +36,7 @@ export const StudentView = ({ classes }) => (
   <div>
     <Header />
     <div className={classes.main}>
-      <Grid container sm={12}>
+      <Grid container>
         <Grid item sm={6} className={classes.widget}>
           <Paper className={classes.paper}>
             <Typography className={classes.title} gutterBottom>

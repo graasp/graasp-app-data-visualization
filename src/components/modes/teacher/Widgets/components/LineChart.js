@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import PropTypes from 'prop-types';
-
 import Loader from '../../../../common/Loader';
 
 const LineChart = ({ data, colors, xAxis, yAxis }) => {
@@ -142,7 +141,6 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
       </div>
     );
   }
-
   return <Loader />;
 };
 
