@@ -6,15 +6,21 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import PropTypes from 'prop-types';
 import Loader from './Loader';
-import { filterVerbs, Occurrence } from '../modes/student/widgets/util';
-import { VERB } from '../modes/student/widgets/types/types';
+import {
+  filterVerbs,
+  Occurrence,
+  addToLegend,
+} from '../modes/student/widgets/util';
+import { VERB } from '../modes/student/widgets/types';
 import updateLegendById from '../../actions/chartLegendById';
 
 const filteredVerbs = ['access', 'cancel', 'login', 'logout', 'unload'];
-const Legend = ({ id }) => {
+
+const Legend = ({ id, addedItems }) => {
   const actions = useSelector(state => state.action.content);
   let verbList = Occurrence(actions, VERB);
   verbList = filterVerbs(verbList, filteredVerbs);
+  verbList = addToLegend(verbList, addedItems);
   const [action, setAction] = useState([]);
   const dispatch = useDispatch();
 
@@ -62,6 +68,7 @@ const Legend = ({ id }) => {
 
 Legend.propTypes = {
   id: PropTypes.string.isRequired,
+  addedItems: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Legend;

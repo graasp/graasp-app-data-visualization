@@ -4,7 +4,11 @@ import Box from '@material-ui/core/Box';
 import VerbAvgChart from './containers/VerbAvgChart';
 import KeyedDatePicker from '../../../common/KeyedDatePicker';
 import Legend from '../../../common/Legend';
-import { VERB_BAR_DATE_PICKER_ID, VERB_BAR_LEGEND_ID } from './types/types';
+import {
+  VERB_BAR_DATE_PICKER_ID,
+  VERB_BAR_LEGEND_ID,
+  LEGEND_SUM_ATTRIBUTE,
+} from './types';
 
 const VerbAvgWidget = () => {
   const initialState = {
@@ -17,7 +21,7 @@ const VerbAvgWidget = () => {
       <Box display="flex">
         <VerbAvgChart />
         <Box mt={5}>
-          <Legend id={VERB_BAR_LEGEND_ID} />
+          <Legend id={VERB_BAR_LEGEND_ID} addedItems={[LEGEND_SUM_ATTRIBUTE]} />
         </Box>
       </Box>
       <KeyedDatePicker

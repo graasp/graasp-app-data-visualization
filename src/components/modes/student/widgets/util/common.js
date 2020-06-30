@@ -76,6 +76,10 @@ export const filterVerbs = (verbList, list) => {
   return filteredList;
 };
 
+export const addToLegend = (verbList, addedItem) => {
+  return [...verbList, ...addedItem];
+};
+
 export const RemovePropertyOfObject = (Obj, property) => {
   const newObj = {};
 
