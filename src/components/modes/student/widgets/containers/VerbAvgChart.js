@@ -21,17 +21,17 @@ import {
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
-const colors = {
-  change: '#F5B7B1',
-  changeAvg: '#F5B7B1',
-  open: '#8E44AD',
-  openAvg: '#8E44AD',
-  navigate: '#bb93dd',
-  navigateAvg: '#bb93dd',
-  create: '#fe9788',
-  createAvg: '#fe9788',
-};
 
+const colors = {
+  open: '#decaff',
+  openAvg: '#decaff',
+  navigate: '#BBAAFF',
+  navigateAvg: '#BBAAFF',
+  create: '#988BFF',
+  createAvg: '#988BFF',
+  change: '#756DF4',
+  changeAvg: '#756DF4',
+};
 const exceptions = ['unload', 'login', 'logout', 'access', 'cancel'];
 
 const BarData = (actions, userId, from, to, selectedActionsList) => {

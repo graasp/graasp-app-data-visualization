@@ -6,7 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import PropTypes from 'prop-types';
 import Loader from './Loader';
-import { Occurrence, filterVerbs } from '../modes/student/widgets/util';
+import { filterVerbs, Occurrence } from '../modes/student/widgets/util';
 import { VERB } from '../modes/student/widgets/types/types';
 import updateLegendById from '../../actions/chartLegendById';
 
@@ -34,7 +34,7 @@ const Legend = ({ id }) => {
 
   const renderVerbList = () => {
     if (verbList.length !== 0) {
-      return verbList.map(verb => (
+      return verbList.reverse().map(verb => (
         <div key={verb}>
           <FormControlLabel
             value={verb}
@@ -52,7 +52,7 @@ const Legend = ({ id }) => {
   return (
     <div>
       <FormControl component="fieldset">
-        <FormGroup aria-label="position" row>
+        <FormGroup aria-label="position" column>
           {renderVerbList()}
         </FormGroup>
       </FormControl>

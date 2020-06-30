@@ -49,29 +49,28 @@ const RadarChart = ({ data, colors, keys, indexBy }) => {
   };
   if (data.length > 0 && colors) {
     return (
-      <div style={{ height: 500 }}>
+      <div style={{ height: 400 }}>
         <ResponsiveRadar
           data={filteredData}
           keys={keys}
           indexBy={indexBy}
           colors={bar => filteredColor[bar.key]}
           maxValue="auto"
-          margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
+          margin={{ top: 70, right: 80, bottom: 50, left: 80 }}
           curve="linearClosed"
           borderWidth={2}
           borderColor={{ from: 'color' }}
-          gridLevels={5}
+          gridLevels={8}
           gridShape="circular"
-          gridLabelOffset={36}
+          gridLabelOffset={18}
           enableDots
           dotSize={10}
           dotColor={{ theme: 'background' }}
           dotBorderWidth={2}
           dotBorderColor={{ from: 'color' }}
-          enableDotLabel
           dotLabel="value"
           dotLabelYOffset={-12}
-          fillOpacity={0.25}
+          fillOpacity={0.3}
           blendMode="multiply"
           animate
           motionStiffness={90}

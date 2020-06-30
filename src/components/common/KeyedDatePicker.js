@@ -184,7 +184,7 @@ const KeyedDatePicker = ({ id, initialValue }) => {
 
   return (
     <div>
-      <Box display="flex" justifyContent="center" mx={1} px={3} pb={3}>
+      <Box display="flex" justifyContent="center" mt={2} mx={5} px={3} pb={3}>
         <TextField
           aria-describedby={PopId}
           label="From"
