@@ -12,8 +12,8 @@ import {
   AVG,
   TOTAL,
   USER_ID,
-  VERB_BAR_DATE_PICKER_ID,
-  VERB_BAR_LEGEND_ID,
+  VERB_LINE_DATE_PICKER_ID,
+  VERB_LINE_AVG_LEGEND_ID,
 } from '../types';
 
 import { fillData, formatDataForLineChart } from '../util/verbAvgLineChartData';
@@ -32,7 +32,6 @@ const LineData = (actions, userId, from, to, selected) => {
   if (actions.length > 0) {
     const dateRange = buildDateRange(from, to);
     const userList = Occurrence(actions, USER_ID);
-
     const dataFormat = formatDataForLineChart(dateRange, [AVG, TOTAL]);
     data = fillData(actions, dataFormat, userId, userList.length, selected);
     data = changeDateFormatForLineChart(data);
@@ -48,9 +47,9 @@ const mapStateToProps = ({
   data: LineData(
     content,
     userId,
-    fromDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
-    toDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
-    selectedActions(chartDataById, VERB_BAR_LEGEND_ID),
+    fromDate(chartDataById, VERB_LINE_DATE_PICKER_ID),
+    toDate(chartDataById, VERB_LINE_DATE_PICKER_ID),
+    selectedActions(chartDataById, VERB_LINE_AVG_LEGEND_ID),
   ),
   colors,
   xAxis,

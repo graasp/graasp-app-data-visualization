@@ -2,14 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import KeyedDatePicker from '../../../common/KeyedDatePicker';
 import Legend from '../../../common/Legend';
-import {
-  LEGEND_SUM_ATTRIBUTE,
-  VERB_BAR_DATE_PICKER_ID,
-  VERB_BAR_LEGEND_ID,
-} from './types';
+import { VERB_LINE_DATE_PICKER_ID, VERB_LINE_AVG_LEGEND_ID } from './types';
 import VerbSumChart from './containers/VerbSumChart';
 
-const VerbAvgWidget = () => {
+const VerbAvgLineWidget = () => {
   const initialState = {
     from: new Date('2019-05-20'),
     to: new Date('2019-05-31'),
@@ -17,10 +13,10 @@ const VerbAvgWidget = () => {
 
   return (
     <div>
-      <Legend id={VERB_BAR_LEGEND_ID} addedItems={[LEGEND_SUM_ATTRIBUTE]} />
+      <Legend id={VERB_LINE_AVG_LEGEND_ID} />
       <VerbSumChart />
       <KeyedDatePicker
-        id={VERB_BAR_DATE_PICKER_ID}
+        id={VERB_LINE_DATE_PICKER_ID}
         initialValue={initialState}
       />
     </div>
@@ -28,7 +24,7 @@ const VerbAvgWidget = () => {
 };
 
 const mapStateToProps = ({ chartDataById }) => ({
-  isSum: chartDataById[VERB_BAR_LEGEND_ID],
+  isSum: chartDataById[VERB_LINE_AVG_LEGEND_ID],
 });
 
-export default connect(mapStateToProps)(VerbAvgWidget);
+export default connect(mapStateToProps)(VerbAvgLineWidget);
