@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import BarChart from '../components/BarChart';
 import {
-  aggregateData,
   buildDateRange,
   changeDateFormatForBarChart,
   displayTheSelectedData,
@@ -14,13 +13,11 @@ import {
   toDate,
 } from '../util';
 import {
-  AVG,
+  VERB_BAR_AVG_LEGEND_ID,
   DATE,
-  LEGEND_SUM_ATTRIBUTE,
-  USER,
   USER_ID,
+  VERB,
   VERB_BAR_DATE_PICKER_ID,
-  VERB_BAR_LEGEND_ID,
 } from '../types';
 
 const xAxis = 'date';
@@ -37,9 +34,6 @@ const colors = {
   changeAvg: '#756DF4',
 };
 
-const colorsForActionSum = {};
-colorsForActionSum[USER] = '#decaff';
-colorsForActionSum[AVG] = '#BBAAFF';
 const exceptions = ['unload', 'login', 'logout', 'access', 'cancel'];
 
 const BarData = (actions, userId, from, to, selectedActionsList) => {
@@ -57,37 +51,9 @@ const BarData = (actions, userId, from, to, selectedActionsList) => {
   );
   data = changeDateFormatForBarChart(data);
   data = displayTheSelectedData(data, selectedActionsList);
+  console.log(data);
 
-  if (selectedActionsList.includes(LEGEND_SUM_ATTRIBUTE)) {
-    data = aggregateData(data, USER, AVG);
-  }
   return data;
-};
-
-const isSumChecked = chartDataById => {
-  return chartDataById[VERB_BAR_LEGEND_ID].payload.includes(
-    LEGEND_SUM_ATTRIBUTE,
-  );
-};
-
-const getAppropriateKeys = (chartDataById, content, exception) => {
-  if (chartDataById[VERB_BAR_LEGEND_ID]) {
-    if (isSumChecked(chartDataById)) {
-      return [USER, AVG];
-    }
-    return getVerbsTypesForBarChart(content, exception);
-  }
-  return [];
-};
-
-const getAppropriateColors = chartDataById => {
-  if (chartDataById[VERB_BAR_LEGEND_ID]) {
-    if (isSumChecked(chartDataById)) {
-      return colorsForActionSum;
-    }
-    return colors;
-  }
-  return [];
 };
 
 const mapStateToProps = ({
@@ -100,10 +66,10 @@ const mapStateToProps = ({
     userId,
     fromDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
     toDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
-    selectedActions(chartDataById, VERB_BAR_LEGEND_ID),
+    selectedActions(chartDataById, VERB_BAR_AVG_LEGEND_ID),
   ),
-  keys: getAppropriateKeys(chartDataById, content, exceptions),
-  colors: getAppropriateColors(chartDataById),
+  keys: getVerbsTypesForBarChart(content, VERB, exceptions),
+  colors,
   indexBy: 'date',
   xAxis,
   yAxis,
