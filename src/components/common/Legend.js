@@ -5,7 +5,6 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import PropTypes from 'prop-types';
-import Loader from './Loader';
 import { filterVerbs, Occurrence } from '../modes/student/widgets/util';
 import { VERB } from '../modes/student/widgets/types';
 import updateLegendById from '../../actions/chartLegendById';
@@ -44,15 +43,15 @@ const Legend = ({ id }) => {
             control={<Checkbox color="primary" />}
             label={verb}
             onClick={handleChange}
-            ml={3}
+            style={{ width: 104, marginRight: '1.5vw', marginLeft: '1.5vw' }}
           />
         ));
     }
-    return <Loader />;
+    return <div />;
   };
 
   return (
-    <FormControl component="fieldset">
+    <FormControl id={id} component="fieldset">
       <FormGroup aria-label="position" row>
         {renderVerbList()}
       </FormGroup>

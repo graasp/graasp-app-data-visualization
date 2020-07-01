@@ -128,7 +128,7 @@ export const RemoveObjectWithAttributeFromArray = (
 };
 
 export const changeDateFormat = date => {
-  return moment(date).format('D/M');
+  return moment(date).format('DD/MM');
 };
 
 export const changeDateFormatForBarChart = dataArray => {
@@ -140,4 +140,28 @@ export const changeDateFormatForBarChart = dataArray => {
     e.date = changeDateFormat(date);
   });
   return updatedDataArray;
+};
+
+export const changeDateFormatForLineChart = arr => {
+  const newArr = [...arr];
+
+  newArr.forEach(entry => {
+    const { data } = entry;
+
+    data.forEach(e => {
+      const { x } = e;
+
+      e.x = changeDateFormat(x);
+    });
+  });
+  return newArr;
+};
+
+export const changeDateFormatForArray = arr => {
+  const temp = [];
+
+  arr.forEach(e => {
+    temp.push(changeDateFormat(new Date(e)));
+  });
+  return temp;
 };

@@ -13,12 +13,15 @@ import {
   toDate,
 } from '../util';
 import {
-  VERB_BAR_AVG_LEGEND_ID,
   DATE,
   USER_ID,
-  VERB,
+  VERB_BAR_AVG_LEGEND_ID,
   VERB_BAR_DATE_PICKER_ID,
 } from '../types';
+import {
+  changeDateFormatForArray,
+  fillTheDates,
+} from '../../../teacher/widgets/util';
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
@@ -51,8 +54,6 @@ const BarData = (actions, userId, from, to, selectedActionsList) => {
   );
   data = changeDateFormatForBarChart(data);
   data = displayTheSelectedData(data, selectedActionsList);
-  console.log(data);
-
   return data;
 };
 
@@ -68,11 +69,19 @@ const mapStateToProps = ({
     toDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
     selectedActions(chartDataById, VERB_BAR_AVG_LEGEND_ID),
   ),
-  keys: getVerbsTypesForBarChart(content, VERB, exceptions),
+  keys: getVerbsTypesForBarChart(content, exceptions),
   colors,
   indexBy: 'date',
   xAxis,
   yAxis,
+  id: VERB_BAR_AVG_LEGEND_ID,
+  values: changeDateFormatForArray(
+    fillTheDates(
+      fromDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
+      toDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
+    ),
+  ),
+  maxTicks: 12,
 });
 
 export default connect(mapStateToProps)(BarChart);

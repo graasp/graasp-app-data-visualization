@@ -3,6 +3,7 @@ import getComponentById from '../../../../../reducers/chartDataById';
 
 import BarChart from '../components/BarChart';
 import {
+  changeDateFormatForArray,
   changeDateFormatForBarChart,
   createDataForBarChart,
   fillDataForBarChart,
@@ -67,6 +68,8 @@ const mapStateToProps = state => ({
   indexBy: 'date',
   xAxis,
   yAxis,
+  values: changeDateFormatForArray(fillTheDates(from(state), to(state))),
+  maxTicks: 12,
 });
 
 export default connect(mapStateToProps)(BarChart);

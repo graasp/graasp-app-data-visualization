@@ -1,12 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import PropTypes from 'prop-types';
 import Loader from '../../../../common/Loader';
+import { HEIGHT, MARGIN, WIDTH, X_AXIS, Y_AXIS } from '../../../chartDesign';
 
-const LineChart = ({ data, colors, xAxis, yAxis }) => {
+const LineChart = ({ data, colors, xAxis, yAxis, id, values, maxTicks }) => {
   const [hiddenKeys, setHiddenKeys] = useState([]);
   const [filteredData, setFilteredData] = useState(data);
   const [filteredColor, setFilteredColor] = useState(colors);
+  const [size, setSize] = useState(0);
+
+  function updateSize() {
+    if (document.getElementById(id)) {
+      const height = document.getElementById(id).clientHeight;
+      if (height > 0) {
+        setSize(height);
+      }
+    }
+  }
+  useLayoutEffect(() => {
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  if (document.getElementById(id)) {
+    const height = document.getElementById(id).clientHeight;
+    if (height !== size && height > 0) {
+      updateSize();
+    }
+  }
 
   const enabledData = hidden => {
     const dataFiltered = [];
@@ -24,7 +47,7 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
         });
         Obj.data = ObjData;
         dataFiltered.push(Obj);
-        colorFiltered[d.id] = 'black';
+        colorFiltered[d.id] = 'grey';
       } else {
         dataFiltered.push(d);
         colorFiltered[d.id] = colors[d.id];
@@ -49,11 +72,11 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
 
   if (data.length > 0 && colors) {
     return (
-      <div style={{ height: 400, width: '100%' }}>
+      <div style={{ height: HEIGHT - size, width: WIDTH }}>
         <ResponsiveLine
           data={filteredData}
           colors={bar => filteredColor[bar.id]}
-          margin={{ top: 50, right: 110, bottom: 60, left: 60 }}
+          margin={MARGIN}
           xScale={{ type: 'point' }}
           yScale={{
             type: 'linear',
@@ -64,23 +87,8 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
           }}
           axisTop={null}
           axisRight={null}
-          axisBottom={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: `${xAxis}`,
-            legendPosition: 'middle',
-            legendOffset: 36,
-          }}
-          axisLeft={{
-            orient: 'left',
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: `${yAxis}`,
-            legendOffset: -40,
-            legendPosition: 'middle',
-          }}
+          axisBottom={X_AXIS(xAxis, values, maxTicks)}
+          axisLeft={Y_AXIS(yAxis)}
           pointSize={10}
           pointColor={{ theme: 'background' }}
           pointBorderWidth={2}
@@ -128,6 +136,12 @@ LineChart.propTypes = {
   colors: PropTypes.instanceOf(Object).isRequired,
   xAxis: PropTypes.string.isRequired,
   yAxis: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  values: PropTypes.arrayOf(PropTypes.string).isRequired,
+  maxTicks: PropTypes.number.isRequired,
 };
 
+LineChart.defaultProps = {
+  id: '',
+};
 export default LineChart;

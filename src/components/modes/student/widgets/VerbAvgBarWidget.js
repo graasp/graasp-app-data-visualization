@@ -1,10 +1,10 @@
 import React from 'react';
 import KeyedDatePicker from '../../../common/KeyedDatePicker';
-import { VERB_BAR_DATE_PICKER_ID, VERB_BAR_AVG_LEGEND_ID } from './types';
+import { VERB_BAR_AVG_LEGEND_ID, VERB_BAR_DATE_PICKER_ID } from './types';
 import VerbAvgChart from './containers/VerbAvgChart';
 import Legend from '../../../common/Legend';
 
-const VerbAvgBarWidget = () => {
+function VerbAvgBarWidget() {
   const initialState = {
     from: new Date('2019-05-20'),
     to: new Date('2019-05-31'),
@@ -20,6 +20,6 @@ const VerbAvgBarWidget = () => {
       />
     </div>
   );
-};
+}
 
 export default VerbAvgBarWidget;

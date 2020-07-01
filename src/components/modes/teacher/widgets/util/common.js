@@ -88,6 +88,15 @@ export const changeDateFormat = date => {
   return moment(date).format('DD/MM');
 };
 
+export const changeDateFormatForArray = arr => {
+  const temp = [];
+
+  arr.forEach(e => {
+    temp.push(changeDateFormat(new Date(e)));
+  });
+  return temp;
+};
+
 export const RemovePropertyOfObject = (Obj, property) => {
   const newObj = {};
 

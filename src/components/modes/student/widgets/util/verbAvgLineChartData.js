@@ -10,7 +10,7 @@ function calculateAvg(data, nbOfUsers) {
   return data;
 }
 
-export const fillData = (
+export const fillDataForLineChart = (
   actions,
   dataFormat,
   id,

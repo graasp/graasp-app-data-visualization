@@ -25,7 +25,7 @@ const RadarChart = ({ data, colors, keys, indexBy }) => {
     });
     keys.forEach(key => {
       if (hidden.includes(key)) {
-        colorFiltered[key] = 'black';
+        colorFiltered[key] = 'grey';
       } else {
         colorFiltered[key] = colors[key];
       }

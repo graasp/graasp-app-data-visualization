@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import PropTypes from 'prop-types';
 import Loader from '../../../../common/Loader';
+import { HEIGHT, MARGIN, WIDTH, X_AXIS, Y_AXIS } from '../../../chartDesign';
 
-const LineChart = ({ data, colors, xAxis, yAxis }) => {
+const LineChart = ({ data, colors, xAxis, yAxis, values, maxTicks }) => {
   const [hiddenKeys, setHiddenKeys] = useState([]);
   const [filteredData, setFilteredData] = useState(data);
   const [filteredColor, setFilteredColor] = useState(colors);
@@ -47,33 +48,13 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
     enabledData(temp);
   };
 
-  const maxY = d => {
-    const Max = [];
-
-    d.forEach(entry => {
-      Max.push(
-        Math.max(
-          ...entry.data.map(o => {
-            return o.y;
-          }),
-        ),
-      );
-    });
-
-    return Math.max(...Max);
-  };
-
-  const tickValue = () => {
-    return Array.from(Array(maxY(data) + 1).keys());
-  };
-
-  if (data.length > 0 && colors) {
+  if (data.length > 0) {
     return (
-      <div style={{ height: 400 }}>
+      <div style={{ height: HEIGHT, width: WIDTH }}>
         <ResponsiveLine
           data={filteredData}
           colors={bar => filteredColor[bar.id]}
-          margin={{ top: 50, right: 110, bottom: 60, left: 60 }}
+          margin={MARGIN}
           xScale={{ type: 'point' }}
           yScale={{
             type: 'linear',
@@ -84,24 +65,8 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
           }}
           axisTop={null}
           axisRight={null}
-          axisBottom={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: `${xAxis}`,
-            legendPosition: 'middle',
-            legendOffset: 45,
-          }}
-          axisLeft={{
-            tickValues: tickValue(),
-            orient: 'left',
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: `${yAxis}`,
-            legendOffset: -40,
-            legendPosition: 'middle',
-          }}
+          axisBottom={X_AXIS(xAxis, values, maxTicks)}
+          axisLeft={Y_AXIS(yAxis, data)}
           pointSize={10}
           pointColor={{ theme: 'background' }}
           pointBorderWidth={2}
@@ -149,6 +114,8 @@ LineChart.propTypes = {
   colors: PropTypes.instanceOf(Object).isRequired,
   xAxis: PropTypes.string.isRequired,
   yAxis: PropTypes.string.isRequired,
+  values: PropTypes.arrayOf(PropTypes.string).isRequired,
+  maxTicks: PropTypes.number.isRequired,
 };
 
 export default LineChart;

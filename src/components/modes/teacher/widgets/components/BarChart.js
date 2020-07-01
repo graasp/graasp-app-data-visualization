@@ -4,8 +4,18 @@ import PropTypes from 'prop-types';
 import { BoxLegendSvg } from '@nivo/legends';
 import _ from 'lodash';
 import Loader from '../../../../common/Loader';
+import { HEIGHT, MARGIN, WIDTH, X_AXIS, Y_AXIS } from '../../../chartDesign';
 
-const BarChart = ({ data, keys, colors, indexBy, xAxis, yAxis }) => {
+const BarChart = ({
+  data,
+  keys,
+  colors,
+  indexBy,
+  xAxis,
+  yAxis,
+  values,
+  maxTicks,
+}) => {
   const [hiddenKeys, setHiddenKeys] = useState([]);
 
   const toggle = d => {
@@ -105,39 +115,26 @@ const BarChart = ({ data, keys, colors, indexBy, xAxis, yAxis }) => {
 
   if (data.length > 0 && keys && colors && indexBy) {
     return (
-      <div style={{ height: 400 }}>
+      <div style={{ height: HEIGHT, width: WIDTH }}>
         <ResponsiveBar
           data={data}
           keys={_.difference(keys, hiddenKeys)}
           indexBy={indexBy}
-          margin={{ top: 50, right: 130, bottom: 60, left: 60 }}
+          margin={MARGIN}
           padding={0.7}
           colors={bar => colors[bar.id]}
           groupMode="stacked"
           borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
           axisTop={null}
           axisRight={null}
-          axisBottom={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: `${xAxis}`,
-            legendPosition: 'middle',
-            legendOffset: 45,
-          }}
-          axisLeft={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: `${yAxis}`,
-            legendPosition: 'middle',
-            legendOffset: -40,
-          }}
+          axisBottom={X_AXIS(xAxis, values, maxTicks)}
+          axisLeft={Y_AXIS(yAxis)}
           legends={[
             {
               data: keys.map(id => {
                 return {
                   id,
+
                   label: id,
                   color: colors[id],
                 };
@@ -189,6 +186,8 @@ BarChart.propTypes = {
   indexBy: PropTypes.string.isRequired,
   xAxis: PropTypes.string.isRequired,
   yAxis: PropTypes.string.isRequired,
+  values: PropTypes.arrayOf(PropTypes.string).isRequired,
+  maxTicks: PropTypes.number.isRequired,
 };
 
 export default BarChart;

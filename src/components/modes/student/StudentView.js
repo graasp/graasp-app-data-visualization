@@ -25,6 +25,7 @@ const styles = theme => ({
     borderColor: '#5050d2',
     borderStyle: 'solid',
     borderRadius: 20,
+    backgroundColor: 'rgba(253,242,255,0.56)',
   },
   title: {
     ...theme.typography.h4,
