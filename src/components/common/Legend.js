@@ -7,9 +7,9 @@ import FormControl from '@material-ui/core/FormControl';
 import PropTypes from 'prop-types';
 import Loader from './Loader';
 import {
+  addToLegend,
   filterVerbs,
   Occurrence,
-  addToLegend,
 } from '../modes/student/widgets/util';
 import { VERB } from '../modes/student/widgets/types';
 import updateLegendById from '../../actions/chartLegendById';
@@ -40,29 +40,28 @@ const Legend = ({ id, addedItems }) => {
 
   const renderVerbList = () => {
     if (verbList.length !== 0) {
-      return verbList.reverse().map(verb => (
-        <div key={verb}>
+      return verbList
+        .reverse()
+        .map(verb => (
           <FormControlLabel
             value={verb}
+            key={verb}
             control={<Checkbox color="primary" />}
             label={verb}
-            labelPlacement="top"
             onClick={handleChange}
+            ml={3}
           />
-        </div>
-      ));
+        ));
     }
     return <Loader />;
   };
 
   return (
-    <div>
-      <FormControl component="fieldset">
-        <FormGroup aria-label="position" column>
-          {renderVerbList()}
-        </FormGroup>
-      </FormControl>
-    </div>
+    <FormControl component="fieldset">
+      <FormGroup aria-label="position" row>
+        {renderVerbList()}
+      </FormGroup>
+    </FormControl>
   );
 };
 

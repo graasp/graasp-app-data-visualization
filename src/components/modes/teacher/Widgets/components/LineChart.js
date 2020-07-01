@@ -24,7 +24,7 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
         });
         Obj.data = ObjData;
         dataFiltered.push(Obj);
-        colorFiltered[d.id] = 'black';
+        colorFiltered[d.id] = 'grey';
       } else {
         dataFiltered.push(d);
         colorFiltered[d.id] = colors[d.id];
@@ -90,7 +90,7 @@ const LineChart = ({ data, colors, xAxis, yAxis }) => {
             tickRotation: 0,
             legend: `${xAxis}`,
             legendPosition: 'middle',
-            legendOffset: 36,
+            legendOffset: 45,
           }}
           axisLeft={{
             tickValues: tickValue(),

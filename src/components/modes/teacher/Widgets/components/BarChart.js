@@ -46,7 +46,7 @@ const BarChart = ({ data, keys, colors, indexBy, xAxis, yAxis }) => {
       const correspondingObject = keysProperties.find(
         obj => obj.id === hiddenKey,
       );
-      correspondingObject.color = 'black';
+      correspondingObject.color = 'grey';
       // correspondingObject = _.pick(correspondingObject,['id','label','color'])
       delete correspondingObject.fill;
     });

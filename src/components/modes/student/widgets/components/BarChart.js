@@ -12,9 +12,9 @@ const BarChart = ({ data, keys, colors, indexBy, yAxis, xAxis }) => {
           keys={keys}
           indexBy={indexBy}
           margin={{ top: 50, right: 130, bottom: 60, left: 60 }}
-          padding={0.7}
+          padding={0}
           colors={bar => colors[bar.id]}
-          groupMode="stacked"
+          groupMode="grouped"
           borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
           axisTop={null}
           axisRight={null}
@@ -57,27 +57,27 @@ const BarChart = ({ data, keys, colors, indexBy, yAxis, xAxis }) => {
           fill={[
             {
               match: {
-                id: 'change',
+                id: 'changeAvg',
               },
               id: 'dots',
             },
             {
               match: {
-                id: 'navigate',
-              },
-              id: 'dots',
-            },
-
-            {
-              match: {
-                id: 'create',
+                id: 'navigateAvg',
               },
               id: 'dots',
             },
 
             {
               match: {
-                id: 'open',
+                id: 'createAvg',
+              },
+              id: 'dots',
+            },
+
+            {
+              match: {
+                id: 'openAvg',
               },
               id: 'dots',
             },
