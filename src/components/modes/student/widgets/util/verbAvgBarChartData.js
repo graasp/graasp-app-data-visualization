@@ -15,7 +15,7 @@ export const getVerbsTypesForBarChart = (actions, attributes) => {
   return verbs;
 };
 
-export const formatDataForChart = (key, value, attribute) => {
+export const formatDataForBarChart = (key, value, attribute) => {
   const data = [];
   key.forEach(entry => {
     const entryObj = {};
