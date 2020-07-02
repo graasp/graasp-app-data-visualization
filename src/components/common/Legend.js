@@ -5,22 +5,16 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import PropTypes from 'prop-types';
-import Loader from './Loader';
-import {
-  filterVerbs,
-  Occurrence,
-  addToLegend,
-} from '../modes/student/widgets/util';
+import { filterVerbs, Occurrence } from '../modes/student/widgets/util';
 import { VERB } from '../modes/student/widgets/types';
 import updateLegendById from '../../actions/chartLegendById';
 
 const filteredVerbs = ['access', 'cancel', 'login', 'logout', 'unload'];
 
-const Legend = ({ id, addedItems }) => {
+const Legend = ({ id }) => {
   const actions = useSelector(state => state.action.content);
   let verbList = Occurrence(actions, VERB);
   verbList = filterVerbs(verbList, filteredVerbs);
-  verbList = addToLegend(verbList, addedItems);
   const [action, setAction] = useState([]);
   const dispatch = useDispatch();
 
@@ -40,35 +34,33 @@ const Legend = ({ id, addedItems }) => {
 
   const renderVerbList = () => {
     if (verbList.length !== 0) {
-      return verbList.reverse().map(verb => (
-        <div key={verb}>
+      return verbList
+        .reverse()
+        .map(verb => (
           <FormControlLabel
             value={verb}
+            key={verb}
             control={<Checkbox color="primary" />}
             label={verb}
-            labelPlacement="top"
             onClick={handleChange}
+            style={{ width: 104, marginRight: '1.5vw', marginLeft: '1.5vw' }}
           />
-        </div>
-      ));
+        ));
     }
-    return <Loader />;
+    return <div />;
   };
 
   return (
-    <div>
-      <FormControl component="fieldset">
-        <FormGroup aria-label="position" column>
-          {renderVerbList()}
-        </FormGroup>
-      </FormControl>
-    </div>
+    <FormControl id={id} component="fieldset">
+      <FormGroup aria-label="position" row>
+        {renderVerbList()}
+      </FormGroup>
+    </FormControl>
   );
 };
 
 Legend.propTypes = {
   id: PropTypes.string.isRequired,
-  addedItems: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Legend;

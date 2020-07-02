@@ -5,23 +5,23 @@ import {
   changeDateFormatForBarChart,
   displayTheSelectedData,
   fillData,
-  formatDataForChart,
+  formatDataForBarChart,
   fromDate,
   getVerbsTypesForBarChart,
   Occurrence,
   selectedActions,
   toDate,
-  aggregateData,
 } from '../util';
 import {
   DATE,
   USER_ID,
+  VERB_BAR_AVG_LEGEND_ID,
   VERB_BAR_DATE_PICKER_ID,
-  VERB_BAR_LEGEND_ID,
-  LEGEND_SUM_ATTRIBUTE,
-  USER,
-  AVG,
 } from '../types';
+import {
+  changeDateFormatForArray,
+  fillTheDates,
+} from '../../../teacher/widgets/util';
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
@@ -37,15 +37,12 @@ const colors = {
   changeAvg: '#756DF4',
 };
 
-const colorsForActionSum = {};
-colorsForActionSum[USER] = '#decaff';
-colorsForActionSum[AVG] = '#BBAAFF';
 const exceptions = ['unload', 'login', 'logout', 'access', 'cancel'];
 
 const BarData = (actions, userId, from, to, selectedActionsList) => {
   const dateRange = buildDateRange(from, to);
   const verbList = getVerbsTypesForBarChart(actions, exceptions);
-  const formattedData = formatDataForChart(dateRange, verbList, DATE);
+  const formattedData = formatDataForBarChart(dateRange, verbList, DATE);
   const userList = Occurrence(actions, USER_ID);
   // The below function will compute the average of each type of action with respect to a user
   let data = fillData(
@@ -57,37 +54,7 @@ const BarData = (actions, userId, from, to, selectedActionsList) => {
   );
   data = changeDateFormatForBarChart(data);
   data = displayTheSelectedData(data, selectedActionsList);
-
-  if (selectedActionsList.includes(LEGEND_SUM_ATTRIBUTE)) {
-    data = aggregateData(data, USER, AVG);
-  }
   return data;
-};
-
-const isSumChecked = chartDataById => {
-  return chartDataById[VERB_BAR_LEGEND_ID].payload.includes(
-    LEGEND_SUM_ATTRIBUTE,
-  );
-};
-
-const getAppropriateKeys = (chartDataById, content, exception) => {
-  if (chartDataById[VERB_BAR_LEGEND_ID]) {
-    if (isSumChecked(chartDataById)) {
-      return [USER, AVG];
-    }
-    return getVerbsTypesForBarChart(content, exception);
-  }
-  return [];
-};
-
-const getAppropriateColors = chartDataById => {
-  if (chartDataById[VERB_BAR_LEGEND_ID]) {
-    if (isSumChecked(chartDataById)) {
-      return colorsForActionSum;
-    }
-    return colors;
-  }
-  return [];
 };
 
 const mapStateToProps = ({
@@ -100,13 +67,21 @@ const mapStateToProps = ({
     userId,
     fromDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
     toDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
-    selectedActions(chartDataById, VERB_BAR_LEGEND_ID),
+    selectedActions(chartDataById, VERB_BAR_AVG_LEGEND_ID),
   ),
-  keys: getAppropriateKeys(chartDataById, content, exceptions),
-  colors: getAppropriateColors(chartDataById),
+  keys: getVerbsTypesForBarChart(content, exceptions),
+  colors,
   indexBy: 'date',
   xAxis,
   yAxis,
+  id: VERB_BAR_AVG_LEGEND_ID,
+  values: changeDateFormatForArray(
+    fillTheDates(
+      fromDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
+      toDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
+    ),
+  ),
+  maxTicks: 12,
 });
 
 export default connect(mapStateToProps)(BarChart);

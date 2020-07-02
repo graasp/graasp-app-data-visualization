@@ -3,6 +3,7 @@ import getDateById from '../../../../../reducers/chartDataById';
 
 import LineChart from '../components/LineChart';
 import {
+  changeDateFormatForArray,
   changeDateFormatForLineChart,
   ChangePropertyNameOfObjectFromArray,
   createObjectForLine,
@@ -28,7 +29,6 @@ const AccessData = (actions, from, to) => {
 
   if (actions.length > 0) {
     const date = fillTheDates(from, to);
-
     let accesses = DataPicking(
       actions,
       [CREATED_AT, VERB, USER_ID],
@@ -84,6 +84,8 @@ const mapStateToProps = state => ({
   colors,
   xAxis,
   yAxis,
+  values: changeDateFormatForArray(fillTheDates(from(state), to(state))),
+  maxTicks: 12,
 });
 
 export default connect(mapStateToProps)(LineChart);

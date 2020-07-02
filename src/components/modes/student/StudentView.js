@@ -6,8 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Header from '../../layout/Header';
-import VerbAvgWidget from './widgets/VerbAvgWidget';
+import VerbAvgWidget from './widgets/VerbAvgLineWidget';
 import VerbRadarWidget from './widgets/VerbRadarWidget';
+import VerbAvgBarWidget from './widgets/VerbAvgBarWidget';
 
 const styles = theme => ({
   main: {
@@ -24,6 +25,7 @@ const styles = theme => ({
     borderColor: '#5050d2',
     borderStyle: 'solid',
     borderRadius: 20,
+    backgroundColor: 'rgba(253,242,255,0.56)',
   },
   title: {
     ...theme.typography.h4,
@@ -40,7 +42,7 @@ export const StudentView = ({ classes }) => (
         <Grid item sm={6} className={classes.widget}>
           <Paper className={classes.paper}>
             <Typography className={classes.title} gutterBottom>
-              Actions
+              Total Activity Actions
             </Typography>
             <VerbAvgWidget />
           </Paper>
@@ -51,6 +53,14 @@ export const StudentView = ({ classes }) => (
               Your Activity Levels
             </Typography>
             <VerbRadarWidget />
+          </Paper>
+        </Grid>
+        <Grid item sm={12} className={classes.widget}>
+          <Paper className={classes.paper}>
+            <Typography className={classes.title} gutterBottom>
+              Detailed Activity Overview
+            </Typography>
+            <VerbAvgBarWidget />
           </Paper>
         </Grid>
       </Grid>

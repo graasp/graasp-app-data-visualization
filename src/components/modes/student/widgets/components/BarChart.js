@@ -1,39 +1,59 @@
 import { ResponsiveBar } from '@nivo/bar';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import Loader from '../../../../common/Loader';
+import { HEIGHT, X_AXIS, Y_AXIS } from '../../../chartDesign';
 
-const BarChart = ({ data, keys, colors, indexBy, yAxis, xAxis }) => {
-  if (data && keys && colors && indexBy) {
+const BarChart = ({
+  data,
+  keys,
+  colors,
+  indexBy,
+  yAxis,
+  xAxis,
+  id,
+  values,
+  maxTicks,
+}) => {
+  const [size, setSize] = useState(0);
+
+  function updateSize() {
+    if (document.getElementById(id)) {
+      const height = document.getElementById(id).clientHeight;
+      if (height > 0) {
+        setSize(height);
+      }
+    }
+  }
+  useLayoutEffect(() => {
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  if (document.getElementById(id)) {
+    const height = document.getElementById(id).clientHeight;
+    if (height !== size && height > 0) {
+      updateSize();
+    }
+  }
+
+  if (data.length > 0 && keys.length > 0) {
     return (
-      <div style={{ height: 400, width: '100%' }}>
+      <div style={{ height: HEIGHT - size, width: '100%' }}>
         <ResponsiveBar
           data={data}
           keys={keys}
           indexBy={indexBy}
           margin={{ top: 50, right: 130, bottom: 60, left: 60 }}
-          padding={0.7}
+          padding={0.05}
           colors={bar => colors[bar.id]}
-          groupMode="stacked"
+          groupMode="grouped"
           borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
           axisTop={null}
           axisRight={null}
-          axisBottom={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: `${xAxis}`,
-            legendPosition: 'middle',
-            legendOffset: 45,
-          }}
-          axisLeft={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: `${yAxis}`,
-            legendPosition: 'middle',
-            legendOffset: -40,
-          }}
+          axisBottom={X_AXIS(xAxis, values, maxTicks)}
+          axisLeft={Y_AXIS(yAxis)}
           defs={[
             {
               id: 'dots',
@@ -57,27 +77,27 @@ const BarChart = ({ data, keys, colors, indexBy, yAxis, xAxis }) => {
           fill={[
             {
               match: {
-                id: 'change',
+                id: 'changeAvg',
               },
               id: 'dots',
             },
             {
               match: {
-                id: 'navigate',
-              },
-              id: 'dots',
-            },
-
-            {
-              match: {
-                id: 'create',
+                id: 'navigateAvg',
               },
               id: 'dots',
             },
 
             {
               match: {
-                id: 'open',
+                id: 'createAvg',
+              },
+              id: 'dots',
+            },
+
+            {
+              match: {
+                id: 'openAvg',
               },
               id: 'dots',
             },
@@ -88,11 +108,11 @@ const BarChart = ({ data, keys, colors, indexBy, yAxis, xAxis }) => {
           labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
           legends={[
             {
-              data: keys.map(id => {
+              data: keys.map(key => {
                 return {
-                  id,
-                  label: id,
-                  color: colors[id],
+                  id: key,
+                  label: key,
+                  color: colors[key],
                 };
               }),
               dataFrom: 'keys',
@@ -136,6 +156,12 @@ BarChart.propTypes = {
   indexBy: PropTypes.string.isRequired,
   xAxis: PropTypes.string.isRequired,
   yAxis: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  values: PropTypes.arrayOf(PropTypes.string).isRequired,
+  maxTicks: PropTypes.number.isRequired,
 };
 
+BarChart.defaultProps = {
+  id: '',
+};
 export default BarChart;

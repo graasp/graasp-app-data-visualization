@@ -10,8 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import './TeacherView.css';
 import { getUsers } from '../../../actions';
 
-import VerbWidget from './Widgets/VerbWidget';
-import AccessWidget from './Widgets/AccessWidget';
+import VerbWidget from './widgets/VerbWidget';
+import AccessWidget from './widgets/AccessWidget';
 
 export class TeacherView extends PureComponent {
   static propTypes = {
@@ -38,7 +38,7 @@ export class TeacherView extends PureComponent {
       borderColor: '#5050d2',
       borderStyle: 'solid',
       borderRadius: 20,
-      backgroundColor: '#FBF8FF',
+      backgroundColor: 'rgba(253,242,255,0.56)',
     },
     title: {
       ...theme.typography.h4,
