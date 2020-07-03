@@ -119,5 +119,6 @@ if \
   exit 1
 fi
 
- invalidate cloudfront distribution
+# invalidate cloudfront distribution
  aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION} --paths /${APP_PATH}/*
+ echo "published app to https://${REACT_APP_HOST}/${APP_PATH}/index.html"
