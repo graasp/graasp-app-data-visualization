@@ -11,21 +11,21 @@ import {
 } from '../util';
 
 const chartProperties = [USER, AVG];
-const exceptions = ['unload', 'login', 'logout', 'access', 'cancel'];
+
+const allowedVerbs = ['create', 'change', 'open', 'navigate'];
 const colors = {};
 colors[USER] = '#decaff';
 colors[AVG] = '#BBAAFF';
 const RadarData = (actions, userId, from, to) => {
   const dateRange = buildDateRange(from, to);
-  const verbList = Occurrence(actions, VERB, exceptions);
-  const formattedData = formatDataForRadar(verbList, VERB, chartProperties);
+  const formattedData = formatDataForRadar(allowedVerbs, VERB, chartProperties);
   const userList = Occurrence(actions, USER_ID);
   return fillDataForRadar(
     actions,
     formattedData,
     userId,
     dateRange,
-    verbList,
+    allowedVerbs,
     userList.length,
   );
 };

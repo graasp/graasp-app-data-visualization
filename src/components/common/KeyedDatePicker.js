@@ -11,13 +11,15 @@ import UndoIcon from '@material-ui/icons/Undo';
 import RedoIcon from '@material-ui/icons/Redo';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-
+import moment from 'moment';
 import updateDateById from '../../actions/chartDataByID';
 import 'react-day-picker/lib/style.css';
 
 const flag = [];
 
 const KeyedDatePicker = ({ id, initialValue }) => {
+  // const windowSize = useSelector(state => state.windowSize.windowSize);
+
   const [from, setFrom] = useState(initialValue.from);
   const [fromPrev, setFromPrev] = useState(initialValue.from);
   const [to, setTo] = useState(initialValue.to);
@@ -39,6 +41,7 @@ const KeyedDatePicker = ({ id, initialValue }) => {
   }, [from]);
   if (!flag.includes(id)) {
     flag.push(id);
+
     dispatch(updateDateById(from, to, id));
   }
 
@@ -158,14 +161,14 @@ const KeyedDatePicker = ({ id, initialValue }) => {
 
   const toDate = () => {
     if (to !== null) {
-      return to.toDateString();
+      return moment(new Date(to)).format('DD/MM/YY');
     }
     return ' ';
   };
 
   const fromDate = () => {
     if (from !== null) {
-      return from.toDateString();
+      return moment(new Date(from)).format('DD/MM/YY');
     }
     return ' ';
   };

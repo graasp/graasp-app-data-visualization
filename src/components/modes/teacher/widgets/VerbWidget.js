@@ -2,6 +2,7 @@ import React from 'react';
 
 import VerbChart from './containers/VerbChart';
 import KeyedDatePicker from '../../../common/KeyedDatePicker';
+import { VERB_CHART_DATE_PICKER_ID } from './types';
 
 const VerbWidget = () => {
   const initialState = {
@@ -11,8 +12,11 @@ const VerbWidget = () => {
 
   return (
     <div>
-      <VerbChart style={{ height: '100%' }} />
-      <KeyedDatePicker id="VerbChart" initialValue={initialState} />
+      <VerbChart />
+      <KeyedDatePicker
+        id={VERB_CHART_DATE_PICKER_ID}
+        initialValue={initialState}
+      />
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import getComponentById from '../../../../../reducers/chartDataById';
 
 import BarChart from '../components/BarChart';
 import {
@@ -8,23 +7,21 @@ import {
   createDataForBarChart,
   fillDataForBarChart,
   fillTheDates,
-  Occurrence,
+  nbOfTicks,
 } from '../util';
-import { DATE, VERB } from '../types';
+import { DATE, VERB_CHART_DATE_PICKER_ID } from '../types';
+import { fromDate, toDate } from '../../../student/widgets/util';
 
-const id = 'VerbChart';
 const xAxis = DATE;
 const yAxis = 'Occurrence';
-const exceptions = ['unload', 'login', 'logout', 'access', 'cancel'];
+const allowedVerbs = ['create', 'change', 'open', 'navigate'];
 const BarData = (actions, from, to) => {
   let data = [];
 
   if (actions && from && to) {
-    const verbs = Occurrence(actions, VERB, exceptions);
-
     const dates = fillTheDates(from, to);
 
-    const dataFormat = createDataForBarChart(dates, verbs, DATE);
+    const dataFormat = createDataForBarChart(dates, allowedVerbs, DATE);
 
     data = fillDataForBarChart(actions, dataFormat);
 
@@ -39,37 +36,28 @@ const colors = {
   change: '#756DF4',
 };
 
-const from = state => {
-  const { chartDataById } = state;
-  if (chartDataById) {
-    const Obj = getComponentById(chartDataById, id)[id];
-    if (Obj) {
-      return Obj.from;
-    }
-  }
-  return undefined;
-};
-
-const to = state => {
-  const { chartDataById } = state;
-  if (chartDataById) {
-    const Obj = getComponentById(chartDataById, id)[id];
-    if (Obj) {
-      return Obj.to;
-    }
-  }
-  return undefined;
-};
-
-const mapStateToProps = state => ({
-  data: BarData(state.action.content, from(state), to(state)),
-  keys: Occurrence(state.action.content, 'verb', exceptions),
+const mapStateToProps = ({
+  action: { content },
+  windowSize: { windowSize },
+  chartDataById,
+}) => ({
+  data: BarData(
+    content,
+    fromDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
+    toDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
+  ),
+  keys: allowedVerbs,
   colors,
   indexBy: 'date',
   xAxis,
   yAxis,
-  values: changeDateFormatForArray(fillTheDates(from(state), to(state))),
-  maxTicks: 12,
+  values: changeDateFormatForArray(
+    fillTheDates(
+      fromDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
+      toDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
+    ),
+  ),
+  maxTicks: nbOfTicks([4, 7, 12], [750, 1200, 1920], windowSize),
 });
 
 export default connect(mapStateToProps)(BarChart);

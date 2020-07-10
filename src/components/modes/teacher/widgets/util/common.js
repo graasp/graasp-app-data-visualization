@@ -1,4 +1,5 @@
 import moment from 'moment';
+import getComponentById from '../../../../../reducers/chartDataById';
 
 export const fillTheDates = (from, to) => {
   let dates = [];
@@ -195,4 +196,40 @@ export const RemoveObjectWithAttributeFromArray = (
     }
   });
   return newArr;
+};
+
+export const fromDate = (chartDataById, id) => {
+  if (chartDataById) {
+    const componentByIdElement = getComponentById(chartDataById, id)[id];
+    if (componentByIdElement) {
+      return componentByIdElement.from;
+    }
+  }
+  return undefined;
+};
+
+export const toDate = (chartDataById, id) => {
+  if (chartDataById) {
+    const componentByIdElement = getComponentById(chartDataById, id)[id];
+    if (componentByIdElement) {
+      return componentByIdElement.to;
+    }
+  }
+  return undefined;
+};
+
+export const nbOfTicks = (
+  arrayOfTickValues,
+  arrayOfBreakpoints,
+  windowsSize,
+) => {
+  let tick = 0;
+
+  for (let i = arrayOfBreakpoints.length; i >= 0; i -= 1) {
+    if (windowsSize <= arrayOfBreakpoints[i]) {
+      tick = arrayOfTickValues[i];
+    }
+  }
+
+  return tick;
 };

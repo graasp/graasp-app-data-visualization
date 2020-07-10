@@ -115,7 +115,7 @@ LineChart.propTypes = {
   xAxis: PropTypes.string.isRequired,
   yAxis: PropTypes.string.isRequired,
   values: PropTypes.arrayOf(PropTypes.string).isRequired,
-  maxTicks: PropTypes.number.isRequired,
+  maxTicks: PropTypes.func.isRequired,
 };
 
 export default LineChart;

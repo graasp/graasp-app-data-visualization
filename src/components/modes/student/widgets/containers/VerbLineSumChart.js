@@ -8,6 +8,7 @@ import {
   fillDataForLineChart,
   formatDataForLineChart,
   fromDate,
+  nbOfTicks,
   Occurrence,
   selectedActions,
   toDate,
@@ -47,6 +48,7 @@ const LineData = (actions, userId, from, to, selected) => {
 const mapStateToProps = ({
   action: { content },
   context: { userId },
+  windowSize: { windowSize },
   chartDataById,
 }) => ({
   data: LineData(
@@ -66,6 +68,6 @@ const mapStateToProps = ({
       toDate(chartDataById, VERB_LINE_DATE_PICKER_ID),
     ),
   ),
-  maxTicks: 12,
+  maxTicks: nbOfTicks([4, 7, 12], [750, 1200, 1920], windowSize),
 });
 export default connect(mapStateToProps)(LineChart);
