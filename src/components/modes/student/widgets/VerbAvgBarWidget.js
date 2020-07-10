@@ -6,8 +6,8 @@ import Legend from '../../../common/Legend';
 
 function VerbAvgBarWidget() {
   const initialState = {
-    from: new Date('2019-05-20'),
-    to: new Date('2019-05-31'),
+    from: new Date(new Date(Date.now()).toLocaleDateString()),
+    to: new Date(new Date(Date.now()).toLocaleDateString()),
   };
 
   return (

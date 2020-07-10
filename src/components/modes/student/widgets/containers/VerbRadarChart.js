@@ -13,16 +13,13 @@ import {
 const chartProperties = [USER, AVG];
 const exceptions = ['unload', 'login', 'logout', 'access', 'cancel'];
 const colors = {};
-
 colors[USER] = '#decaff';
 colors[AVG] = '#BBAAFF';
-
 const RadarData = (actions, userId, from, to) => {
   const dateRange = buildDateRange(from, to);
   const verbList = Occurrence(actions, VERB, exceptions);
   const formattedData = formatDataForRadar(verbList, VERB, chartProperties);
   const userList = Occurrence(actions, USER_ID);
-
   return fillDataForRadar(
     actions,
     formattedData,

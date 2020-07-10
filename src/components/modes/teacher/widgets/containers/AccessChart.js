@@ -27,6 +27,7 @@ const colors = {
 const AccessData = (actions, from, to) => {
   let data = [];
 
+  console.log(new Date(Date.now()));
   if (actions.length > 0) {
     const date = fillTheDates(from, to);
     let accesses = DataPicking(

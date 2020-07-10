@@ -56,7 +56,7 @@ export const fillData = (actions, dataFormat, id, verbs, nbOfUsers) => {
       correspondingObject[verb] += 1;
       correspondingObject[`${verb}Avg`] += 1;
     }
-    if (verb && correspondingObject) {
+    if (verb && correspondingObject && userId !== id) {
       correspondingObject[`${verb}Avg`] += 1;
     }
   });

@@ -22,9 +22,7 @@ import {
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
-
 const colors = {};
-
 colors[TOTAL] = '#BBAAFF';
 colors[AVG] = '#756DF4';
 

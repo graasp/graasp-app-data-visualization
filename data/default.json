@@ -76,6 +76,255 @@
   ],
   "actions": [
     {
+      "user": "5f01b091e4c424001ae4ca7d",
+
+      "sessionId": null,
+      "data": {
+        "page": "5f00a8c8f92bba63353683e3"
+      },
+      "visibility": "public",
+      "_id": "5f01aad258624d001a8cbda4",
+      "space": "5f00a8fef92bba63353683ed",
+      "spaceId": "5f00a8fef92bba63353683ed",
+      "verb": "navigate",
+      "postedAt": "2020-07-05T10:26:25.903Z",
+      "sessionSequenceNumber": 2,
+      "userType": "light",
+      "geolocation": {
+        "range": [865746944, 865763327],
+        "country": "CH",
+        "region": "",
+        "eu": "0",
+        "timezone": "Europe/Zurich",
+        "city": "",
+        "ll": [47.1449, 8.1551],
+        "metro": 0,
+        "area": 100
+      },
+      "createdAt": "2020-07-05T10:26:26.029Z",
+      "updatedAt": "2020-07-05T10:26:26.029Z",
+      "__v": 0
+    },
+
+    {
+      "user": "5f01b091e4c424001ae4ca7d",
+      "userId": "5f01b091e4c424001ae4ca7d",
+      "sessionId": null,
+      "data": {
+        "page": "5f00a8c8f92bba63353683e3"
+      },
+      "visibility": "public",
+      "_id": "5f01c4f9e4c424001ae4cb88",
+      "space": "5f00a8fef92bba63353683ed",
+      "spaceId": "5f00a8fef92bba63353683ed",
+      "verb": "navigate",
+      "postedAt": "2020-07-05T12:17:59.991Z",
+      "sessionSequenceNumber": 1,
+      "userType": "graasp",
+      "geolocation": {
+        "range": [2995215872, 2995216383],
+        "country": "LB",
+        "region": "BA",
+        "eu": "0",
+        "timezone": "Asia/Beirut",
+        "city": "Beirut",
+        "ll": [33.8719, 35.5097],
+        "metro": 0,
+        "area": 20
+      },
+      "createdAt": "2020-07-06T12:18:01.234Z",
+      "updatedAt": "2020-07-06T12:18:01.234Z",
+      "__v": 0
+    },
+
+    {
+      "user": "5f01b091e4c424001ae4ca7d",
+      "userId": "5f01b091e4c424001ae4ca7d",
+      "sessionId": null,
+      "data": null,
+      "visibility": "private",
+      "_id": "5f0414ba58624d001a8cd792",
+      "verb": "maximized",
+      "space": "5f00a8fef92bba63353683ed",
+      "spaceId": "5f00a8fef92bba63353683ed",
+      "format": "v1",
+      "appInstance": "6156e70ab253020033364411",
+      "userType": "light",
+      "geolocation": {
+        "range": [2995215360, 2995215615],
+        "country": "LB",
+        "region": "BA",
+        "eu": "0",
+        "timezone": "Asia/Beirut",
+        "city": "Beirut",
+        "ll": [33.8719, 35.5097],
+        "metro": 0,
+        "area": 20
+      },
+      "createdAt": "2020-07-07T06:22:50.696Z",
+      "updatedAt": "2020-07-07T06:22:50.696Z",
+      "__v": 0
+    },
+    {
+      "user": "5f01b091e4c424001ae4ca7d",
+      "userId": "5f01b091e4c424001ae4ca7d",
+      "sessionId": null,
+      "data": {
+        "programmingLanguage": "python",
+        "numExecutedChanges": 27,
+        "code": "print('hello There !')\n"
+      },
+      "visibility": "private",
+      "_id": "5f0414d358624d001a8cd793",
+      "verb": "executed",
+      "space": "5f00a8fef92bba63353683ed",
+      "format": "v1",
+      "appInstance": "6156e70ab253020033364411",
+      "userType": "light",
+      "geolocation": {
+        "range": [2995215360, 2995215615],
+        "country": "LB",
+        "region": "BA",
+        "eu": "0",
+        "timezone": "Asia/Beirut",
+        "city": "Beirut",
+        "ll": [33.8719, 35.5097],
+        "metro": 0,
+        "area": 20
+      },
+      "createdAt": "2020-07-07T06:23:15.715Z",
+      "updatedAt": "2020-07-07T06:23:15.715Z",
+      "__v": 0
+    },
+    {
+      "user": "5f01b091e4c424001ae4ca7d",
+      "userId": "5f01b091e4c424001ae4ca7d",
+      "sessionId": null,
+      "data": {
+        "numSavedChanges": 27,
+        "programmingLanguage": "python",
+        "code": "print('hello There !')\n"
+      },
+      "visibility": "private",
+      "_id": "5f0414e4e4c424001ae4e3da",
+      "verb": "saved",
+      "space": "5f00a8fef92bba63353683ed",
+      "spaceId": "5f00a8fef92bba63353683ed",
+      "format": "v1",
+      "appInstance": "6156e70ab253020033364411",
+      "userType": "light",
+      "geolocation": {
+        "range": [2995215360, 2995215615],
+        "country": "LB",
+        "region": "BA",
+        "eu": "0",
+        "timezone": "Asia/Beirut",
+        "city": "Beirut",
+        "ll": [33.8719, 35.5097],
+        "metro": 0,
+        "area": 20
+      },
+      "createdAt": "2020-07-07T06:23:32.306Z",
+      "updatedAt": "2020-07-07T06:23:32.306Z",
+      "__v": 0
+    },
+    {
+      "user": "5f01b091e4c424001ae4ca7d",
+      "userId": "5f01b091e4c424001ae4ca7d",
+      "sessionId": null,
+      "data": {
+        "programmingLanguage": "python",
+        "numExecutedChanges": 26,
+        "code": "print('Hello World')"
+      },
+      "visibility": "private",
+      "_id": "5f041e62e4c424001ae4e49a",
+      "verb": "executed",
+      "space": "5f00a8fef92bba63353683ed",
+      "spaceId": "5f00a8fef92bba63353683ed",
+      "format": "v1",
+      "appInstance": "6156e70ab253020033364411",
+      "userType": "light",
+      "geolocation": {
+        "range": [2995215360, 2995215615],
+        "country": "LB",
+        "region": "BA",
+        "eu": "0",
+        "timezone": "Asia/Beirut",
+        "city": "Beirut",
+        "ll": [33.8719, 35.5097],
+        "metro": 0,
+        "area": 20
+      },
+      "createdAt": "2020-07-07T07:04:02.873Z",
+      "updatedAt": "2020-07-07T07:04:02.873Z",
+      "__v": 0
+    },
+    {
+      "user": "5f01b091e4c424001ae4ca7d",
+      "userId": "5f01b091e4c424001ae4ca7d",
+      "sessionId": null,
+      "data": {
+        "numSavedChanges": 26,
+        "programmingLanguage": "python",
+        "code": "print('Hello World')"
+      },
+      "visibility": "private",
+      "_id": "5f041e6358624d001a8cd86c",
+      "verb": "saved",
+      "space": "5f00a8fef92bba63353683ed",
+      "spaceId": "5f00a8fef92bba63353683ed",
+      "format": "v1",
+      "appInstance": "5f041df058624d001a8cd85e",
+      "userType": "light",
+      "geolocation": {
+        "range": [2995215360, 2995215615],
+        "country": "LB",
+        "region": "BA",
+        "eu": "0",
+        "timezone": "Asia/Beirut",
+        "city": "Beirut",
+        "ll": [33.8719, 35.5097],
+        "metro": 0,
+        "area": 20
+      },
+      "createdAt": "2020-07-07T07:04:03.914Z",
+      "updatedAt": "2020-07-07T07:04:03.914Z",
+      "__v": 0
+    },
+    {
+      "user": "5f01b091e4c424001ae4ca7d",
+      "userId": "5f01b091e4c424001ae4ca7d",
+      "sessionId": null,
+      "data": {
+        "programmingLanguage": "python",
+        "numExecutedChanges": 0,
+        "code": "print('Hello World')"
+      },
+      "visibility": "private",
+      "_id": "5f04210c172ade001ae9cef2",
+      "verb": "executed",
+      "space": "5f00a8fef92bba63353683ed",
+      "spaceId": "5f00a8fef92bba63353683ed",
+      "format": "v1",
+      "appInstance": "5f041df058624d001a8cd85e",
+      "userType": "light",
+      "geolocation": {
+        "range": [2995215360, 2995215615],
+        "country": "LB",
+        "region": "BA",
+        "eu": "0",
+        "timezone": "Asia/Beirut",
+        "city": "Beirut",
+        "ll": [33.8719, 35.5097],
+        "metro": 0,
+        "area": 20
+      },
+      "createdAt": "2020-07-07T07:15:24.800Z",
+      "updatedAt": "2020-07-07T07:15:24.800Z",
+      "__v": 0
+    },
+    {
       "_id": "5c9e6acbbf8a9500322dc110",
       "user": "5c055c1083e11e0211c24ad4",
       "userId": "5c055c1083e11e0211c24ad4",
@@ -250,8 +499,8 @@
       "userId": "5c055c1083e11e0211c24ad4",
       "sessionId": null,
       "visibility": "public",
-      "space": "5b56e70ab253099933364412",
-      "spaceId": "5b56e70ab253099933364412",
+      "space": "5f00a8fef92bba63353683ed",
+      "spaceId": "5f00a8fef92bba63353683ed",
       "verb": "navigate",
       "postedAt": "2019-07-16T11:15:04.314Z",
       "sessionSequenceNumber": 3,
@@ -267,8 +516,8 @@
         "metro": 0,
         "area": 50
       },
-      "createdAt": "2019-07-16T11:15:04.220Z",
-      "updatedAt": "2019-07-16T11:15:04.220Z",
+      "createdAt": "2020-07-05T11:15:04.220Z",
+      "updatedAt": "2020-07-05T11:15:04.220Z",
       "__v": 0
     },
     {

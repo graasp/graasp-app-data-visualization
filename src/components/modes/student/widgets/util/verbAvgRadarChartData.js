@@ -23,6 +23,7 @@ function calculateAverage(dataFormat, nbOfUsers) {
   dataFormat.forEach(e => {
     e[AVG] /= nbOfUsers;
   });
+
   return dataFormat;
 }
 
@@ -43,7 +44,7 @@ export const fillDataForRadar = (
         verbObj[USER] += 1;
         verbObj[AVG] += 1;
       }
-      if (verb && correspondingObject) {
+      if (verb && correspondingObject && userId !== id) {
         verbObj[AVG] += 1;
       }
     }
