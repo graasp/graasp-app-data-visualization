@@ -81,7 +81,7 @@ const mapStateToProps = ({
       toDate(chartDataById, ACCESS_LINE_DATE_PICKER_ID),
     ),
   ),
-  maxTicks: nbOfTicks([4, 7, 12], [750, 1200, 1920], windowSize),
+  maxTicks: nbOfTicks([4, 7, 12], [800, 1200, 1920], windowSize),
 });
 
 export default connect(mapStateToProps)(LineChart);
