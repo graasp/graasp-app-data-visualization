@@ -16,7 +16,7 @@ const Legend = ({ id }) => {
    let verbList = Occurrence(actions, VERB);
    verbList = filterVerbs(verbList, filteredVerbs); */
 
-  const verbList = ['navigate', 'change', 'create', 'open'];
+  const verbList = ['navigate', 'change', 'create', 'open', 'executed'];
   const [action, setAction] = useState([]);
   const dispatch = useDispatch();
 

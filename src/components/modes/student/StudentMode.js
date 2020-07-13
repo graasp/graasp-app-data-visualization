@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,6 +15,7 @@ class StudentMode extends Component {
     dispatchGetAppInstanceResources: PropTypes.func.isRequired,
     dispatchGetActions: PropTypes.func.isRequired,
     userId: PropTypes.string,
+    spaceId: PropTypes.string,
   };
 
   static defaultProps = {
@@ -26,6 +28,7 @@ class StudentMode extends Component {
   componentDidMount() {
     const {
       userId,
+      spaceId,
       dispatchGetAppInstanceResources,
       dispatchGetActions,
     } = this.props;
@@ -33,7 +36,7 @@ class StudentMode extends Component {
     // by default get the resources for this user
     dispatchGetAppInstanceResources({ userId });
     // by default get all actions for this user
-    dispatchGetActions();
+    dispatchGetActions({ spaceId, visibility: 'public' });
   }
 
   componentDidUpdate({ appInstanceId: prevAppInstanceId }) {
@@ -62,9 +65,10 @@ class StudentMode extends Component {
   }
 }
 const mapStateToProps = ({ context, appInstanceResources, action }) => {
-  const { userId, appInstanceId } = context;
+  const { userId, appInstanceId, spaceId } = context;
   return {
     userId,
+    spaceId,
     appInstanceId,
     action,
     activity: appInstanceResources.activity.length,

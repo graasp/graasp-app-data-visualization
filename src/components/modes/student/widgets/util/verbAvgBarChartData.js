@@ -39,7 +39,7 @@ function calculateAvg(verbs, data, nbOfUsers) {
   const verbsAvg = verbs.filter(e => e.indexOf('Avg') !== -1);
   data.forEach(e => {
     verbsAvg.forEach(verbAvg => {
-      e[verbAvg] /= nbOfUsers;
+      e[verbAvg] = (e[verbAvg] / nbOfUsers).toFixed(2);
     });
   });
   return data;
@@ -48,15 +48,15 @@ function calculateAvg(verbs, data, nbOfUsers) {
 export const fillData = (actions, dataFormat, id, verbs, nbOfUsers) => {
   const data = dataFormat;
   actions.forEach(entry => {
-    const { createdAt, verb, userId } = entry;
+    const { createdAt, verb, user } = entry;
     const correspondingObject = isActionInRange(data, createdAt);
 
     // if the action is done by this user in the date range chosen: Increment the type of verb that he had done
-    if (userId === id && verb && correspondingObject) {
+    if (user === id && verb && correspondingObject) {
       correspondingObject[verb] += 1;
       correspondingObject[`${verb}Avg`] += 1;
     }
-    if (verb && correspondingObject && userId !== id) {
+    if (verb && correspondingObject && user !== id) {
       correspondingObject[`${verb}Avg`] += 1;
     }
   });

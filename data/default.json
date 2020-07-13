@@ -178,6 +178,7 @@
       "_id": "5f0414d358624d001a8cd793",
       "verb": "executed",
       "space": "5f00a8fef92bba63353683ed",
+      "spaceId": "5f00a8fef92bba63353683ed",
       "format": "v1",
       "appInstance": "6156e70ab253020033364411",
       "userType": "light",
