@@ -65,17 +65,6 @@ export const Occurrence = (actions, property, attributes) => {
   return data;
 };
 
-export const filterVerbs = (verbList, list) => {
-  let filteredList = [];
-  verbList.forEach(verb => {
-    if (list.indexOf(verb) === -1) {
-      filteredList = [...filteredList, verb];
-    }
-  });
-
-  return filteredList;
-};
-
 export const RemovePropertyOfObject = (Obj, property) => {
   const newObj = {};
 

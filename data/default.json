@@ -142,7 +142,7 @@
       "userId": "5f01b091e4c424001ae4ca7d",
       "sessionId": null,
       "data": null,
-      "visibility": "private",
+      "visibility": "public",
       "_id": "5f0414ba58624d001a8cd792",
       "verb": "maximized",
       "space": "5f00a8fef92bba63353683ed",
@@ -174,7 +174,7 @@
         "numExecutedChanges": 27,
         "code": "print('hello There !')\n"
       },
-      "visibility": "private",
+      "visibility": "public",
       "_id": "5f0414d358624d001a8cd793",
       "verb": "executed",
       "space": "5f00a8fef92bba63353683ed",
@@ -206,7 +206,7 @@
         "programmingLanguage": "python",
         "code": "print('hello There !')\n"
       },
-      "visibility": "private",
+      "visibility": "public",
       "_id": "5f0414e4e4c424001ae4e3da",
       "verb": "saved",
       "space": "5f00a8fef92bba63353683ed",
@@ -238,7 +238,7 @@
         "numExecutedChanges": 26,
         "code": "print('Hello World')"
       },
-      "visibility": "private",
+      "visibility": "public",
       "_id": "5f041e62e4c424001ae4e49a",
       "verb": "executed",
       "space": "5f00a8fef92bba63353683ed",
@@ -270,7 +270,7 @@
         "programmingLanguage": "python",
         "code": "print('Hello World')"
       },
-      "visibility": "private",
+      "visibility": "public",
       "_id": "5f041e6358624d001a8cd86c",
       "verb": "saved",
       "space": "5f00a8fef92bba63353683ed",
@@ -302,7 +302,7 @@
         "numExecutedChanges": 0,
         "code": "print('Hello World')"
       },
-      "visibility": "private",
+      "visibility": "public",
       "_id": "5f04210c172ade001ae9cef2",
       "verb": "executed",
       "space": "5f00a8fef92bba63353683ed",

@@ -41,6 +41,7 @@ const getActions = async (
     const url = `//${apiHost + ACTIONS_ENDPOINT}?${Qs.stringify(
       params,
     )}&pageSize=1000&page=0`;
+    console.log(url);
 
     const response = await fetch(url, DEFAULT_GET_REQUEST);
 
