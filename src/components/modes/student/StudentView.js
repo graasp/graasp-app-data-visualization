@@ -39,8 +39,8 @@ function isInRightPanel(tool) {
   return tool;
 }
 
-export const StudentView = ({ classes, tool }) => {
-  if (isInRightPanel(tool)) {
+export const StudentView = ({ classes, tool, content }) => {
+  if (isInRightPanel(tool) && content.length > 0) {
     return (
       <div>
         <div className={classes.main}>
@@ -58,37 +58,46 @@ export const StudentView = ({ classes, tool }) => {
       </div>
     );
   }
-  return (
-    <div>
-      <div className={classes.main}>
-        <Grid container>
-          <Grid item sm={6} className={classes.widget}>
-            <Paper className={classes.paper}>
-              <Typography className={classes.title} gutterBottom>
-                Total Activity Actions
-              </Typography>
-              <VerbAvgWidget />
-            </Paper>
+  if (content.length > 0) {
+    return (
+      <div>
+        <div className={classes.main}>
+          <Grid container>
+            <Grid item sm={6} className={classes.widget}>
+              <Paper className={classes.paper}>
+                <Typography className={classes.title} gutterBottom>
+                  Total Activity Actions
+                </Typography>
+                <VerbAvgWidget />
+              </Paper>
+            </Grid>
+            <Grid item sm={6} className={classes.widget}>
+              <Paper className={classes.paper}>
+                <Typography className={classes.title} gutterBottom>
+                  Your Activity Levels
+                </Typography>
+                <VerbRadarWidget />
+              </Paper>
+            </Grid>
+            <Grid item sm={12} className={classes.widget}>
+              <Paper className={classes.paper}>
+                <Typography className={classes.title} gutterBottom>
+                  Detailed Activity Overview
+                </Typography>
+                <VerbAvgBarWidget />
+              </Paper>
+            </Grid>
           </Grid>
-          <Grid item sm={6} className={classes.widget}>
-            <Paper className={classes.paper}>
-              <Typography className={classes.title} gutterBottom>
-                Your Activity Levels
-              </Typography>
-              <VerbRadarWidget />
-            </Paper>
-          </Grid>
-          <Grid item sm={12} className={classes.widget}>
-            <Paper className={classes.paper}>
-              <Typography className={classes.title} gutterBottom>
-                Detailed Activity Overview
-              </Typography>
-              <VerbAvgBarWidget />
-            </Paper>
-          </Grid>
-        </Grid>
+        </div>
       </div>
-    </div>
+    );
+  }
+  return (
+    <Paper className={classes.paper}>
+      <Typography className={classes.title} gutterBottom>
+        Data is not available at the moment
+      </Typography>
+    </Paper>
   );
 };
 
@@ -100,10 +109,14 @@ StudentView.propTypes = {
     title: PropTypes.string,
   }).isRequired,
   tool: PropTypes.bool.isRequired,
+  content: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-const mapStateToProps = ({ context }) => {
-  return context;
+const mapStateToProps = ({ context: { tool }, action: { content } }) => {
+  return {
+    tool,
+    content,
+  };
 };
 
 const StyledComponent = withStyles(styles)(StudentView);
