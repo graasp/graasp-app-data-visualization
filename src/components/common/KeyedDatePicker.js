@@ -18,8 +18,6 @@ import 'react-day-picker/lib/style.css';
 const flag = [];
 
 const KeyedDatePicker = ({ id, initialValue }) => {
-  // const windowSize = useSelector(state => state.windowSize.windowSize);
-
   const [from, setFrom] = useState(initialValue.from);
   const [fromPrev, setFromPrev] = useState(initialValue.from);
   const [to, setTo] = useState(initialValue.to);
@@ -68,6 +66,7 @@ const KeyedDatePicker = ({ id, initialValue }) => {
     setTo(today);
     setEnteredTo(today);
     dispatch(updateDateById(lastMonth, today, id));
+    handleClose();
   };
 
   const setLastWeek = () => {
@@ -79,6 +78,7 @@ const KeyedDatePicker = ({ id, initialValue }) => {
     setTo(today);
     setEnteredTo(today);
     dispatch(updateDateById(lastWeek, today, id));
+    handleClose();
   };
 
   const setToday = () => {
@@ -90,6 +90,7 @@ const KeyedDatePicker = ({ id, initialValue }) => {
     setModifiers({ start: today, end: today });
     setSelectedDays([today, { from: today, to: today }]);
     dispatch(updateDateById(today, today, id));
+    handleClose();
   };
 
   const handleResetClick = () => {
@@ -116,6 +117,7 @@ const KeyedDatePicker = ({ id, initialValue }) => {
       setTo(day);
       setEnteredTo(day);
       dispatch(updateDateById(from, day, id));
+      handleClose();
     }
   };
 
@@ -149,6 +151,7 @@ const KeyedDatePicker = ({ id, initialValue }) => {
       setTo(toD);
       setEnteredTo(toD);
       dispatch(updateDateById(fromD, toD, id));
+      handleClose();
     }
   };
 
@@ -157,6 +160,7 @@ const KeyedDatePicker = ({ id, initialValue }) => {
     setTo(to.getDate() + 7);
     setEnteredTo(to.getDate());
     dispatch(updateDateById(from, to, id));
+    handleClose();
   };
 
   const toDate = () => {

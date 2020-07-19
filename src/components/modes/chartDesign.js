@@ -15,21 +15,21 @@ export const xTickValues = (values, tickCount) => {
   return values;
 };
 
-const tickValueY = data => {
-  const Max = [];
-
-  data.forEach(entry => {
-    Max.push(
-      Math.max(
-        ...entry.data.map(o => {
-          return o.y;
-        }),
-      ),
-    );
-  });
-
-  return Array.from(Array(Math.max(...Max) + 1).keys());
-};
+// const tickValueY = data => {
+//   const Max = [];
+//
+//   data.forEach(entry => {
+//     Max.push(
+//       Math.max(
+//         ...entry.data.map(o => {
+//           return o.y;
+//         }),
+//       ),
+//     );
+//   });
+//
+//   return Array.from(Array(Math.max(...Max) + 1).keys());
+// };
 
 export const HEIGHT = 400;
 export const WIDTH = '100%';
@@ -54,7 +54,7 @@ export const Y_AXIS = (legend, data) => {
       legend: `${legend}`,
       legendOffset: -40,
       legendPosition: 'middle',
-      tickValues: tickValueY(data),
+      // tickValues: tickValueY(data),
     };
   }
   return {
