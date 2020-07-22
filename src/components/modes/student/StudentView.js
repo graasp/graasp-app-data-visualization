@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
@@ -7,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import VerbAvgWidget from './widgets/VerbAvgLineWidget';
+import StudentSpeedOMeterWidget from './widgets/StudentSpeedOMeterWidget';
 import VerbRadarWidget from './widgets/VerbRadarWidget';
 import VerbAvgBarWidget from './widgets/VerbAvgBarWidget';
 import VerbAvgRightPanelWidget from './widgets/VerbAvgRightPanelWidget';
@@ -17,6 +19,17 @@ const styles = theme => ({
     margin: theme.spacing(),
   },
   widget: {},
+  paperRightSide: {
+    width: 210,
+    margin: theme.spacing(),
+    padding: theme.spacing(3),
+    textAlign: 'center',
+    border: 1,
+    borderColor: '#5050d2',
+    borderStyle: 'solid',
+    borderRadius: 20,
+    backgroundColor: 'rgba(253,242,255,0.56)',
+  },
   paper: {
     width: 'auto',
     margin: theme.spacing(),
@@ -46,11 +59,16 @@ export const StudentView = ({ classes, tool }) => {
         <div className={classes.main}>
           <Grid container>
             <Grid item sm={2} className={classes.widget}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paperRightSide}>
                 <Typography className={classes.title} gutterBottom>
-                  Activity Levels
+                  Your Participation
                 </Typography>
                 <VerbAvgRightPanelWidget />
+              </Paper>
+            </Grid>
+            <Grid item sm={2} className={classes.widget}>
+              <Paper className={classes.paperRightSide}>
+                <StudentSpeedOMeterWidget />
               </Paper>
             </Grid>
           </Grid>
@@ -97,6 +115,8 @@ StudentView.propTypes = {
     main: PropTypes.string,
     widget: PropTypes.string,
     paper: PropTypes.string,
+    paperRightSide: PropTypes.string,
+    meter: PropTypes.string,
     title: PropTypes.string,
   }).isRequired,
   tool: PropTypes.bool.isRequired,
