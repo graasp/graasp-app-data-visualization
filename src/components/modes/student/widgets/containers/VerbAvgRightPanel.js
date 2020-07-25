@@ -1,26 +1,28 @@
 import { connect } from 'react-redux';
 import RightPanelBox from '../components/RightPanelBox';
 import {
-  formatDataForRadar,
   fillDataForRightPanelBox,
+  formatDataForRadar,
   Occurrence,
 } from '../util';
-import { AVG, USER, USER_ID, VERB } from '../types';
+import { ALLOWED_VERBS, AVG, USER, USER_ID, VERB } from '../types';
 
-const allowedVerbs = ['create', 'change', 'open', 'navigate', 'executed'];
 const chartProperties = [USER, AVG];
 
 const filterData = (actions, userId) => {
   const userList = Occurrence(actions, USER_ID);
-  const formattedData = formatDataForRadar(allowedVerbs, VERB, chartProperties);
-  const data = fillDataForRightPanelBox(
+  const formattedData = formatDataForRadar(
+    ALLOWED_VERBS,
+    VERB,
+    chartProperties,
+  );
+  return fillDataForRightPanelBox(
     actions,
     formattedData,
     userId,
-    allowedVerbs,
+    ALLOWED_VERBS,
     userList.length,
   );
-  return data;
 };
 
 const mapStateToProps = ({ action: { content }, context: { userId } }) => ({

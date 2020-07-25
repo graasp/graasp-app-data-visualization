@@ -42,6 +42,52 @@ export const buildDateRange = (from, to) => {
   return dates;
 };
 
+export const Frequency = (actions, property, condition) => {
+  const data = {};
+
+  if (actions && property && condition) {
+    actions.forEach(action => {
+      let entry = action[property];
+      const cond = action[condition];
+
+      if (property === 'createdAt' || property === 'date') {
+        entry = entry.slice(0, 10);
+      }
+
+      if (entry)
+        if (data[entry]) {
+          if (!data[entry].includes(cond)) {
+            const arr = data[entry];
+            arr.push(cond);
+            data[entry] = arr;
+          }
+        } else {
+          data[entry] = [cond];
+        }
+    });
+
+    return data;
+  }
+  if (actions && property) {
+    actions.forEach(action => {
+      let entry = action[property];
+
+      if (property === 'createdAt' || property === 'date') {
+        entry = entry.slice(0, 10);
+      }
+
+      if (entry)
+        if (data[entry]) {
+          data[entry] += 1;
+        } else {
+          data[entry] = 1;
+        }
+    });
+  }
+
+  return data;
+};
+
 export const Occurrence = (actions, property, attributes) => {
   const data = [];
   let condition = [];

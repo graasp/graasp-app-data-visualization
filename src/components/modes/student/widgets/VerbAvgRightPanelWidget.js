@@ -3,7 +3,11 @@ import VerbAvgRightPanel from './containers/VerbAvgRightPanel';
 
 const VerbAvgRightPanelWidget = () => {
   return (
-    <div>
+    <div
+      style={{
+        width: '100%',
+      }}
+    >
       <VerbAvgRightPanel />
     </div>
   );
