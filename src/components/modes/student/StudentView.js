@@ -51,23 +51,57 @@ function isInRightPanel(tool) {
   return tool;
 }
 
-export const StudentView = ({ classes, tool }) => {
-  if (isInRightPanel(tool)) {
+export const StudentView = ({ classes, tool, content }) => {
+  if (content.length > 0) {
+    if (isInRightPanel(tool)) {
+      return (
+        <div>
+          <div className={classes.main}>
+            <Grid container>
+              <Grid item sm={2} className={classes.widget}>
+                <Paper className={classes.paperRightSide}>
+                  <Typography className={classes.title} gutterBottom>
+                    Your Participation
+                  </Typography>
+                  <VerbAvgRightPanelWidget />
+                </Paper>
+              </Grid>
+              <Grid item sm={2} className={classes.widget}>
+                <Paper className={classes.paperRightSide}>
+                  <StudentSpeedOMeterWidget />
+                </Paper>
+              </Grid>
+            </Grid>
+          </div>
+        </div>
+      );
+    }
     return (
       <div>
         <div className={classes.main}>
           <Grid container>
-            <Grid item sm={2} className={classes.widget}>
-              <Paper className={classes.paperRightSide}>
+            <Grid item sm={6} className={classes.widget}>
+              <Paper className={classes.paper}>
                 <Typography className={classes.title} gutterBottom>
-                  Your Participation
+                  Total Activity Actions
                 </Typography>
-                <VerbAvgRightPanelWidget />
+                <VerbAvgWidget />
               </Paper>
             </Grid>
-            <Grid item sm={2} className={classes.widget}>
-              <Paper className={classes.paperRightSide}>
-                <StudentSpeedOMeterWidget />
+            <Grid item sm={6} className={classes.widget}>
+              <Paper className={classes.paper}>
+                <Typography className={classes.title} gutterBottom>
+                  Your Activity Levels
+                </Typography>
+                <VerbRadarWidget />
+              </Paper>
+            </Grid>
+            <Grid item sm={12} className={classes.widget}>
+              <Paper className={classes.paper}>
+                <Typography className={classes.title} gutterBottom>
+                  Detailed Activity Overview
+                </Typography>
+                <VerbAvgBarWidget />
               </Paper>
             </Grid>
           </Grid>
@@ -76,36 +110,11 @@ export const StudentView = ({ classes, tool }) => {
     );
   }
   return (
-    <div>
-      <div className={classes.main}>
-        <Grid container>
-          <Grid item sm={6} className={classes.widget}>
-            <Paper className={classes.paper}>
-              <Typography className={classes.title} gutterBottom>
-                Total Activity Actions
-              </Typography>
-              <VerbAvgWidget />
-            </Paper>
-          </Grid>
-          <Grid item sm={6} className={classes.widget}>
-            <Paper className={classes.paper}>
-              <Typography className={classes.title} gutterBottom>
-                Your Activity Levels
-              </Typography>
-              <VerbRadarWidget />
-            </Paper>
-          </Grid>
-          <Grid item sm={12} className={classes.widget}>
-            <Paper className={classes.paper}>
-              <Typography className={classes.title} gutterBottom>
-                Detailed Activity Overview
-              </Typography>
-              <VerbAvgBarWidget />
-            </Paper>
-          </Grid>
-        </Grid>
-      </div>
-    </div>
+    <Paper className={classes.paper}>
+      <Typography className={classes.title} gutterBottom>
+        Data is not available at the moment
+      </Typography>
+    </Paper>
   );
 };
 
@@ -119,10 +128,14 @@ StudentView.propTypes = {
     title: PropTypes.string,
   }).isRequired,
   tool: PropTypes.bool.isRequired,
+  content: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-const mapStateToProps = ({ context }) => {
-  return context;
+const mapStateToProps = ({ context: { tool }, action: { content } }) => {
+  return {
+    tool,
+    content,
+  };
 };
 
 const StyledComponent = withStyles(styles)(StudentView);
