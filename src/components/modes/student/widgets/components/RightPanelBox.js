@@ -28,7 +28,7 @@ const RightPanelBox = ({ data }) => {
           <TableRow>
             <TableCell>Actions</TableCell>
             <TableCell>You</TableCell>
-            <TableCell>Avg</TableCell>
+            <TableCell>Average</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>{renderVerbList()}</TableBody>

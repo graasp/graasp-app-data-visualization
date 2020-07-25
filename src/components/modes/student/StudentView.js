@@ -15,7 +15,6 @@ import VerbAvgRightPanelWidget from './widgets/VerbAvgRightPanelWidget';
 
 const styles = theme => ({
   main: {
-    textAlign: 'center',
     margin: theme.spacing(),
   },
   widget: {},
@@ -23,7 +22,6 @@ const styles = theme => ({
     width: 210,
     margin: theme.spacing(),
     padding: theme.spacing(3),
-    textAlign: 'center',
     border: 1,
     borderColor: '#5050d2',
     borderStyle: 'solid',
@@ -34,14 +32,15 @@ const styles = theme => ({
     width: 'auto',
     margin: theme.spacing(),
     padding: theme.spacing(3),
-    textAlign: 'center',
     border: 1,
+    textAlign: 'center',
     borderColor: '#5050d2',
     borderStyle: 'solid',
     borderRadius: 20,
     backgroundColor: 'rgba(253,242,255,0.56)',
   },
   title: {
+    textAlign: 'center',
     ...theme.typography.h4,
     marginTop: 10,
     color: '#5050d2',
