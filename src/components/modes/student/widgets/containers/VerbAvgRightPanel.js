@@ -2,19 +2,19 @@ import { connect } from 'react-redux';
 import RightPanelBox from '../components/RightPanelBox';
 import {
   fillDataForRightPanelBox,
-  formatDataForRadar,
+  formatDataForRadarOrRightPanel,
   Occurrence,
 } from '../util';
 import { ALLOWED_VERBS, AVG, USER, USER_ID, VERB } from '../types';
 
-const chartProperties = [USER, AVG];
+const tableProperties = [USER, AVG];
 
 const filterData = (actions, userId) => {
   const userList = Occurrence(actions, USER_ID);
-  const formattedData = formatDataForRadar(
+  const formattedData = formatDataForRadarOrRightPanel(
     ALLOWED_VERBS,
     VERB,
-    chartProperties,
+    tableProperties,
   );
   return fillDataForRightPanelBox(
     actions,

@@ -42,52 +42,6 @@ export const buildDateRange = (from, to) => {
   return dates;
 };
 
-export const Frequency = (actions, property, condition) => {
-  const data = {};
-
-  if (actions && property && condition) {
-    actions.forEach(action => {
-      let entry = action[property];
-      const cond = action[condition];
-
-      if (property === 'createdAt' || property === 'date') {
-        entry = entry.slice(0, 10);
-      }
-
-      if (entry)
-        if (data[entry]) {
-          if (!data[entry].includes(cond)) {
-            const arr = data[entry];
-            arr.push(cond);
-            data[entry] = arr;
-          }
-        } else {
-          data[entry] = [cond];
-        }
-    });
-
-    return data;
-  }
-  if (actions && property) {
-    actions.forEach(action => {
-      let entry = action[property];
-
-      if (property === 'createdAt' || property === 'date') {
-        entry = entry.slice(0, 10);
-      }
-
-      if (entry)
-        if (data[entry]) {
-          data[entry] += 1;
-        } else {
-          data[entry] = 1;
-        }
-    });
-  }
-
-  return data;
-};
-
 export const Occurrence = (actions, property, attributes) => {
   const data = [];
   let condition = [];
@@ -111,17 +65,6 @@ export const Occurrence = (actions, property, attributes) => {
   return data;
 };
 
-export const filterVerbs = (verbList, list) => {
-  let filteredList = [];
-  verbList.forEach(verb => {
-    if (list.indexOf(verb) === -1) {
-      filteredList = [...filteredList, verb];
-    }
-  });
-
-  return filteredList;
-};
-
 export const RemovePropertyOfObject = (Obj, property) => {
   const newObj = {};
 
@@ -132,45 +75,6 @@ export const RemovePropertyOfObject = (Obj, property) => {
   });
 
   return newObj;
-};
-
-export const RemovePropertyOfObjectFromArray = (arr, property) => {
-  const newArr = [];
-
-  arr.forEach(e => {
-    const Obj = RemovePropertyOfObject(e, property);
-    newArr.push(Obj);
-  });
-
-  return newArr;
-};
-
-export const RemoveAttributeOfObject = (Obj, property) => {
-  const newObj = {};
-
-  Object.keys(Obj).forEach(key => {
-    if (key !== property) {
-      newObj[key] = Obj[key];
-    }
-  });
-
-  return newObj;
-};
-
-export const RemoveObjectWithAttributeFromArray = (
-  arr,
-  property,
-  attribute,
-) => {
-  const newArr = [];
-
-  arr.forEach(e => {
-    if (!attribute.includes(e[property])) {
-      newArr.push(e);
-    }
-  });
-
-  return newArr;
 };
 
 export const changeDateFormat = date => {
@@ -224,6 +128,5 @@ export const nbOfTicks = (
       tick = arrayOfTickValues[i];
     }
   }
-
   return tick;
 };

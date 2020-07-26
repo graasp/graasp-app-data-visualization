@@ -4,7 +4,7 @@ import { AVG, USER, USER_ID, VERB, VERB_RADAR_DATE_PICKER_ID } from '../types';
 import {
   buildDateRange,
   fillDataForRadar,
-  formatDataForRadar,
+  formatDataForRadarOrRightPanel,
   fromDate,
   Occurrence,
   toDate,
@@ -18,7 +18,11 @@ colors[USER] = '#decaff';
 colors[AVG] = '#BBAAFF';
 const RadarData = (actions, userId, from, to) => {
   const dateRange = buildDateRange(from, to);
-  const formattedData = formatDataForRadar(allowedVerbs, VERB, chartProperties);
+  const formattedData = formatDataForRadarOrRightPanel(
+    allowedVerbs,
+    VERB,
+    chartProperties,
+  );
   const userList = Occurrence(actions, USER_ID);
   return fillDataForRadar(
     actions,

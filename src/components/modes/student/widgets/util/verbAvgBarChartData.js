@@ -89,39 +89,3 @@ export const displayTheSelectedData = (data, dataSelected) => {
   });
   return updatedDataArray;
 };
-
-const createAggregateDataObject = (userKeyName, avgKeyName, dataObject) => {
-  const updatedDataObject = {};
-  updatedDataObject[userKeyName] = 0;
-  updatedDataObject[avgKeyName] = 0;
-  updatedDataObject.date = dataObject.date;
-  return updatedDataObject;
-};
-
-function addTotalAction(actionsInaDay, userKeyName, avgKeyName) {
-  const aggregateDataObject = createAggregateDataObject(
-    userKeyName,
-    avgKeyName,
-    actionsInaDay,
-  );
-  Object.keys(actionsInaDay).forEach(key => {
-    if (key !== 'date') {
-      if (key.indexOf('Avg') === -1) {
-        aggregateDataObject[userKeyName] += actionsInaDay[key];
-      } else {
-        aggregateDataObject[avgKeyName] += actionsInaDay[key];
-      }
-    }
-  });
-  return aggregateDataObject;
-}
-
-export const aggregateData = (actionsInDataRange, userKeyName, avgKeyName) => {
-  const updatedDataArray = [];
-  actionsInDataRange.forEach(actionsInaDay => {
-    updatedDataArray.push(
-      addTotalAction(actionsInaDay, userKeyName, avgKeyName),
-    );
-  });
-  return updatedDataArray;
-};

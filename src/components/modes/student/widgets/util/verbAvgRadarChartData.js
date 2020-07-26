@@ -1,6 +1,10 @@
 import { AVG, USER } from '../types';
 
-export const formatDataForRadar = (key, attribute, properties = []) => {
+export const formatDataForRadarOrRightPanel = (
+  key,
+  attribute,
+  properties = [],
+) => {
   const data = [];
   key.forEach(entry => {
     const entryObj = {};
