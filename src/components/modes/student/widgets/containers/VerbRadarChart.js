@@ -12,7 +12,7 @@ import {
 
 const chartProperties = [USER, AVG];
 
-const allowedVerbs = ['create', 'change', 'open', 'navigate', 'executed'];
+const allowedVerbs = ['create', 'change', 'open', 'navigate'];
 const colors = {};
 colors[USER] = '#decaff';
 colors[AVG] = '#BBAAFF';
