@@ -1,6 +1,10 @@
-import { AVG, USER } from '../types/attributes';
+import { AVG, USER } from '../types';
 
-export const formatDataForRadar = (key, attribute, properties = []) => {
+export const formatDataForRadarOrRightPanel = (
+  key,
+  attribute,
+  properties = [],
+) => {
   const data = [];
   key.forEach(entry => {
     const entryObj = {};
@@ -21,9 +25,8 @@ const isActionInRange = (dateRange, createdAt) => {
 
 function calculateAverage(dataFormat, nbOfUsers) {
   dataFormat.forEach(e => {
-    e[AVG] /= nbOfUsers;
+    e[AVG] = (e[AVG] / nbOfUsers).toFixed(2);
   });
-
   return dataFormat;
 }
 
@@ -36,15 +39,15 @@ export const fillDataForRadar = (
   nbOfUsers,
 ) => {
   actions.forEach(entry => {
-    const { createdAt, verb, userId } = entry;
+    const { createdAt, verb, user } = entry;
     if (verbList.includes(verb)) {
       const correspondingObject = isActionInRange(dateRange, createdAt);
       const verbObj = dataFormat.find(obj => obj.verb === verb);
-      if (userId === id && verb && correspondingObject) {
+      if (user === id && verb && correspondingObject) {
         verbObj[USER] += 1;
         verbObj[AVG] += 1;
       }
-      if (verb && correspondingObject && userId !== id) {
+      if (verb && correspondingObject && user !== id) {
         verbObj[AVG] += 1;
       }
     }

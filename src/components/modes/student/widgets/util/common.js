@@ -65,17 +65,6 @@ export const Occurrence = (actions, property, attributes) => {
   return data;
 };
 
-export const filterVerbs = (verbList, list) => {
-  let filteredList = [];
-  verbList.forEach(verb => {
-    if (list.indexOf(verb) === -1) {
-      filteredList = [...filteredList, verb];
-    }
-  });
-
-  return filteredList;
-};
-
 export const RemovePropertyOfObject = (Obj, property) => {
   const newObj = {};
 
@@ -86,45 +75,6 @@ export const RemovePropertyOfObject = (Obj, property) => {
   });
 
   return newObj;
-};
-
-export const RemovePropertyOfObjectFromArray = (arr, property) => {
-  const newArr = [];
-
-  arr.forEach(e => {
-    const Obj = RemovePropertyOfObject(e, property);
-    newArr.push(Obj);
-  });
-
-  return newArr;
-};
-
-export const RemoveAttributeOfObject = (Obj, property) => {
-  const newObj = {};
-
-  Object.keys(Obj).forEach(key => {
-    if (key !== property) {
-      newObj[key] = Obj[key];
-    }
-  });
-
-  return newObj;
-};
-
-export const RemoveObjectWithAttributeFromArray = (
-  arr,
-  property,
-  attribute,
-) => {
-  const newArr = [];
-
-  arr.forEach(e => {
-    if (!attribute.includes(e[property])) {
-      newArr.push(e);
-    }
-  });
-
-  return newArr;
 };
 
 export const changeDateFormat = date => {
@@ -178,6 +128,5 @@ export const nbOfTicks = (
       tick = arrayOfTickValues[i];
     }
   }
-
   return tick;
 };

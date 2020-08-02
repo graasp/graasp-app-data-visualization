@@ -39,7 +39,7 @@ function calculateAvg(verbs, data, nbOfUsers) {
   const verbsAvg = verbs.filter(e => e.indexOf('Avg') !== -1);
   data.forEach(e => {
     verbsAvg.forEach(verbAvg => {
-      e[verbAvg] /= nbOfUsers;
+      e[verbAvg] = (e[verbAvg] / nbOfUsers).toFixed(2);
     });
   });
   return data;
@@ -48,15 +48,15 @@ function calculateAvg(verbs, data, nbOfUsers) {
 export const fillData = (actions, dataFormat, id, verbs, nbOfUsers) => {
   const data = dataFormat;
   actions.forEach(entry => {
-    const { createdAt, verb, userId } = entry;
+    const { createdAt, verb, user } = entry;
     const correspondingObject = isActionInRange(data, createdAt);
 
     // if the action is done by this user in the date range chosen: Increment the type of verb that he had done
-    if (userId === id && verb && correspondingObject) {
+    if (user === id && verb && correspondingObject) {
       correspondingObject[verb] += 1;
       correspondingObject[`${verb}Avg`] += 1;
     }
-    if (verb && correspondingObject && userId !== id) {
+    if (verb && correspondingObject && user !== id) {
       correspondingObject[`${verb}Avg`] += 1;
     }
   });
@@ -86,42 +86,6 @@ export const displayTheSelectedData = (data, dataSelected) => {
   data.forEach(entry => {
     const Obj = AddSelectedAction(entry, dataSelected);
     updatedDataArray.push(Obj);
-  });
-  return updatedDataArray;
-};
-
-const createAggregateDataObject = (userKeyName, avgKeyName, dataObject) => {
-  const updatedDataObject = {};
-  updatedDataObject[userKeyName] = 0;
-  updatedDataObject[avgKeyName] = 0;
-  updatedDataObject.date = dataObject.date;
-  return updatedDataObject;
-};
-
-function addTotalAction(actionsInaDay, userKeyName, avgKeyName) {
-  const aggregateDataObject = createAggregateDataObject(
-    userKeyName,
-    avgKeyName,
-    actionsInaDay,
-  );
-  Object.keys(actionsInaDay).forEach(key => {
-    if (key !== 'date') {
-      if (key.indexOf('Avg') === -1) {
-        aggregateDataObject[userKeyName] += actionsInaDay[key];
-      } else {
-        aggregateDataObject[avgKeyName] += actionsInaDay[key];
-      }
-    }
-  });
-  return aggregateDataObject;
-}
-
-export const aggregateData = (actionsInDataRange, userKeyName, avgKeyName) => {
-  const updatedDataArray = [];
-  actionsInDataRange.forEach(actionsInaDay => {
-    updatedDataArray.push(
-      addTotalAction(actionsInaDay, userKeyName, avgKeyName),
-    );
   });
   return updatedDataArray;
 };

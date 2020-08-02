@@ -4,9 +4,8 @@ function calculateAvg(data, nbOfUsers) {
   const correspondingObject = data.find(obj => obj.id === AVG);
 
   correspondingObject.data.forEach(e => {
-    e.y /= nbOfUsers;
+    e.y = (e.y / nbOfUsers).toFixed(2);
   });
-
   return data;
 }
 
@@ -19,11 +18,11 @@ export const fillDataForLineChart = (
 ) => {
   const d = dataFormat;
   actions.forEach(entry => {
-    const { createdAt, verb, userId } = entry;
+    const { createdAt, verb, user } = entry;
 
     if (verb) {
       if (selectedActions.includes(verb)) {
-        if (id === userId) {
+        if (id === user) {
           const correspondingObject = d.find(obj => obj.id === TOTAL);
 
           const { data } = correspondingObject;
