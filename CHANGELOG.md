@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/graasp/graasp-app-data-visualization/compare/v0.1.0...v0.2.0) (2020-08-02)
+
+### ⚠ BREAKING CHANGES
+
+- **keyeddatepicker:** change ComponentsId to componentsId
+
+### Features
+
+- add message when no data is received ([61307bd](https://github.com/graasp/graasp-app-data-visualization/commit/61307bdf9cfd4e3f3aba098c71b42a9b13696a48))
+- add meter to right panel ([7e06748](https://github.com/graasp/graasp-app-data-visualization/commit/7e06748b0b7710ed97427f6df3670507e537dc39))
+- added verb activity table to the right panel ([f76bedb](https://github.com/graasp/graasp-app-data-visualization/commit/f76bedb20f9cfc043b445fa84f823a00d1812afb))
+- fetching all actions for students in prod ([291926c](https://github.com/graasp/graasp-app-data-visualization/commit/291926c55771dbad73141e3b7e388057ccf15c31))
+- setting up the deploy files ([cd8e3b8](https://github.com/graasp/graasp-app-data-visualization/commit/cd8e3b89fa523540a3b691be8623d6c3036f8745))
+- use tool mode for vertical orientation ([87f12e3](https://github.com/graasp/graasp-app-data-visualization/commit/87f12e37b85b180dde9cd56ce2f075b7e2df0e94))
+
+### Bug Fixes
+
+- **keyeddatepicker:** datepicker closes after setting date ([c22a7a0](https://github.com/graasp/graasp-app-data-visualization/commit/c22a7a09446a604bf9dee3665be000c2b3b01d15))
+- componentsId typo ([258409a](https://github.com/graasp/graasp-app-data-visualization/commit/258409ac422301803b7c8a7ca4c3938dcb5e673c))
+- fixed header ([a434f8c](https://github.com/graasp/graasp-app-data-visualization/commit/a434f8c502afa00e2634f2ff08ec3ef2cd5db1af))
+- fixed the average calculation and date picker initial value ([77f3176](https://github.com/graasp/graasp-app-data-visualization/commit/77f3176ed9b0f255eca4f356c01196cec4835d60))
+- fixing legend and average ([97228e4](https://github.com/graasp/graasp-app-data-visualization/commit/97228e4d0d10864ee1b61706c89e0f475f7b9257))
+- number of visits chart in production ([cdcfd0d](https://github.com/graasp/graasp-app-data-visualization/commit/cdcfd0d509726e166c3616b08c677dbf404b6d67))
+- refactored/removed some helper methods ([dcdd7b9](https://github.com/graasp/graasp-app-data-visualization/commit/dcdd7b96e92f50cc6924a1da01b122136ca30683))
+- remove unwanted verbs ([da048f0](https://github.com/graasp/graasp-app-data-visualization/commit/da048f06215daab7cf10f0f955dbff56715ed415))
+- text alignment and table header ([7fed8c9](https://github.com/graasp/graasp-app-data-visualization/commit/7fed8c9bc4e444ac47df70a399f14aed4a01e47d))
+
 ## 0.1.0 (2020-07-03)
 
 ### Features
