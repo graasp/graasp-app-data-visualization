@@ -7,10 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import UndoIcon from '@material-ui/icons/Undo';
-import RedoIcon from '@material-ui/icons/Redo';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import moment from 'moment';
 import updateDateById from '../../actions/chartDataByID';
 import 'react-day-picker/lib/style.css';
@@ -137,32 +134,6 @@ const KeyedDatePicker = ({ id, initialValue }) => {
     }
   };
 
-  const prevWeek = () => {
-    if (from.getDate() === to.getDate()) {
-      const fromD = new Date(from);
-      fromD.setDate(fromD.getDate() - 7);
-      setFrom(fromD);
-      dispatch(updateDateById(fromD, to, id));
-    } else {
-      const fromD = new Date(from);
-      fromD.setDate(fromD.getDate() - 7);
-      const toD = new Date(fromD.getDate() + 7);
-      setFrom(fromD);
-      setTo(toD);
-      setEnteredTo(toD);
-      dispatch(updateDateById(fromD, toD, id));
-      handleClose();
-    }
-  };
-
-  const nextWeek = () => {
-    setFrom(from.getDate() + 7);
-    setTo(to.getDate() + 7);
-    setEnteredTo(to.getDate());
-    dispatch(updateDateById(from, to, id));
-    handleClose();
-  };
-
   const toDate = () => {
     if (to !== null) {
       return moment(new Date(to)).format('DD/MM/YY');
@@ -244,15 +215,7 @@ const KeyedDatePicker = ({ id, initialValue }) => {
                   p={1}
                   mt={2}
                   justifyContent="center"
-                >
-                  <IconButton aria-label="weekBefore" onClick={prevWeek}>
-                    <UndoIcon />
-                  </IconButton>
-                  Weeks
-                  <IconButton aria-label="weekAfter" onClick={nextWeek}>
-                    <RedoIcon />
-                  </IconButton>
-                </Box>
+                />
               </Box>
             </Box>
             <Box p={1} flexGrow={1}>
