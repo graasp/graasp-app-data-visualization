@@ -22,17 +22,9 @@ export const createObjectForLine = (id, arr) => {
 
   data.data = [];
   arr.forEach(e => {
-    const Obj = {};
-
     const x = Object.keys(e)[0];
-
-    Obj.x = x;
-
-    Obj.y = e[x];
-
-    dataArr.push(Obj);
+    dataArr.push({ x, y: e[x] });
   });
-
   data.data = dataArr;
 
   return data;

@@ -30,16 +30,14 @@ export const formatDataForBarChart = (key, value, attribute) => {
 };
 
 function isActionInRange(data, createdAt) {
-  return data.find(
-    obj => obj.date === new Date(createdAt).toLocaleDateString(),
-  );
+  return data.find(obj => obj.date.isSame(createdAt, 'day'));
 }
 
 function calculateAvg(verbs, data, nbOfUsers) {
   const verbsAvg = verbs.filter(e => e.indexOf('Avg') !== -1);
   data.forEach(e => {
     verbsAvg.forEach(verbAvg => {
-      e[verbAvg] = (e[verbAvg] / nbOfUsers).toFixed(2);
+      e[verbAvg] = +(e[verbAvg] / nbOfUsers).toFixed(2);
     });
   });
   return data;

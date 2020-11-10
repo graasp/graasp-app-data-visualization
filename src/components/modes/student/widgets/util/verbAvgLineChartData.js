@@ -27,8 +27,8 @@ export const fillDataForLineChart = (
 
           const { data } = correspondingObject;
 
-          const correspondingDate = data.find(
-            obj => obj.x === new Date(createdAt).toLocaleDateString(),
+          const correspondingDate = data.find(obj =>
+            obj.x.isSame(createdAt, 'day'),
           );
 
           if (correspondingDate) {
@@ -39,8 +39,8 @@ export const fillDataForLineChart = (
 
         const { data } = correspondingObject;
 
-        const correspondingDate = data.find(
-          obj => obj.x === new Date(createdAt).toLocaleDateString(),
+        const correspondingDate = data.find(obj =>
+          obj.x.isSame(createdAt, 'day'),
         );
 
         if (correspondingDate) {
@@ -62,7 +62,6 @@ export const formatDataForLineChart = (dateRange, arr) => {
     Obj.id = id;
 
     const d = [];
-
     dateRange.forEach(date => {
       const e = {};
       e.x = date;

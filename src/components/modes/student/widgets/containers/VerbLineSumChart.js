@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 
 import LineChart from '../components/LineChart';
 import {
-  buildDateRange,
   changeDateFormatForArray,
   changeDateFormatForLineChart,
   fillDataForLineChart,
@@ -20,6 +19,7 @@ import {
   VERB_LINE_AVG_LEGEND_ID,
   VERB_LINE_DATE_PICKER_ID,
 } from '../types';
+import { fillTheDates } from '../../../teacher/widgets/util';
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
@@ -30,7 +30,7 @@ colors[AVG] = '#756DF4';
 const LineData = (actions, userId, from, to, selected) => {
   let data = [];
   if (actions.length > 0) {
-    const dateRange = buildDateRange(from, to);
+    const dateRange = fillTheDates(from, to);
     const userList = Occurrence(actions, USER_ID);
     const dataFormat = formatDataForLineChart(dateRange, [AVG, TOTAL]);
     data = fillDataForLineChart(
@@ -40,7 +40,6 @@ const LineData = (actions, userId, from, to, selected) => {
       userList.length,
       selected,
     );
-
     data = changeDateFormatForLineChart(data);
   }
 
@@ -65,11 +64,11 @@ const mapStateToProps = ({
   yAxis,
   id: VERB_LINE_AVG_LEGEND_ID,
   values: changeDateFormatForArray(
-    buildDateRange(
+    fillTheDates(
       fromDate(chartDataById, VERB_LINE_DATE_PICKER_ID),
       toDate(chartDataById, VERB_LINE_DATE_PICKER_ID),
     ),
   ),
-  maxTicks: nbOfTicks([4, 7, 12], [750, 1200, 1920], windowSize),
+  maxTicks: nbOfTicks([2, 3, 8], [750, 1200, 1920], windowSize),
 });
 export default connect(mapStateToProps)(LineChart);

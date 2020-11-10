@@ -18,9 +18,7 @@ export const formatDataForRadarOrRightPanel = (
 };
 
 const isActionInRange = (dateRange, createdAt) => {
-  return dateRange.find(
-    date => date === new Date(createdAt).toLocaleDateString(),
-  );
+  return dateRange.find(date => date.isSame(createdAt, 'day'));
 };
 
 function calculateAverage(dataFormat, nbOfUsers) {

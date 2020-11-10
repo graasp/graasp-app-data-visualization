@@ -1,6 +1,6 @@
 import { UPDATE_CHART_DATE_BY_ID } from '../types';
 
-const updateDateById = (from, to, id) => dispatch =>
+const updateDateById = (from, to, id) => dispatch => {
   dispatch({
     type: UPDATE_CHART_DATE_BY_ID,
     payload: {
@@ -9,5 +9,6 @@ const updateDateById = (from, to, id) => dispatch =>
     },
     key: id,
   });
+};
 
 export default updateDateById;

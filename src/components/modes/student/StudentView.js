@@ -76,6 +76,7 @@ export const StudentView = ({ classes, tool, content }) => {
         </div>
       );
     }
+
     return (
       <div>
         <div className={classes.main}>
