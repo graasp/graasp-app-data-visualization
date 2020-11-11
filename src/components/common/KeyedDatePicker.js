@@ -13,6 +13,7 @@ import updateDateById from '../../actions/chartDataByID';
 import 'react-day-picker/lib/style.css';
 import { CREATED_AT } from '../modes/teacher/widgets/types';
 import { fromDate, toDate } from '../modes/teacher/widgets/util/common';
+import { DATE_FORMAT_SHORT_YEAR } from '../../config/settings';
 
 const KeyedDatePicker = ({ id, data, chartDataById }) => {
   const dispatch = useDispatch();
@@ -152,14 +153,14 @@ const KeyedDatePicker = ({ id, data, chartDataById }) => {
 
   const toDateString = () => {
     if (to !== null) {
-      return moment(to).format('DD/MM/YY');
+      return moment(to).format(DATE_FORMAT_SHORT_YEAR);
     }
     return ' ';
   };
 
   const fromDateString = () => {
     if (from !== null) {
-      return moment(from).format('DD/MM/YY');
+      return moment(from).format(DATE_FORMAT_SHORT_YEAR);
     }
     return ' ';
   };

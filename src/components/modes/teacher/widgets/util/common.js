@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
+import { DATE_FORMAT_SHORT_YEAR } from '../../../../../config/settings';
 import getComponentById from '../../../../../reducers/chartDataById';
 
 export const fillTheDates = (from, to) => {
@@ -86,7 +87,7 @@ export const Frequency = (actions, property, condition) => {
 };
 
 export const changeDateFormat = date => {
-  return moment(date).format('DD/MM/YY');
+  return moment(date).format(DATE_FORMAT_SHORT_YEAR);
 };
 
 export const changeDateFormatForArray = arr => {
@@ -257,7 +258,7 @@ export const chunkArray = (data, maxChartNb) => {
 
 // chunk dates to match chunk data
 export const formatDates = (dates, maxChartNb) => {
-  const newDates = dates.map(date => date.format('DD/MM/YY'));
+  const newDates = dates.map(date => date.format(DATE_FORMAT_SHORT_YEAR));
   let tmp = chunkArray(newDates, maxChartNb);
   if (Array.isArray(tmp[0])) {
     tmp = tmp.map(formatChunkDate);

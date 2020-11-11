@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { DATE_FORMAT_SHORT_YEAR } from '../../../../../config/settings';
 
 export const createDataForBarChart = (key, value, property) => {
   const data = [];
@@ -22,17 +23,17 @@ export const changeDateFormatForBarChart = arr => {
   newArr.forEach(e => {
     const { date } = e;
 
-    e.date = date.format('DD/MM/YY');
+    e.date = date.format(DATE_FORMAT_SHORT_YEAR);
   });
   return newArr;
 };
 
 export const fillDataForBarChart = (actions, dataFormat) => {
   const data = dataFormat.map(({ date }) => {
-    const dateString = date.format('DD/MM/YY');
+    const dateString = date.format(DATE_FORMAT_SHORT_YEAR);
     const correspondingActions = actions.filter(
       ({ createdAt, verb }) =>
-        moment(createdAt).format('DD/MM/YY') === dateString && verb,
+        moment(createdAt).format(DATE_FORMAT_SHORT_YEAR) === dateString && verb,
     );
     const reduceKeys = correspondingActions.reduce((acc, { verb }) => {
       acc[verb] = acc[verb] ? acc[verb] + 1 : 1;

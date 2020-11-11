@@ -20,6 +20,7 @@ import {
   VERB_LINE_DATE_PICKER_ID,
 } from '../types';
 import { fillTheDates } from '../../../teacher/widgets/util';
+import { TICK_NUMBER_FOR_DATE_FULL_YEAR } from '../../../../../config/settings';
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
@@ -69,6 +70,10 @@ const mapStateToProps = ({
       toDate(chartDataById, VERB_LINE_DATE_PICKER_ID),
     ),
   ),
-  maxTicks: nbOfTicks([2, 3, 8], [750, 1200, 1920], windowSize),
+  maxTicks: nbOfTicks(
+    TICK_NUMBER_FOR_DATE_FULL_YEAR,
+    [750, 1200, 1920],
+    windowSize,
+  ),
 });
 export default connect(mapStateToProps)(LineChart);

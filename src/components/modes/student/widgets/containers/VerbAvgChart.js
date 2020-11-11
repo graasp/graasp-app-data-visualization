@@ -23,8 +23,10 @@ import {
   fillTheDates,
   formatDates,
 } from '../../../teacher/widgets/util';
-
-const MAX_CHART_NUMBER = 10;
+import {
+  VERB_AVG_CHART_MAX_CHART_NUMBER,
+  TICK_NUMBER_FOR_TIME_PERIOD,
+} from '../../../../../config/settings';
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
@@ -56,7 +58,7 @@ const BarData = (actions, userId, from, to, selectedActionsList) => {
     userList.length,
   );
   data = changeDateFormatForBarChart(data);
-  data = chunkData({}, data, MAX_CHART_NUMBER);
+  data = chunkData({}, data, VERB_AVG_CHART_MAX_CHART_NUMBER);
   data = displayTheSelectedData(data, selectedActionsList);
   return data;
 };
@@ -85,9 +87,13 @@ const mapStateToProps = ({
       fromDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
       toDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
     ),
-    MAX_CHART_NUMBER,
+    VERB_AVG_CHART_MAX_CHART_NUMBER,
   ),
-  maxTicks: nbOfTicks([4, 7, 12], [750, 1200, 1920], windowSize),
+  maxTicks: nbOfTicks(
+    TICK_NUMBER_FOR_TIME_PERIOD.FULLSCREEN,
+    [750, 1200, 1920],
+    windowSize,
+  ),
 });
 
 export default connect(mapStateToProps)(BarChart);
