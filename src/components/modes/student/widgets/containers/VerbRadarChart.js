@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
+import { fillTheDates } from '../../../teacher/widgets/util';
 import RadarChart from '../components/RadarChart';
 import { AVG, USER, USER_ID, VERB, VERB_RADAR_DATE_PICKER_ID } from '../types';
 import {
-  buildDateRange,
   fillDataForRadar,
   formatDataForRadarOrRightPanel,
   fromDate,
@@ -17,7 +17,7 @@ const colors = {};
 colors[USER] = '#decaff';
 colors[AVG] = '#BBAAFF';
 const RadarData = (actions, userId, from, to) => {
-  const dateRange = buildDateRange(from, to);
+  const dateRange = fillTheDates(from, to);
   const formattedData = formatDataForRadarOrRightPanel(
     allowedVerbs,
     VERB,

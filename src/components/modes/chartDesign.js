@@ -9,7 +9,6 @@ export const xTickValues = (values, tickCount) => {
         temp.push(values[i]);
       }
     }
-
     return temp;
   }
   return values;

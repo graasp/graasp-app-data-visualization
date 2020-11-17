@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { DATE_FORMAT_SHORT_YEAR } from '../../../../../config/settings';
 import getComponentById from '../../../../../reducers/chartDataById';
 
 export const fromDate = (chartDataById, id) => {
@@ -33,8 +34,8 @@ export const selectedActions = (chartDataById, id) => {
 
 export const buildDateRange = (from, to) => {
   const dates = [];
-  const fromTemp = new Date(from);
-  const toTemp = new Date(to);
+  const fromTemp = from;
+  const toTemp = to;
   while (fromTemp <= toTemp) {
     dates.push(fromTemp.toLocaleDateString());
     fromTemp.setDate(fromTemp.getDate() + 1);
@@ -78,7 +79,7 @@ export const RemovePropertyOfObject = (Obj, property) => {
 };
 
 export const changeDateFormat = date => {
-  return moment(date).format('DD/MM');
+  return moment(date).format(DATE_FORMAT_SHORT_YEAR);
 };
 
 export const changeDateFormatForBarChart = dataArray => {
@@ -111,7 +112,7 @@ export const changeDateFormatForArray = arr => {
   const temp = [];
 
   arr.forEach(e => {
-    temp.push(changeDateFormat(new Date(e)));
+    temp.push(changeDateFormat(e));
   });
   return temp;
 };

@@ -10,14 +10,14 @@ const LineChart = ({ data, colors, xAxis, yAxis, id, values, maxTicks }) => {
   const [filteredColor, setFilteredColor] = useState(colors);
   const [size, setSize] = useState(0);
 
-  function updateSize() {
+  const updateSize = () => {
     if (document.getElementById(id)) {
       const height = document.getElementById(id).clientHeight;
       if (height > 0) {
         setSize(height);
       }
     }
-  }
+  };
   useLayoutEffect(() => {
     window.addEventListener('resize', updateSize);
     updateSize();
@@ -58,6 +58,7 @@ const LineChart = ({ data, colors, xAxis, yAxis, id, values, maxTicks }) => {
   };
 
   useEffect(() => enabledData(hiddenKeys), [data]);
+
   const toggle = d => {
     let temp = hiddenKeys;
     if (!hiddenKeys.includes(d.id)) {

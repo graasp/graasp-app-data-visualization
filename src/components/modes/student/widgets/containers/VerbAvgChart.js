@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import BarChart from '../components/BarChart';
 import {
-  buildDateRange,
   changeDateFormatForBarChart,
   displayTheSelectedData,
   fillData,
@@ -20,9 +19,15 @@ import {
   VERB_BAR_DATE_PICKER_ID,
 } from '../types';
 import {
-  changeDateFormatForArray,
+  chunkData,
   fillTheDates,
+  formatDates,
 } from '../../../teacher/widgets/util';
+import {
+  VERB_AVG_CHART_MAX_CHART_NUMBER,
+  TICK_NUMBER_FOR_TIME_PERIOD,
+  SCREEN_SIZE_RANGE,
+} from '../../../../../config/settings';
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
@@ -41,7 +46,7 @@ const colors = {
 const exceptions = ['unload', 'login', 'logout', 'access', 'cancel'];
 
 const BarData = (actions, userId, from, to, selectedActionsList) => {
-  const dateRange = buildDateRange(from, to);
+  const dateRange = fillTheDates(from, to);
   const verbList = getVerbsTypesForBarChart(actions, exceptions);
   const formattedData = formatDataForBarChart(dateRange, verbList, DATE);
   const userList = Occurrence(actions, USER_ID);
@@ -54,6 +59,7 @@ const BarData = (actions, userId, from, to, selectedActionsList) => {
     userList.length,
   );
   data = changeDateFormatForBarChart(data);
+  data = chunkData({}, data, VERB_AVG_CHART_MAX_CHART_NUMBER);
   data = displayTheSelectedData(data, selectedActionsList);
   return data;
 };
@@ -77,13 +83,18 @@ const mapStateToProps = ({
   xAxis,
   yAxis,
   id: VERB_BAR_AVG_LEGEND_ID,
-  values: changeDateFormatForArray(
+  values: formatDates(
     fillTheDates(
       fromDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
       toDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
     ),
+    VERB_AVG_CHART_MAX_CHART_NUMBER,
   ),
-  maxTicks: nbOfTicks([4, 7, 12], [750, 1200, 1920], windowSize),
+  maxTicks: nbOfTicks(
+    TICK_NUMBER_FOR_TIME_PERIOD.FULLSCREEN,
+    SCREEN_SIZE_RANGE,
+    windowSize,
+  ),
 });
 
 export default connect(mapStateToProps)(BarChart);

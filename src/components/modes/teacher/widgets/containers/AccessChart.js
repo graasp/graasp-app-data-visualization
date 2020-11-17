@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import LineChart from '../components/LineChart';
 import {
   changeDateFormatForArray,
-  changeDateFormatForLineChart,
   ChangePropertyNameOfObjectFromArray,
   createObjectForLine,
   DataPicking,
@@ -21,6 +20,10 @@ import {
   VERB,
 } from '../types';
 import { fromDate, toDate } from '../../../student/widgets/util';
+import {
+  SCREEN_SIZE_RANGE,
+  TICK_NUMBER_FOR_DATE_FULL_YEAR,
+} from '../../../../../config/settings';
 
 const xAxis = 'date';
 const yAxis = 'Visits';
@@ -31,7 +34,7 @@ const colors = {
 };
 
 const AccessData = (actions, from, to) => {
-  let data = [];
+  const data = [];
   if (actions.length > 0) {
     const date = fillTheDates(from, to);
     let accesses = DataPicking(
@@ -55,10 +58,7 @@ const AccessData = (actions, from, to) => {
     data.push(uniqueAccesses);
 
     data.push(totalAccesses);
-
-    data = changeDateFormatForLineChart(data);
   }
-
   return data;
 };
 
@@ -81,7 +81,11 @@ const mapStateToProps = ({
       toDate(chartDataById, ACCESS_LINE_DATE_PICKER_ID),
     ),
   ),
-  maxTicks: nbOfTicks([4, 7, 12], [800, 1200, 1920], windowSize),
+  maxTicks: nbOfTicks(
+    TICK_NUMBER_FOR_DATE_FULL_YEAR,
+    SCREEN_SIZE_RANGE,
+    windowSize,
+  ),
 });
 
 export default connect(mapStateToProps)(LineChart);

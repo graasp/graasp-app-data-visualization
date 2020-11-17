@@ -17,7 +17,7 @@ const Legend = ({ id }) => {
    verbList = filterVerbs(verbList, filteredVerbs); */
 
   const verbList = ['navigate', 'change', 'create', 'open'];
-  const [action, setAction] = useState([]);
+  const [action, setAction] = useState([...verbList]);
   const dispatch = useDispatch();
 
   const handleChange = event => {
@@ -46,6 +46,7 @@ const Legend = ({ id }) => {
             label={verb}
             onClick={handleChange}
             style={{ width: 104, marginRight: '1.5vw', marginLeft: '1.5vw' }}
+            checked={action.includes(verb)}
           />
         ));
     }

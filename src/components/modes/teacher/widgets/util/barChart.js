@@ -1,4 +1,5 @@
-import { changeDateFormat } from './common';
+import moment from 'moment';
+import { DATE_FORMAT_SHORT_YEAR } from '../../../../../config/settings';
 
 export const createDataForBarChart = (key, value, property) => {
   const data = [];
@@ -22,22 +23,23 @@ export const changeDateFormatForBarChart = arr => {
   newArr.forEach(e => {
     const { date } = e;
 
-    e.date = changeDateFormat(date);
+    e.date = date.format(DATE_FORMAT_SHORT_YEAR);
   });
   return newArr;
 };
 
 export const fillDataForBarChart = (actions, dataFormat) => {
-  const data = dataFormat;
-  actions.forEach(e => {
-    const { createdAt, verb } = e;
-    const correspondingObject = data.find(
-      obj => obj.date === new Date(createdAt).toLocaleDateString(),
+  const data = dataFormat.map(({ date }) => {
+    const dateString = date.format(DATE_FORMAT_SHORT_YEAR);
+    const correspondingActions = actions.filter(
+      ({ createdAt, verb }) =>
+        moment(createdAt).format(DATE_FORMAT_SHORT_YEAR) === dateString && verb,
     );
-
-    if (verb && correspondingObject) {
-      correspondingObject[verb] += 1;
-    }
+    const reduceKeys = correspondingActions.reduce((acc, { verb }) => {
+      acc[verb] = acc[verb] ? acc[verb] + 1 : 1;
+      return acc;
+    }, {});
+    return { date, ...reduceKeys };
   });
   return data;
 };
