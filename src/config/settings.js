@@ -33,3 +33,5 @@ export const TICK_NUMBER_FOR_TIME_PERIOD = {
 };
 
 export const TICK_NUMBER_FOR_DATE_FULL_YEAR = [2, 4, 8];
+
+export const SCREEN_SIZE_RANGE = [750, 1200, 1920];

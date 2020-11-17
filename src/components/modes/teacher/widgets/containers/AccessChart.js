@@ -20,7 +20,10 @@ import {
   VERB,
 } from '../types';
 import { fromDate, toDate } from '../../../student/widgets/util';
-import { TICK_NUMBER_FOR_DATE_FULL_YEAR } from '../../../../../config/settings';
+import {
+  SCREEN_SIZE_RANGE,
+  TICK_NUMBER_FOR_DATE_FULL_YEAR,
+} from '../../../../../config/settings';
 
 const xAxis = 'date';
 const yAxis = 'Visits';
@@ -80,7 +83,7 @@ const mapStateToProps = ({
   ),
   maxTicks: nbOfTicks(
     TICK_NUMBER_FOR_DATE_FULL_YEAR,
-    [800, 1200, 1920],
+    SCREEN_SIZE_RANGE,
     windowSize,
   ),
 });

@@ -12,6 +12,7 @@ import {
 import { DATE, VERB_CHART_DATE_PICKER_ID } from '../types';
 import { fromDate, toDate } from '../../../student/widgets/util';
 import {
+  SCREEN_SIZE_RANGE,
   TICK_NUMBER_FOR_TIME_PERIOD,
   VERB_CHART_MAX_CHART_NUMBER,
 } from '../../../../../config/settings';
@@ -64,7 +65,7 @@ const mapStateToProps = ({
   ),
   maxTicks: nbOfTicks(
     TICK_NUMBER_FOR_TIME_PERIOD.HALFSCREEN,
-    [800, 1200, 1920],
+    SCREEN_SIZE_RANGE,
     windowSize,
   ),
 });

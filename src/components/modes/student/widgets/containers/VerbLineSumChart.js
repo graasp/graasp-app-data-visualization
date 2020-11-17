@@ -20,7 +20,10 @@ import {
   VERB_LINE_DATE_PICKER_ID,
 } from '../types';
 import { fillTheDates } from '../../../teacher/widgets/util';
-import { TICK_NUMBER_FOR_DATE_FULL_YEAR } from '../../../../../config/settings';
+import {
+  SCREEN_SIZE_RANGE,
+  TICK_NUMBER_FOR_DATE_FULL_YEAR,
+} from '../../../../../config/settings';
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
@@ -72,7 +75,7 @@ const mapStateToProps = ({
   ),
   maxTicks: nbOfTicks(
     TICK_NUMBER_FOR_DATE_FULL_YEAR,
-    [750, 1200, 1920],
+    SCREEN_SIZE_RANGE,
     windowSize,
   ),
 });

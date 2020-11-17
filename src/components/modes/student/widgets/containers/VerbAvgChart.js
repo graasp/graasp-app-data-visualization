@@ -26,6 +26,7 @@ import {
 import {
   VERB_AVG_CHART_MAX_CHART_NUMBER,
   TICK_NUMBER_FOR_TIME_PERIOD,
+  SCREEN_SIZE_RANGE,
 } from '../../../../../config/settings';
 
 const xAxis = 'date';
@@ -91,7 +92,7 @@ const mapStateToProps = ({
   ),
   maxTicks: nbOfTicks(
     TICK_NUMBER_FOR_TIME_PERIOD.FULLSCREEN,
-    [750, 1200, 1920],
+    SCREEN_SIZE_RANGE,
     windowSize,
   ),
 });
