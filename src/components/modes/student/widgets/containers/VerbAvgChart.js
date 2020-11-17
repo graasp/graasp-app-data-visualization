@@ -43,11 +43,9 @@ const colors = {
   changeAvg: '#756DF4',
 };
 
-const exceptions = ['unload', 'login', 'logout', 'access', 'cancel'];
-
 const BarData = (actions, userId, from, to, selectedActionsList) => {
   const dateRange = fillTheDates(from, to);
-  const verbList = getVerbsTypesForBarChart(actions, exceptions);
+  const verbList = getVerbsTypesForBarChart(actions);
   const formattedData = formatDataForBarChart(dateRange, verbList, DATE);
   const userList = Occurrence(actions, USER_ID);
   // The below function will compute the average of each type of action with respect to a user
@@ -77,7 +75,7 @@ const mapStateToProps = ({
     toDate(chartDataById, VERB_BAR_DATE_PICKER_ID),
     selectedActions(chartDataById, VERB_BAR_AVG_LEGEND_ID),
   ),
-  keys: getVerbsTypesForBarChart(content, exceptions),
+  keys: getVerbsTypesForBarChart(content),
   colors,
   indexBy: 'date',
   xAxis,

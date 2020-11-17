@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fillTheDates } from '../../../teacher/widgets/util';
+import { fillTheDates, getUniqueVerbs } from '../../../teacher/widgets/util';
 import RadarChart from '../components/RadarChart';
 import { AVG, USER, USER_ID, VERB, VERB_RADAR_DATE_PICKER_ID } from '../types';
 import {
@@ -12,11 +12,11 @@ import {
 
 const chartProperties = [USER, AVG];
 
-const allowedVerbs = ['create', 'change', 'open', 'navigate'];
 const colors = {};
 colors[USER] = '#decaff';
 colors[AVG] = '#BBAAFF';
 const RadarData = (actions, userId, from, to) => {
+  const allowedVerbs = getUniqueVerbs(actions);
   const dateRange = fillTheDates(from, to);
   const formattedData = formatDataForRadarOrRightPanel(
     allowedVerbs,

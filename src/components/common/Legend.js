@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import PropTypes from 'prop-types';
 import updateLegendById from '../../actions/chartLegendById';
+import { getUniqueVerbs } from '../modes/teacher/widgets/util';
 
-const Legend = ({ id }) => {
-  /** The comments below are used in case you what to show all the verbs in a specific learning space or filter some verbs
-   In our case we decided to show only the action in verb list
-   Otherwise uncomment these line and import the methods -> You will get all the actions occurred in this space and you do can some filtering */
-  /* const actions = useSelector(state => state.action.content);
-   const filteredVerbs = ['access', 'cancel', 'login', 'logout', 'unload'];
-   let verbList = Occurrence(actions, VERB);
-   verbList = filterVerbs(verbList, filteredVerbs); */
-
-  const verbList = ['navigate', 'change', 'create', 'open'];
+const Legend = ({ id, actions }) => {
+  const verbList = getUniqueVerbs(actions);
   const [action, setAction] = useState([...verbList]);
   const dispatch = useDispatch();
 
@@ -37,7 +30,7 @@ const Legend = ({ id }) => {
   const renderVerbList = () => {
     if (verbList.length !== 0) {
       return verbList
-        .reverse()
+        .sort()
         .map(verb => (
           <FormControlLabel
             value={verb}
@@ -64,6 +57,11 @@ const Legend = ({ id }) => {
 
 Legend.propTypes = {
   id: PropTypes.string.isRequired,
+  actions: PropTypes.shape().isRequired,
 };
 
-export default Legend;
+const mapStateToProps = ({ action: { content } }) => ({
+  actions: content,
+});
+
+export default connect(mapStateToProps)(Legend);

@@ -24,7 +24,7 @@ export const PUBLIC_VISIBILITY = 'public';
 export const DATE_FORMAT_SHORT_YEAR = 'DD/MM/YY';
 export const DATE_FORMAT_FULL_YEAR = 'DD/MM/YYYY';
 
-export const VERB_AVG_CHART_MAX_CHART_NUMBER = 10;
+export const VERB_AVG_CHART_MAX_CHART_NUMBER = 8;
 export const VERB_CHART_MAX_CHART_NUMBER = 7;
 
 export const TICK_NUMBER_FOR_TIME_PERIOD = {

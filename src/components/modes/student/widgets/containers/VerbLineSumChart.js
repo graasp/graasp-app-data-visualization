@@ -46,7 +46,6 @@ const LineData = (actions, userId, from, to, selected) => {
     );
     data = changeDateFormatForLineChart(data);
   }
-
   return data;
 };
 

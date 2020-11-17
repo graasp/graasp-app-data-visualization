@@ -7,6 +7,7 @@ import {
   fillDataForBarChart,
   fillTheDates,
   formatDates,
+  getUniqueVerbs,
   nbOfTicks,
 } from '../util';
 import { DATE, VERB_CHART_DATE_PICKER_ID } from '../types';
@@ -22,8 +23,8 @@ const defaultValues = { navigate: 0, open: 0, change: 0, create: 0 };
 
 const xAxis = DATE;
 const yAxis = 'Occurrence';
-const allowedVerbs = ['create', 'change', 'open', 'navigate'];
 const BarData = (actions, from, to) => {
+  const allowedVerbs = getUniqueVerbs(actions);
   let data = [];
   if (actions && from && to) {
     const dates = fillTheDates(from, to);
@@ -33,12 +34,6 @@ const BarData = (actions, from, to) => {
     data = chunkData(defaultValues, data, VERB_CHART_MAX_CHART_NUMBER);
   }
   return data;
-};
-const colors = {
-  open: '#decaff',
-  navigate: '#BBAAFF',
-  create: '#988BFF',
-  change: '#756DF4',
 };
 
 const mapStateToProps = ({
@@ -51,8 +46,7 @@ const mapStateToProps = ({
     fromDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
     toDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
   ),
-  keys: allowedVerbs,
-  colors,
+  keys: getUniqueVerbs(content),
   indexBy: 'date',
   xAxis,
   yAxis,

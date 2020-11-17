@@ -1,18 +1,12 @@
-export const getVerbsTypesForBarChart = (actions, attributes) => {
-  const verbs = [];
-  let condition = [];
-  if (attributes) {
-    condition = attributes;
-  }
-  actions.forEach(action => {
-    const { verb } = action;
-    if (verb && !verbs.includes(verb) && !condition.includes(verb)) {
-      verbs.push(verb);
-      verbs.push(`${verb}Avg`);
-    }
-  });
-  verbs.sort();
-  return verbs;
+import _ from 'lodash';
+import { getUniqueVerbs } from '../../../teacher/widgets/util';
+
+export const getVerbsTypesForBarChart = (actions, exceptions = []) => {
+  const verbs = getUniqueVerbs(actions);
+  const wantedVerbs = _.difference(verbs, exceptions);
+  const allVerbs = wantedVerbs.concat(wantedVerbs.map(verb => `${verb}Avg`));
+  allVerbs.sort();
+  return allVerbs;
 };
 
 export const formatDataForBarChart = (key, value, attribute) => {
@@ -37,7 +31,7 @@ function calculateAvg(verbs, data, nbOfUsers) {
   const verbsAvg = verbs.filter(e => e.indexOf('Avg') !== -1);
   data.forEach(e => {
     verbsAvg.forEach(verbAvg => {
-      e[verbAvg] = +(e[verbAvg] / nbOfUsers).toFixed(2);
+      e[verbAvg] = +(e[verbAvg] / nbOfUsers).toFixed(2) || 0;
     });
   });
   return data;
