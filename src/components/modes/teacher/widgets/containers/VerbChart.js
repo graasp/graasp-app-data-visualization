@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import BarChart from '../components/BarChart';
 import {
   changeDateFormatForBarChart,
@@ -23,8 +24,8 @@ const defaultValues = { navigate: 0, open: 0, change: 0, create: 0 };
 
 const xAxis = DATE;
 const yAxis = 'Occurrence';
-const BarData = (actions, from, to) => {
-  const allowedVerbs = getUniqueVerbs(actions);
+const BarData = (actions, from, to, hiddenVerbs) => {
+  const allowedVerbs = _.difference(getUniqueVerbs(actions), hiddenVerbs);
   let data = [];
   if (actions && from && to) {
     const dates = fillTheDates(from, to);
@@ -40,13 +41,19 @@ const mapStateToProps = ({
   action: { content },
   windowSize: { windowSize },
   chartDataById,
+  appInstance: {
+    content: {
+      settings: { hiddenVerbs },
+    },
+  },
 }) => ({
   data: BarData(
     content,
     fromDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
     toDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
+    hiddenVerbs,
   ),
-  keys: getUniqueVerbs(content),
+  keys: _.difference(getUniqueVerbs(content), hiddenVerbs),
   indexBy: 'date',
   xAxis,
   yAxis,

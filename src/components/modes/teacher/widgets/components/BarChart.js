@@ -32,14 +32,16 @@ const BarChart = ({ data, keys, indexBy, xAxis, yAxis, values, maxTicks }) => {
   const customLegend = d => {
     const { bars, height, width } = d;
 
-    const keysProperties = keys.map(key => {
-      const Obj = {};
-      Obj.id = key;
-      Obj.label = key;
-      Obj.fill = hiddenKeys.includes(key) ? 'grey' : colors({ id: key });
-      Obj.itemTextColor = 'white';
-      return Obj;
-    });
+    const keysProperties = keys
+      .map(key => {
+        const Obj = {};
+        Obj.id = key;
+        Obj.label = key;
+        Obj.fill = hiddenKeys.includes(key) ? 'grey' : colors({ id: key });
+        Obj.itemTextColor = 'white';
+        return Obj;
+      })
+      .reverse(); // reverse to display smaller amount legend on top
 
     bars.sort((a, b) => (a.key > b.key ? 1 : -1));
     const legend = {

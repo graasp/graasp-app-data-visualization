@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import _ from 'lodash';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -8,8 +9,8 @@ import PropTypes from 'prop-types';
 import updateLegendById from '../../actions/chartLegendById';
 import { getUniqueVerbs } from '../modes/teacher/widgets/util';
 
-const Legend = ({ id, actions }) => {
-  const verbList = getUniqueVerbs(actions);
+const Legend = ({ id, actions, settings: { hiddenVerbs } }) => {
+  const verbList = _.difference(getUniqueVerbs(actions), hiddenVerbs);
   const [action, setAction] = useState([...verbList]);
   const dispatch = useDispatch();
 
@@ -58,10 +59,14 @@ const Legend = ({ id, actions }) => {
 Legend.propTypes = {
   id: PropTypes.string.isRequired,
   actions: PropTypes.shape().isRequired,
+  settings: PropTypes.shape({
+    hiddenVerbs: PropTypes.array,
+  }).isRequired,
 };
 
-const mapStateToProps = ({ action: { content } }) => ({
+const mapStateToProps = ({ action: { content }, appInstance }) => ({
   actions: content,
+  settings: appInstance.content.settings,
 });
 
 export default connect(mapStateToProps)(Legend);
