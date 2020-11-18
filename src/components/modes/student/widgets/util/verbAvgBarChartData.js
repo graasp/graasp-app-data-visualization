@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { getUniqueVerbs } from '../../../teacher/widgets/util';
 
-export const getVerbsTypesForBarChart = (actions, exceptions = []) => {
+export const getVerbsForBarChart = (actions, exceptions = []) => {
   const verbs = getUniqueVerbs(actions);
   const wantedVerbs = _.difference(verbs, exceptions);
   const allVerbs = wantedVerbs.concat(wantedVerbs.map(verb => `${verb}Avg`));

@@ -88,7 +88,7 @@ class Settings extends Component {
     i18n: PropTypes.shape({
       defaultNS: PropTypes.string,
     }).isRequired,
-    actions: PropTypes.arrayOf().isRequired,
+    verbs: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   saveSettings = settingsToChange => {
@@ -117,7 +117,7 @@ class Settings extends Component {
     dispatchCloseSettings();
   };
 
-  handleVerbOnChange = verb => {
+  handleChangeHiddenVerbs = verb => {
     const {
       settings: { hiddenVerbs = [] },
     } = this.props;
@@ -133,19 +133,18 @@ class Settings extends Component {
 
   renderActionChecks = () => {
     const {
-      actions,
+      verbs,
       classes,
+      t,
       settings: { hiddenVerbs = [] },
     } = this.props;
 
-    const verbs = getUniqueVerbs(actions);
-    verbs.sort();
     const checkboxes = verbs.map(verb => {
       const checkbox = (
         <Checkbox
           color="primary"
           checked={!hiddenVerbs.includes(verb)}
-          onChange={() => this.handleVerbOnChange(verb)}
+          onChange={() => this.handleChangeHiddenVerbs(verb)}
           name={verb}
           value={verb}
         />
@@ -162,7 +161,7 @@ class Settings extends Component {
       <>
         <FormControl className={classes.verbForm}>
           <Typography variant="h6" className={classes.verbTitle}>
-            Include the following action verbs
+            {t('Include the following action verbs')}
           </Typography>
           {checkboxes}
         </FormControl>
@@ -234,7 +233,7 @@ const mapStateToProps = ({ layout, appInstance, action: { content } }) => {
     open: layout.settings.open,
     settings: appInstance.content.settings,
     activity: Boolean(appInstance.activity.length),
-    actions: content,
+    verbs: getUniqueVerbs(content).sort(),
   };
 };
 

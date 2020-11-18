@@ -9,8 +9,7 @@ import PropTypes from 'prop-types';
 import updateLegendById from '../../actions/chartLegendById';
 import { getUniqueVerbs } from '../modes/teacher/widgets/util';
 
-const Legend = ({ id, actions, settings: { hiddenVerbs } }) => {
-  const verbList = _.difference(getUniqueVerbs(actions), hiddenVerbs);
+const Legend = ({ id, verbList }) => {
   const [action, setAction] = useState([...verbList]);
   const dispatch = useDispatch();
 
@@ -30,19 +29,17 @@ const Legend = ({ id, actions, settings: { hiddenVerbs } }) => {
 
   const renderVerbList = () => {
     if (verbList.length !== 0) {
-      return verbList
-        .sort()
-        .map(verb => (
-          <FormControlLabel
-            value={verb}
-            key={verb}
-            control={<Checkbox color="primary" />}
-            label={verb}
-            onClick={handleChange}
-            style={{ width: 104, marginRight: '1.5vw', marginLeft: '1.5vw' }}
-            checked={action.includes(verb)}
-          />
-        ));
+      return verbList.map(verb => (
+        <FormControlLabel
+          value={verb}
+          key={verb}
+          control={<Checkbox color="primary" />}
+          label={verb}
+          onClick={handleChange}
+          style={{ width: 104, marginRight: '1.5vw', marginLeft: '1.5vw' }}
+          checked={action.includes(verb)}
+        />
+      ));
     }
     return <div />;
   };
@@ -58,15 +55,16 @@ const Legend = ({ id, actions, settings: { hiddenVerbs } }) => {
 
 Legend.propTypes = {
   id: PropTypes.string.isRequired,
-  actions: PropTypes.shape().isRequired,
-  settings: PropTypes.shape({
-    hiddenVerbs: PropTypes.array,
-  }).isRequired,
+  verbList: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-const mapStateToProps = ({ action: { content }, appInstance }) => ({
-  actions: content,
-  settings: appInstance.content.settings,
-});
+const mapStateToProps = ({ action: { content }, appInstance }) => {
+  const hiddenVerbs = appInstance?.content?.settings?.hiddenVerbs || [];
+  const verbList = _.difference(getUniqueVerbs(content), hiddenVerbs).sort();
+  return {
+    actions: content,
+    verbList,
+  };
+};
 
 export default connect(mapStateToProps)(Legend);
