@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import BarChart from '../components/BarChart';
 import {
   changeDateFormatForBarChart,
@@ -7,6 +8,7 @@ import {
   fillDataForBarChart,
   fillTheDates,
   formatDates,
+  getUniqueVerbs,
   nbOfTicks,
 } from '../util';
 import { DATE, VERB_CHART_DATE_PICKER_ID } from '../types';
@@ -22,8 +24,8 @@ const defaultValues = { navigate: 0, open: 0, change: 0, create: 0 };
 
 const xAxis = DATE;
 const yAxis = 'Occurrence';
-const allowedVerbs = ['create', 'change', 'open', 'navigate'];
-const BarData = (actions, from, to) => {
+const BarData = (actions, from, to, hiddenVerbs) => {
+  const allowedVerbs = _.difference(getUniqueVerbs(actions), hiddenVerbs);
   let data = [];
   if (actions && from && to) {
     const dates = fillTheDates(from, to);
@@ -34,25 +36,24 @@ const BarData = (actions, from, to) => {
   }
   return data;
 };
-const colors = {
-  open: '#decaff',
-  navigate: '#BBAAFF',
-  create: '#988BFF',
-  change: '#756DF4',
-};
 
 const mapStateToProps = ({
   action: { content },
   windowSize: { windowSize },
   chartDataById,
+  appInstance: {
+    content: {
+      settings: { hiddenVerbs },
+    },
+  },
 }) => ({
   data: BarData(
     content,
     fromDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
     toDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
+    hiddenVerbs,
   ),
-  keys: allowedVerbs,
-  colors,
+  keys: _.difference(getUniqueVerbs(content), hiddenVerbs),
   indexBy: 'date',
   xAxis,
   yAxis,

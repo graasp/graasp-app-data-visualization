@@ -7,7 +7,6 @@ import { HEIGHT, X_AXIS, Y_AXIS } from '../../../chartDesign';
 const BarChart = ({
   data,
   keys,
-  colors,
   indexBy,
   yAxis,
   xAxis,
@@ -45,9 +44,9 @@ const BarChart = ({
           data={data}
           keys={keys}
           indexBy={indexBy}
-          margin={{ top: 50, right: 130, bottom: 60, left: 60 }}
+          margin={{ top: 50, right: 60, bottom: 60, left: 60 }}
           padding={0.05}
-          colors={bar => colors[bar.id]}
+          colors={{ scheme: 'paired' }}
           groupMode="grouped"
           borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
           axisTop={null}
@@ -112,15 +111,14 @@ const BarChart = ({
                 return {
                   id: key,
                   label: key,
-                  color: colors[key],
                 };
               }),
               dataFrom: 'keys',
-              anchor: 'top-right',
-              direction: 'column',
+              anchor: 'top',
+              direction: 'row',
               justify: false,
-              translateX: 121,
-              translateY: 0,
+              translateX: 0,
+              translateY: -40,
               itemWidth: 84,
               itemHeight: 20,
               itemsSpacing: 11,
@@ -152,7 +150,6 @@ const BarChart = ({
 BarChart.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   keys: PropTypes.arrayOf(PropTypes.string).isRequired,
-  colors: PropTypes.instanceOf(Object).isRequired,
   indexBy: PropTypes.string.isRequired,
   xAxis: PropTypes.string.isRequired,
   yAxis: PropTypes.string.isRequired,

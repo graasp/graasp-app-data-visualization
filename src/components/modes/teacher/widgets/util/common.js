@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import moment from 'moment';
+import { interpolateSpectral } from 'd3-scale-chromatic';
 import { DATE_FORMAT_SHORT_YEAR } from '../../../../../config/settings';
 import getComponentById from '../../../../../reducers/chartDataById';
 
@@ -284,4 +285,13 @@ export const chunkData = (defaultValues, data, maxChartNb) => {
 
     return group;
   });
+};
+
+export const getUniqueVerbs = content => {
+  return [...new Set(content.map(({ verb }) => verb).filter(Boolean))];
+};
+
+export const getColorForScheme = (t, values) => {
+  const idx = values.indexOf(t);
+  return interpolateSpectral(idx / parseFloat(values.length));
 };

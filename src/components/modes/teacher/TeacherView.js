@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 import './TeacherView.css';
 import { getUsers } from '../../../actions';
-
+import Settings from './Settings';
 import VerbWidget from './widgets/VerbWidget';
 import AccessWidget from './widgets/AccessWidget';
 
@@ -52,6 +52,7 @@ export class TeacherView extends PureComponent {
 
     return (
       <div className={classes.main}>
+        <Settings />
         <Grid container>
           <Grid item sm={6} className={classes.widget}>
             <Paper className={classes.paper}>

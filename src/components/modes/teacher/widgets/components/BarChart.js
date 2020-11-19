@@ -5,18 +5,17 @@ import { BoxLegendSvg } from '@nivo/legends';
 import _ from 'lodash';
 import Loader from '../../../../common/Loader';
 import { HEIGHT, MARGIN, WIDTH, X_AXIS, Y_AXIS } from '../../../chartDesign';
+import { getColorForScheme } from '../util';
 
-const BarChart = ({
-  data,
-  keys,
-  colors,
-  indexBy,
-  xAxis,
-  yAxis,
-  values,
-  maxTicks,
-}) => {
+const BarChart = ({ data, keys, indexBy, xAxis, yAxis, values, maxTicks }) => {
   const [hiddenKeys, setHiddenKeys] = useState([]);
+
+  const colors = ({ id }) => {
+    if (hiddenKeys.includes(id)) {
+      return 'grey';
+    }
+    return getColorForScheme(id, keys);
+  };
 
   const toggle = d => {
     let hidden = hiddenKeys;
@@ -31,39 +30,22 @@ const BarChart = ({
   };
 
   const customLegend = d => {
-    const { bars, height, width, fill } = d;
+    const { bars, height, width } = d;
 
-    const keysProperties = [];
-
-    if (keys.length > 0) {
-      keys.forEach(key => {
+    const keysProperties = keys
+      .map(key => {
         const Obj = {};
         Obj.id = key;
         Obj.label = key;
-        Obj.color = colors[key];
+        Obj.fill = hiddenKeys.includes(key) ? 'grey' : colors({ id: key });
         Obj.itemTextColor = 'white';
-        keysProperties.push(Obj);
-      });
-      fill.forEach(e => {
-        const { match } = e;
-        const correspondingObject = keysProperties.find(
-          obj => obj.id === match.id,
-        );
-        correspondingObject.fill = `url(#${e.id}.bg.${colors[match.id]}`;
-      });
-    }
-    hiddenKeys.forEach(hiddenKey => {
-      const correspondingObject = keysProperties.find(
-        obj => obj.id === hiddenKey,
-      );
-      correspondingObject.color = 'grey';
-      // correspondingObject = _.pick(correspondingObject,['id','label','color'])
-      delete correspondingObject.fill;
-    });
+        return Obj;
+      })
+      .reverse(); // reverse to display smaller amount legend on top
 
     bars.sort((a, b) => (a.key > b.key ? 1 : -1));
     const legend = {
-      data: keysProperties.reverse(),
+      data: keysProperties,
       dataFrom: 'keys',
       anchor: 'top-right',
       direction: 'column',
@@ -113,7 +95,7 @@ const BarChart = ({
     );
   };
 
-  if (data.length > 0 && keys && colors && indexBy) {
+  if (data.length > 0 && keys && indexBy) {
     return (
       <div style={{ height: HEIGHT, width: WIDTH }}>
         <ResponsiveBar
@@ -122,51 +104,14 @@ const BarChart = ({
           indexBy={indexBy}
           margin={MARGIN}
           padding={0.7}
-          colors={bar => colors[bar.id]}
+          colors={colors}
           groupMode="stacked"
           borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
           axisTop={null}
           axisRight={null}
           axisBottom={X_AXIS(xAxis, values, maxTicks)}
           axisLeft={Y_AXIS(yAxis)}
-          legends={[
-            {
-              data: keys.map(id => {
-                return {
-                  id,
-
-                  label: id,
-                  color: colors[id],
-                };
-              }),
-              dataFrom: 'keys',
-              anchor: 'top-right',
-              direction: 'column',
-              justify: false,
-              translateX: 121,
-              translateY: 0,
-              itemWidth: 84,
-              itemHeight: 20,
-              itemsSpacing: 11,
-              symbolSize: 22,
-              itemDirection: 'left-to-right',
-              symbolShape: 'circle',
-              onClick: toggle,
-              effects: [
-                {
-                  on: 'hover',
-                  style: {
-                    itemTextColor: '#000',
-                    itemBackground: '#eee',
-                  },
-                },
-              ],
-            },
-          ]}
           enableLabel={false}
-          labelSkipWidth={6}
-          labelSkipHeight={12}
-          labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
           animate
           motionStiffness={200}
           motionDamping={50}
@@ -182,7 +127,6 @@ const BarChart = ({
 BarChart.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   keys: PropTypes.arrayOf(PropTypes.string).isRequired,
-  colors: PropTypes.instanceOf(Object).isRequired,
   indexBy: PropTypes.string.isRequired,
   xAxis: PropTypes.string.isRequired,
   yAxis: PropTypes.string.isRequired,
