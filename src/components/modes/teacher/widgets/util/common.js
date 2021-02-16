@@ -3,6 +3,7 @@ import moment from 'moment';
 import { interpolateSpectral } from 'd3-scale-chromatic';
 import { DATE_FORMAT_SHORT_YEAR } from '../../../../../config/settings';
 import getComponentById from '../../../../../reducers/chartDataById';
+import { CREATED_AT } from '../types';
 
 export const fillTheDates = (from, to) => {
   let fromTmp = moment(from);
@@ -27,7 +28,7 @@ export const Occurrence = (actions, property, attributes) => {
   actions.forEach(action => {
     let entry = action[property];
 
-    if (property === 'createdAt' || property === 'date') {
+    if (property === CREATED_AT || property === 'date') {
       entry = entry.slice(0, 10);
     }
 
@@ -41,54 +42,22 @@ export const Occurrence = (actions, property, attributes) => {
   return data;
 };
 
-export const Frequency = (actions, property, condition) => {
-  const data = {};
-
-  if (actions && property && condition) {
-    actions.forEach(action => {
-      let entry = action[property];
-      const cond = action[condition];
-
-      if (property === 'createdAt' || property === 'date') {
-        entry = entry.slice(0, 10);
-      }
-
-      if (entry)
-        if (data[entry]) {
-          if (!data[entry].includes(cond)) {
-            const arr = data[entry];
-            arr.push(cond);
-            data[entry] = arr;
-          }
-        } else {
-          data[entry] = [cond];
-        }
-    });
-
-    return data;
-  }
-  if (actions && property) {
-    actions.forEach(action => {
-      let entry = action[property];
-
-      if (property === 'createdAt' || property === 'date') {
-        entry = entry.slice(0, 10);
-      }
-
-      if (entry)
-        if (data[entry]) {
-          data[entry] += 1;
-        } else {
-          data[entry] = 1;
-        }
-    });
-  }
-
-  return data;
-};
-
 export const changeDateFormat = date => {
   return moment(date).format(DATE_FORMAT_SHORT_YEAR);
+};
+
+export const Frequency = (actions, property, condition) => {
+  let data = condition ? actions.filter(action => action[condition]) : actions;
+
+  // for dates always compare till day
+  data = data.map(action => ({
+    ...action,
+    [CREATED_AT]: changeDateFormat(action[CREATED_AT]),
+  }));
+
+  data = _.countBy(data, d => d[property]);
+
+  return data;
 };
 
 export const changeDateFormatForArray = arr => {
@@ -170,8 +139,7 @@ export const DataPicking = (actions, properties, conditions) => {
         }
         // map
         if (property === 'createdAt') {
-          const date = new Date(action[property]);
-          Obj[property] = date.toLocaleDateString();
+          Obj[property] = changeDateFormat(action[property]);
         } else {
           Obj[property] = action[property];
         }

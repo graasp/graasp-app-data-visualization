@@ -42,7 +42,7 @@ const styles = theme => ({
     margin: theme.spacing(),
   },
   fab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
