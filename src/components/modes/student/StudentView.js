@@ -12,6 +12,7 @@ import StudentSpeedOMeterWidget from './widgets/StudentSpeedOMeterWidget';
 import VerbRadarWidget from './widgets/VerbRadarWidget';
 import VerbAvgBarWidget from './widgets/VerbAvgBarWidget';
 import VerbAvgRightPanelWidget from './widgets/VerbAvgRightPanelWidget';
+import NoDataAvailable from '../../common/NoDataAvailable';
 
 const styles = theme => ({
   main: {
@@ -110,13 +111,7 @@ export const StudentView = ({ classes, tool, content }) => {
       </div>
     );
   }
-  return (
-    <Paper className={classes.paper}>
-      <Typography className={classes.title} gutterBottom>
-        Data is not available at the moment
-      </Typography>
-    </Paper>
-  );
+  return <NoDataAvailable />;
 };
 
 StudentView.propTypes = {

@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { ResponsiveLine } from '@nivo/line';
 import PropTypes from 'prop-types';
 import Loader from '../../../../common/Loader';
 import { HEIGHT, MARGIN, WIDTH, X_AXIS, Y_AXIS } from '../../../chartDesign';
 
 const LineChart = ({ data, colors, xAxis, yAxis, values, maxTicks }) => {
+  const { t } = useTranslation();
   const [hiddenKeys, setHiddenKeys] = useState([]);
   const [filteredData, setFilteredData] = useState(data);
   const [filteredColor, setFilteredColor] = useState(colors);
+  const activity = Boolean(
+    useSelector(({ appInstanceResources }) => appInstanceResources.activity)
+      .length,
+  );
 
   const enabledData = hidden => {
     const dataFiltered = [];
@@ -47,6 +54,10 @@ const LineChart = ({ data, colors, xAxis, yAxis, values, maxTicks }) => {
     }
     enabledData(temp);
   };
+
+  if (activity) {
+    return <Loader />;
+  }
 
   if (data.length > 0) {
     return (
@@ -106,7 +117,7 @@ const LineChart = ({ data, colors, xAxis, yAxis, values, maxTicks }) => {
       </div>
     );
   }
-  return <Loader />;
+  return t('Data is not available at the moment');
 };
 
 LineChart.propTypes = {
