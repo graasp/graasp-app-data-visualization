@@ -18,6 +18,7 @@ import {
 } from '../../../actions';
 import Loader from '../../common/Loader';
 import { getUniqueVerbs } from './widgets/util';
+import SpaceTree from '../../common/SpaceTree';
 
 function getModalStyle() {
   const top = 50;
@@ -48,6 +49,7 @@ const styles = theme => ({
   },
   form: {
     width: '100%',
+    marginBottom: theme.spacing(2),
   },
   verbForm: {
     marginTop: theme.spacing(2),
@@ -187,13 +189,20 @@ class Settings extends Component {
     );
 
     return (
-      <FormControl component="fieldset" className={classes.form}>
-        <FormControlLabel
-          control={switchControl}
-          label={t('Show Header to Students')}
-        />
-        {this.renderActionChecks()}
-      </FormControl>
+      <>
+        <FormControl component="fieldset" className={classes.form}>
+          <FormControlLabel
+            control={switchControl}
+            label={t('Show Header to Students')}
+          />
+          {this.renderActionChecks()}
+        </FormControl>
+
+        <Typography variant="h6" className={classes.verbTitle}>
+          {t('Include the following spaces')}
+        </Typography>
+        <SpaceTree />
+      </>
     );
   }
 
