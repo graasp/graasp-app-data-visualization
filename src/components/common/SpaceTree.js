@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import SvgIcon from '@material-ui/core/SvgIcon';
-import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
+import { fade, withStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import TreeItem from '@material-ui/lab/TreeItem';
+import { connect } from 'react-redux';
+import { getSpaceTree, patchAppInstance } from '../../actions';
+import {
+  TREE_VIEW_MAX_HEIGHT,
+  TREE_VIEW_MAX_WIDTH,
+} from '../../config/settings';
 
 const MinusSquare = props => {
   return (
@@ -60,69 +67,138 @@ const StyledTreeItem = withStyles(theme => ({
   return <TreeItem icon={icon} {...props} />;
 });
 
-const useStyles = makeStyles({
+const styles = {
   root: {
-    height: 264,
+    maxHeight: TREE_VIEW_MAX_HEIGHT,
     flexGrow: 1,
-    maxWidth: 400,
+    maxWidth: TREE_VIEW_MAX_WIDTH,
   },
-});
+};
 
-const SpaceTree = () => {
-  const [selected, setSelected] = useState([]);
-  const classes = useStyles();
+class SpaceTree extends Component {
+  static propTypes = {
+    parentSpaceId: PropTypes.string,
+    settings: PropTypes.shape({}).isRequired,
+    dispatchPatchAppInstance: PropTypes.func.isRequired,
+    selectedSpaces: PropTypes.arrayOf(PropTypes.string).isRequired,
+    classes: PropTypes.shape({
+      root: PropTypes.string.isRequired,
+    }).isRequired,
+    dispatchGetSpaceTree: PropTypes.func.isRequired,
+    tree: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
+    expanded: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  };
 
-  const onNodeSelect = (e, v) => {
+  static defaultProps = {
+    parentSpaceId: null,
+  };
+
+  state = (() => {
+    const { selectedSpaces, parentSpaceId } = this.props;
+    return {
+      selected: selectedSpaces,
+      expanded: [parentSpaceId],
+    };
+  })();
+
+  async componentDidMount() {
+    const { dispatchGetSpaceTree, tree } = this.props;
+
+    // avoid fetching tree each time settings modal is closed
+    if (!tree.length) {
+      dispatchGetSpaceTree();
+    }
+  }
+
+  handleSpaceToggle = newSelectedSpaces => {
+    const { dispatchPatchAppInstance, settings } = this.props;
+    const settingsToChange = {
+      spaces: newSelectedSpaces,
+    };
+    const newSettings = {
+      ...settings,
+      ...settingsToChange,
+    };
+    dispatchPatchAppInstance({
+      data: newSettings,
+    });
+  };
+
+  onNodeSelect = (e, v) => {
+    const { selected } = this.state;
+    const clickedSpaceId = v[0];
+
     const res = [...selected];
-    const idx = res.indexOf(v);
+    const idx = res.indexOf(clickedSpaceId);
     if (idx >= 0) {
       res.splice(idx, 1);
     } else {
-      res.push(v[0]);
+      res.push(clickedSpaceId);
     }
-    setSelected(res);
+    this.setState({ selected: res });
+    this.handleSpaceToggle(res);
   };
 
-  return (
-    <TreeView
-      className={classes.root}
-      defaultExpanded={['1']}
-      defaultCollapseIcon={<MinusSquare />}
-      defaultExpandIcon={<PlusSquare />}
-      defaultEndIcon={<CloseSquare />}
-      multiSelect
-      selected={selected}
-      onNodeSelect={onNodeSelect}
-    >
-      <StyledTreeItem nodeId="1" label="Main">
-        <StyledTreeItem nodeId="2" label="Hello" />
+  renderTreeItem = items => {
+    const { selected } = this.state;
+
+    if (!items) {
+      return null;
+    }
+
+    return items.map(({ _id, name, children }) => {
+      return (
         <StyledTreeItem
-          selected={selected.includes('3')}
-          nodeId="3"
-          label="Subtree with children"
+          key={_id}
+          nodeId={_id}
+          label={name}
+          selected={selected.includes(_id)}
         >
-          <StyledTreeItem
-            selected={selected.includes('6')}
-            nodeId="6"
-            label="Hello"
-          />
-          <StyledTreeItem
-            selected={selected.includes('7')}
-            nodeId="7"
-            label="Sub-subtree with children"
-          >
-            <StyledTreeItem
-              selected={selected.includes('9')}
-              nodeId="9"
-              label="Child 1"
-            />
-            <StyledTreeItem nodeId="10" label="Child 2" />
-            <StyledTreeItem nodeId="11" label="Child 3" />
-          </StyledTreeItem>
-          <StyledTreeItem nodeId="8" label="Hello" />
+          {children && this.renderTreeItem(children)}
         </StyledTreeItem>
-      </StyledTreeItem>
-    </TreeView>
-  );
+      );
+    });
+  };
+
+  render() {
+    const { classes, tree, expanded } = this.props;
+    const { selected } = this.state;
+    return (
+      <TreeView
+        className={classes.root}
+        expanded={expanded}
+        defaultCollapseIcon={<MinusSquare />}
+        defaultExpandIcon={<PlusSquare />}
+        defaultEndIcon={<CloseSquare />}
+        multiSelect
+        selected={selected}
+        onNodeSelect={this.onNodeSelect}
+      >
+        {this.renderTreeItem(tree)}
+      </TreeView>
+    );
+  }
+}
+
+const mapStateToProps = ({ context, appInstance, layout }) => ({
+  spaceId: context.spaceId,
+  parentSpaceId: context.parentSpaceId,
+  settings: appInstance.content.settings,
+  selectedSpaces: appInstance.content.settings.spaces,
+  tree: layout.tree,
+  expanded: layout.expanded,
+});
+
+const mapDispatchToProps = {
+  dispatchPatchAppInstance: patchAppInstance,
+  dispatchGetSpaceTree: getSpaceTree,
 };
-export default SpaceTree;
+
+const ConnectedComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SpaceTree);
+
+const StyledComponent = withStyles(styles)(ConnectedComponent);
+
+export default StyledComponent;

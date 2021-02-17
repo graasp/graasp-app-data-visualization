@@ -1,12 +1,18 @@
-import { OPEN_SETTINGS, CLOSE_SETTINGS } from '../types';
+import {
+  OPEN_SETTINGS,
+  CLOSE_SETTINGS,
+  GET_SPACE_TREE_SUCCESS,
+} from '../types';
 
 const INITIAL_STATE = {
   settings: {
     open: false,
   },
+  tree: [],
+  expanded: [],
 };
 
-export default (state = INITIAL_STATE, { type }) => {
+export default (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
     case OPEN_SETTINGS:
       return {
@@ -23,6 +29,11 @@ export default (state = INITIAL_STATE, { type }) => {
           ...state.settings,
           open: false,
         },
+      };
+    case GET_SPACE_TREE_SUCCESS:
+      return {
+        ...state,
+        ...payload,
       };
     default:
       return state;

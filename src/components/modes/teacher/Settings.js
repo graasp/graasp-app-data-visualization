@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import SettingsIcon from '@material-ui/icons/Settings';
-import Checkbox from '@material-ui/core/Checkbox';
 import { Fab } from '@material-ui/core';
 import { withTranslation } from 'react-i18next';
 import {
@@ -16,9 +15,9 @@ import {
   openSettings,
   patchAppInstance,
 } from '../../../actions';
-import Loader from '../../common/Loader';
 import { getUniqueVerbs } from './widgets/util';
 import SpaceTree from '../../common/SpaceTree';
+import ActionsCheckboxes from '../../common/ActionsCheckboxes';
 
 function getModalStyle() {
   const top = 50;
@@ -77,7 +76,6 @@ class Settings extends Component {
       form: PropTypes.string,
     }).isRequired,
     open: PropTypes.bool.isRequired,
-    activity: PropTypes.bool.isRequired,
     settings: PropTypes.shape({
       headerVisible: PropTypes.bool.isRequired,
       studentsOnly: PropTypes.bool.isRequired,
@@ -90,7 +88,6 @@ class Settings extends Component {
     i18n: PropTypes.shape({
       defaultNS: PropTypes.string,
     }).isRequired,
-    verbs: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   saveSettings = settingsToChange => {
@@ -119,65 +116,9 @@ class Settings extends Component {
     dispatchCloseSettings();
   };
 
-  handleChangeHiddenVerbs = verb => {
-    const {
-      settings: { hiddenVerbs = [] },
-    } = this.props;
-    const checked = !hiddenVerbs.includes(verb);
-    let newHiddenVerbs = [...hiddenVerbs];
-    if (checked) {
-      newHiddenVerbs.push(verb);
-    } else {
-      newHiddenVerbs = newHiddenVerbs.filter(thisVerb => thisVerb !== verb);
-    }
-    this.saveSettings({ hiddenVerbs: newHiddenVerbs });
-  };
-
-  renderActionChecks = () => {
-    const {
-      verbs,
-      classes,
-      t,
-      settings: { hiddenVerbs = [] },
-    } = this.props;
-
-    const checkboxes = verbs.map(verb => {
-      const checkbox = (
-        <Checkbox
-          color="primary"
-          checked={!hiddenVerbs.includes(verb)}
-          onChange={() => this.handleChangeHiddenVerbs(verb)}
-          name={verb}
-          value={verb}
-        />
-      );
-      return (
-        <FormControlLabel
-          className={classes.checkbox}
-          control={checkbox}
-          label={verb}
-        />
-      );
-    });
-    return (
-      <>
-        <FormControl className={classes.verbForm}>
-          <Typography variant="h6" className={classes.verbTitle}>
-            {t('Include the following action verbs')}
-          </Typography>
-          {checkboxes}
-        </FormControl>
-      </>
-    );
-  };
-
   renderModalContent() {
-    const { t, settings, activity, classes } = this.props;
+    const { t, settings, classes } = this.props;
     const { headerVisible } = settings;
-
-    if (activity) {
-      return <Loader />;
-    }
 
     const switchControl = (
       <Switch
@@ -195,7 +136,7 @@ class Settings extends Component {
             control={switchControl}
             label={t('Show Header to Students')}
           />
-          {this.renderActionChecks()}
+          <ActionsCheckboxes />
         </FormControl>
 
         <Typography variant="h6" className={classes.verbTitle}>
@@ -241,7 +182,6 @@ const mapStateToProps = ({ layout, appInstance, action: { content } }) => {
   return {
     open: layout.settings.open,
     settings: appInstance.content.settings,
-    activity: Boolean(appInstance.activity.length),
     verbs: getUniqueVerbs(content).sort(),
   };
 };
