@@ -20,6 +20,7 @@ const closeSettings = () => dispatch =>
 export const getSpaceTree = () => async (dispatch, getState) => {
   const { apiHost, spaceId, parentSpaceId } = getApiContext(getState);
 
+  // recursive function to fetch the spaces and all their childrens
   const fetchSpaceAndChildren = async spaces => {
     if (!spaces) {
       return null;
@@ -37,6 +38,7 @@ export const getSpaceTree = () => async (dispatch, getState) => {
     );
   };
 
+  // recursive function to get all ids for all retrieved spaces
   const getAllIds = obj => {
     const ids = obj
       .map(({ _id, children }) => {
@@ -53,6 +55,10 @@ export const getSpaceTree = () => async (dispatch, getState) => {
   const tree = await fetchSpaceAndChildren([
     { _id: parentId, name: i18n.t('Spaces') },
   ]);
+
+  // force tree to be fully expanded
+  // todo: a better solution would be to know the path
+  // from a parent to spaceId and expanded all the way through
   const expanded = getAllIds(tree);
 
   dispatch({ type: GET_SPACE_TREE_SUCCESS, payload: { tree, expanded } });
