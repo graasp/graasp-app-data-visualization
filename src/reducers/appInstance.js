@@ -11,7 +11,7 @@ import { showErrorToast } from '../utils/toasts';
 
 const DEFAULT_SETTINGS = {
   headerVisible: false,
-  spaces: [],
+  spaces: null,
 };
 
 const INITIAL_STATE = {
@@ -42,8 +42,8 @@ export default (state = INITIAL_STATE, { payload, type }) => {
         return {
           ...state,
           content: {
-            ...state.content,
             settings: DEFAULT_SETTINGS,
+            ...state.content,
           },
           // mark instance as ready
           ready: true,

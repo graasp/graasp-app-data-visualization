@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
 import SvgIcon from '@material-ui/core/SvgIcon';
+import { withTranslation } from 'react-i18next';
 import { fade, withStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
@@ -73,6 +75,9 @@ const styles = {
     flexGrow: 1,
     maxWidth: TREE_VIEW_MAX_WIDTH,
   },
+  verbTitle: {
+    width: '100%',
+  },
 };
 
 class SpaceTree extends Component {
@@ -83,10 +88,12 @@ class SpaceTree extends Component {
     selectedSpaces: PropTypes.arrayOf(PropTypes.string).isRequired,
     classes: PropTypes.shape({
       root: PropTypes.string.isRequired,
+      verbTitle: PropTypes.string.isRequired,
     }).isRequired,
     dispatchGetSpaceTree: PropTypes.func.isRequired,
     tree: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
     expanded: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    t: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -161,21 +168,31 @@ class SpaceTree extends Component {
   };
 
   render() {
-    const { classes, tree, expanded } = this.props;
+    const { classes, tree, expanded, t } = this.props;
     const { selected } = this.state;
+
+    if (!tree.length) {
+      return null;
+    }
+
     return (
-      <TreeView
-        className={classes.root}
-        expanded={expanded}
-        defaultCollapseIcon={<MinusSquare />}
-        defaultExpandIcon={<PlusSquare />}
-        defaultEndIcon={<CloseSquare />}
-        multiSelect
-        selected={selected}
-        onNodeSelect={this.onNodeSelect}
-      >
-        {this.renderTreeItem(tree)}
-      </TreeView>
+      <>
+        <Typography variant="h6" className={classes.verbTitle}>
+          {t('Include the following spaces')}
+        </Typography>
+        <TreeView
+          className={classes.root}
+          expanded={expanded}
+          defaultCollapseIcon={<MinusSquare />}
+          defaultExpandIcon={<PlusSquare />}
+          defaultEndIcon={<CloseSquare />}
+          multiSelect
+          selected={selected}
+          onNodeSelect={this.onNodeSelect}
+        >
+          {this.renderTreeItem(tree)}
+        </TreeView>
+      </>
     );
   }
 }
@@ -184,7 +201,7 @@ const mapStateToProps = ({ context, appInstance, layout }) => ({
   spaceId: context.spaceId,
   parentSpaceId: context.parentSpaceId,
   settings: appInstance.content.settings,
-  selectedSpaces: appInstance.content.settings.spaces,
+  selectedSpaces: appInstance.content.settings.spaces || [context.spaceId],
   tree: layout.tree,
   expanded: layout.expanded,
 });
@@ -200,5 +217,6 @@ const ConnectedComponent = connect(
 )(SpaceTree);
 
 const StyledComponent = withStyles(styles)(ConnectedComponent);
+const TranslatedComponent = withTranslation()(StyledComponent);
 
-export default StyledComponent;
+export default TranslatedComponent;

@@ -22,7 +22,6 @@ const flagGettingActions = flag(FLAG_GETTING_ACTIONS);
 
 const getActions = async (
   params = {
-    spaceId: [],
     userId: [],
     visibility: undefined,
   },
@@ -30,17 +29,20 @@ const getActions = async (
   dispatch(flagGettingActions(true));
   try {
     const { apiHost, spaceId: currentSpaceId } = getApiContext(getState);
-    // by default include current space id
-    const { spaceId = [] } = params;
+    let { spaces = [] } = getState().appInstance?.content.settings || {};
 
-    if (!spaceId.length) {
-      spaceId.push(currentSpaceId);
+    // by default include current space id
+    if (!spaces) {
+      spaces = [currentSpaceId];
+    } else if (!spaces.length) {
+      spaces.push(currentSpaceId);
     }
 
     // create url from params
-    const url = `//${apiHost + ACTIONS_ENDPOINT}?${Qs.stringify(
-      params,
-    )}&pageSize=1000&page=0`;
+    const url = `//${apiHost + ACTIONS_ENDPOINT}?${Qs.stringify({
+      ...params,
+      spaceId: spaces,
+    })}&pageSize=1000&page=0`;
 
     const response = await fetch(url, DEFAULT_GET_REQUEST);
 

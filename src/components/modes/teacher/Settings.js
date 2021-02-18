@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +13,7 @@ import { Fab } from '@material-ui/core';
 import { withTranslation } from 'react-i18next';
 import {
   closeSettings,
+  getActions,
   openSettings,
   patchAppInstance,
 } from '../../../actions';
@@ -80,6 +82,7 @@ class Settings extends Component {
       headerVisible: PropTypes.bool.isRequired,
       studentsOnly: PropTypes.bool.isRequired,
       hiddenVerbs: PropTypes.arrayOf().isRequired,
+      spaces: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
     t: PropTypes.func.isRequired,
     dispatchCloseSettings: PropTypes.func.isRequired,
@@ -88,6 +91,11 @@ class Settings extends Component {
     i18n: PropTypes.shape({
       defaultNS: PropTypes.string,
     }).isRequired,
+    dispatchGetActions: PropTypes.func.isRequired,
+  };
+
+  state = {
+    selectedSpacesState: [],
   };
 
   saveSettings = settingsToChange => {
@@ -112,8 +120,22 @@ class Settings extends Component {
   };
 
   handleClose = () => {
-    const { dispatchCloseSettings } = this.props;
+    const { dispatchCloseSettings, settings, dispatchGetActions } = this.props;
+    const { selectedSpacesState } = this.state;
     dispatchCloseSettings();
+
+    // fetch actions again if selected spaces changed
+    if (!_.isEqual(selectedSpacesState, settings.spaces)) {
+      dispatchGetActions();
+    }
+  };
+
+  handleOpen = () => {
+    const { dispatchOpenSettings, settings } = this.props;
+    // set initial settings state to compare on close
+    this.setState({ selectedSpacesState: settings.spaces });
+
+    dispatchOpenSettings();
   };
 
   renderModalContent() {
@@ -139,16 +161,13 @@ class Settings extends Component {
           <ActionsCheckboxes />
         </FormControl>
 
-        <Typography variant="h6" className={classes.verbTitle}>
-          {t('Include the following spaces')}
-        </Typography>
         <SpaceTree />
       </>
     );
   }
 
   render() {
-    const { open, classes, t, dispatchOpenSettings } = this.props;
+    const { open, classes, t } = this.props;
 
     return (
       <div>
@@ -169,7 +188,7 @@ class Settings extends Component {
           color="primary"
           aria-label={t('Settings')}
           className={classes.fab}
-          onClick={dispatchOpenSettings}
+          onClick={() => this.handleOpen()}
         >
           <SettingsIcon />
         </Fab>
@@ -190,6 +209,7 @@ const mapDispatchToProps = {
   dispatchCloseSettings: closeSettings,
   dispatchOpenSettings: openSettings,
   dispatchPatchAppInstance: patchAppInstance,
+  dispatchGetActions: getActions,
 };
 
 const ConnectedComponent = connect(
