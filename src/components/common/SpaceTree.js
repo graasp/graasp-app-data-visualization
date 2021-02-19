@@ -201,7 +201,7 @@ const mapStateToProps = ({ context, appInstance, layout }) => ({
   spaceId: context.spaceId,
   parentSpaceId: context.parentSpaceId,
   settings: appInstance.content.settings,
-  selectedSpaces: appInstance.content.settings.spaces || [context.spaceId],
+  selectedSpaces: appInstance.content?.settings?.spaces || [context.spaceId],
   tree: layout.tree,
   expanded: layout.expanded,
 });

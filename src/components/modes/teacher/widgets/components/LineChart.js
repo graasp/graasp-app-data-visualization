@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { ResponsiveLine } from '@nivo/line';
@@ -16,33 +16,36 @@ const LineChart = ({ data, colors, xAxis, yAxis, values, maxTicks }) => {
       .length,
   );
 
-  const enabledData = hidden => {
-    const dataFiltered = [];
-    const colorFiltered = {};
-    data.forEach(d => {
-      if (hidden.includes(d.id)) {
-        const Obj = {};
-        Obj.id = d.id;
-        const ObjData = [];
-        d.data.forEach(e => {
-          ObjData.push({
-            x: e.x,
-            y: 0,
+  const enabledData = useCallback(
+    hidden => {
+      const dataFiltered = [];
+      const colorFiltered = {};
+      data.forEach(d => {
+        if (hidden.includes(d.id)) {
+          const Obj = {};
+          Obj.id = d.id;
+          const ObjData = [];
+          d.data.forEach(e => {
+            ObjData.push({
+              x: e.x,
+              y: 0,
+            });
           });
-        });
-        Obj.data = ObjData;
-        dataFiltered.push(Obj);
-        colorFiltered[d.id] = 'grey';
-      } else {
-        dataFiltered.push(d);
-        colorFiltered[d.id] = colors[d.id];
-      }
-    });
-    setFilteredColor(colorFiltered);
-    setFilteredData(dataFiltered);
-  };
+          Obj.data = ObjData;
+          dataFiltered.push(Obj);
+          colorFiltered[d.id] = 'grey';
+        } else {
+          dataFiltered.push(d);
+          colorFiltered[d.id] = colors[d.id];
+        }
+      });
+      setFilteredColor(colorFiltered);
+      setFilteredData(dataFiltered);
+    },
+    [colors, data],
+  );
 
-  useEffect(() => enabledData(hiddenKeys), [data]);
+  useEffect(() => enabledData(hiddenKeys), [data, enabledData, hiddenKeys]);
   const toggle = d => {
     let temp = hiddenKeys;
     if (!hiddenKeys.includes(d.id)) {

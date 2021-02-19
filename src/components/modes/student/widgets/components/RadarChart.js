@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { ResponsiveRadar } from '@nivo/radar';
 import PropTypes from 'prop-types';
 import Loader from '../../../../common/Loader';
@@ -8,33 +8,36 @@ const RadarChart = ({ data, colors, keys, indexBy }) => {
   const [filteredData, setFilteredData] = useState(data);
   const [filteredColor, setFilteredColor] = useState(colors);
 
-  const enabledData = hidden => {
-    const dataFiltered = [];
-    const colorFiltered = {};
+  const enabledData = useCallback(
+    hidden => {
+      const dataFiltered = [];
+      const colorFiltered = {};
 
-    data.forEach(d => {
-      const Obj = {};
-      Obj[indexBy] = d[indexBy];
+      data.forEach(d => {
+        const Obj = {};
+        Obj[indexBy] = d[indexBy];
+        keys.forEach(key => {
+          if (hidden.includes(key)) Obj[key] = 0;
+          else {
+            Obj[key] = d[key];
+          }
+        });
+        dataFiltered.push(Obj);
+      });
       keys.forEach(key => {
-        if (hidden.includes(key)) Obj[key] = 0;
-        else {
-          Obj[key] = d[key];
+        if (hidden.includes(key)) {
+          colorFiltered[key] = 'grey';
+        } else {
+          colorFiltered[key] = colors[key];
         }
       });
-      dataFiltered.push(Obj);
-    });
-    keys.forEach(key => {
-      if (hidden.includes(key)) {
-        colorFiltered[key] = 'grey';
-      } else {
-        colorFiltered[key] = colors[key];
-      }
-    });
-    setFilteredColor(colorFiltered);
-    setFilteredData(dataFiltered);
-  };
+      setFilteredColor(colorFiltered);
+      setFilteredData(dataFiltered);
+    },
+    [colors, data, indexBy, keys],
+  );
 
-  useEffect(() => enabledData(hiddenKeys), [data]);
+  useEffect(() => enabledData(hiddenKeys), [data, enabledData, hiddenKeys]);
 
   const toggle = d => {
     let temp = hiddenKeys;
