@@ -57,7 +57,7 @@ const getAppInstance = async () => async (dispatch, getState) => {
     const appInstance = await response.json();
 
     // set default selected space if is not defined
-    if (!appInstance.settings.spaces && spaceId) {
+    if (appInstance?.settings && !appInstance.settings?.spaces && spaceId) {
       appInstance.settings.spaces = [spaceId];
     }
 
