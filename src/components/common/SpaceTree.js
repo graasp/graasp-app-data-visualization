@@ -108,7 +108,7 @@ class SpaceTree extends Component {
     };
   })();
 
-  async componentDidMount() {
+  componentDidMount() {
     const { dispatchGetSpaceTree, tree } = this.props;
 
     // avoid fetching tree each time settings modal is closed

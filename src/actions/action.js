@@ -32,17 +32,17 @@ const getActions = async (
     let { spaces = [] } = getState().appInstance?.content.settings || {};
 
     // by default include current space id
-    if (!spaces) {
+    if (!spaces || !spaces.length) {
       spaces = [currentSpaceId];
-    } else if (!spaces.length) {
-      spaces.push(currentSpaceId);
     }
 
     // create url from params
     const url = `//${apiHost + ACTIONS_ENDPOINT}?${Qs.stringify({
       ...params,
       spaceId: spaces,
-    })}&pageSize=1000&page=0`;
+      pageSize: 1000,
+      page: 0,
+    })}`;
 
     const response = await fetch(url, DEFAULT_GET_REQUEST);
 

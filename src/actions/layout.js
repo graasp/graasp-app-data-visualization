@@ -6,13 +6,14 @@ import {
   OPEN_SETTINGS,
 } from '../types';
 import { getApiContext } from './common';
+import { SPACE_TREE_PARENT_NAME } from '../config/settings';
 
-const openSettings = () => dispatch =>
+export const openSettings = () => dispatch =>
   dispatch({
     type: OPEN_SETTINGS,
   });
 
-const closeSettings = () => dispatch =>
+export const closeSettings = () => dispatch =>
   dispatch({
     type: CLOSE_SETTINGS,
   });
@@ -53,7 +54,7 @@ export const getSpaceTree = () => async (dispatch, getState) => {
   const parentId = parentSpaceId || spaceId;
 
   const tree = await fetchSpaceAndChildren([
-    { _id: parentId, name: i18n.t('Spaces') },
+    { _id: parentId, name: i18n.t(SPACE_TREE_PARENT_NAME) },
   ]);
 
   // force tree to be fully expanded
@@ -63,5 +64,3 @@ export const getSpaceTree = () => async (dispatch, getState) => {
 
   dispatch({ type: GET_SPACE_TREE_SUCCESS, payload: { tree, expanded } });
 };
-
-export { openSettings, closeSettings };

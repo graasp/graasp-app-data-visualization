@@ -42,8 +42,8 @@ export default (state = INITIAL_STATE, { payload, type }) => {
         return {
           ...state,
           content: {
-            settings: DEFAULT_SETTINGS,
             ...state.content,
+            settings: DEFAULT_SETTINGS,
           },
           // mark instance as ready
           ready: true,

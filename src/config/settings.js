@@ -38,3 +38,4 @@ export const SCREEN_SIZE_RANGE = [750, 1200, 1920];
 
 export const TREE_VIEW_MAX_WIDTH = 400;
 export const TREE_VIEW_MAX_HEIGHT = 350;
+export const SPACE_TREE_PARENT_NAME = 'Spaces';
