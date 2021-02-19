@@ -6,7 +6,8 @@ import {
   OPEN_SETTINGS,
 } from '../types';
 import { getApiContext } from './common';
-import { SPACE_TREE_PARENT_NAME } from '../config/settings';
+import { DEFAULT_API_HOST, SPACE_TREE_PARENT_NAME } from '../config/settings';
+import { REACT_APP_GRAASP_HOST } from '../config/env';
 
 export const openSettings = () => dispatch =>
   dispatch({
@@ -19,7 +20,10 @@ export const closeSettings = () => dispatch =>
   });
 
 export const getSpaceTree = () => async (dispatch, getState) => {
-  const { apiHost, spaceId, parentSpaceId } = getApiContext(getState);
+  const { dev, spaceId, parentSpaceId } = getApiContext(getState);
+
+  // use local server on dev,
+  const host = dev ? DEFAULT_API_HOST : REACT_APP_GRAASP_HOST;
 
   // recursive function to fetch the spaces and all their childrens
   const fetchSpaceAndChildren = async spaces => {
@@ -29,7 +33,7 @@ export const getSpaceTree = () => async (dispatch, getState) => {
 
     return Promise.all(
       spaces.map(async ({ _id, name }) => {
-        const subspaces = await getChildren(_id, apiHost);
+        const subspaces = await getChildren(_id, host);
         return {
           _id,
           name,

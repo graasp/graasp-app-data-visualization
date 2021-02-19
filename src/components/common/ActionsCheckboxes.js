@@ -55,6 +55,10 @@ function ActionsCheckboxes({
 }) {
   const { hiddenVerbs = [] } = settings;
 
+  if (!verbs.length) {
+    return null;
+  }
+
   const handleChangeHiddenVerbs = verb => {
     const checked = !hiddenVerbs.includes(verb);
     let newHiddenVerbs = [...hiddenVerbs];

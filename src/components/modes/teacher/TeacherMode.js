@@ -8,6 +8,7 @@ import { DASHBOARD_VIEW, DEFAULT_VIEW } from '../../../config/views';
 import { getActions, getAppInstanceResources } from '../../../actions';
 import Loader from '../../common/Loader';
 import NoDataAvailable from '../../common/NoDataAvailable';
+import Settings from './Settings';
 
 class TeacherMode extends Component {
   static propTypes = {
@@ -50,7 +51,12 @@ class TeacherMode extends Component {
       return <Loader />;
     }
     if (!data.length) {
-      return <NoDataAvailable />;
+      return (
+        <>
+          <NoDataAvailable />
+          <Settings />
+        </>
+      );
     }
 
     switch (view) {

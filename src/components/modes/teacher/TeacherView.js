@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-
+import Loader from '../../common/Loader';
 import './TeacherView.css';
 import { getUsers } from '../../../actions';
 import Settings from './Settings';
@@ -21,6 +21,7 @@ export class TeacherView extends PureComponent {
       paper: PropTypes.string,
       title: PropTypes.string,
     }).isRequired,
+    activity: PropTypes.bool.isRequired,
   };
 
   static styles = theme => ({
@@ -48,7 +49,11 @@ export class TeacherView extends PureComponent {
   });
 
   render() {
-    const { classes } = this.props;
+    const { classes, activity } = this.props;
+
+    if (activity) {
+      return <Loader />;
+    }
 
     return (
       <div className={classes.main}>
@@ -77,7 +82,7 @@ export class TeacherView extends PureComponent {
 }
 
 // get the app instance resources that are saved in the redux store
-const mapStateToProps = ({ users, appInstanceResources }) => ({
+const mapStateToProps = ({ users, appInstanceResources, action }) => ({
   // we transform the list of students in the database
   // to the shape needed by the select component
   studentOptions: users.content.map(({ id, name }) => ({
@@ -85,6 +90,7 @@ const mapStateToProps = ({ users, appInstanceResources }) => ({
     label: name,
   })),
   appInstanceResources: appInstanceResources.content,
+  activity: Boolean(action.activity.length),
 });
 
 // allow this component to dispatch a post

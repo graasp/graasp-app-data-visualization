@@ -32,8 +32,15 @@ const getActions = async (
     let { spaces = [] } = getState().appInstance?.content.settings || {};
 
     // by default include current space id
-    if (!spaces || !spaces.length) {
+    if (!spaces) {
       spaces = [currentSpaceId];
+    }
+
+    if (!spaces.length) {
+      return dispatch({
+        type: GET_ACTIONS_SUCCEEDED,
+        payload: [],
+      });
     }
 
     // create url from params
@@ -52,13 +59,13 @@ const getActions = async (
     const actions = await response.json();
 
     // tell redux that we have the actions
-    dispatch({
+    return dispatch({
       type: GET_ACTIONS_SUCCEEDED,
       payload: actions,
     });
   } catch (err) {
     // tell redux that we encountered an error
-    dispatch({
+    return dispatch({
       type: GET_ACTIONS_FAILED,
       payload: err,
     });
