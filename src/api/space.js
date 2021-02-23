@@ -10,14 +10,14 @@ export const getChildren = async (id, apiHost) => {
       DEFAULT_GET,
     );
 
-    const test = await fetch(`https://graasp.eu/spaces/${id}`, DEFAULT_GET);
-    console.log(test);
-
     const content = await res.json();
 
     return !_.isEmpty(content) ? content : [];
   } catch (e) {
     console.error(e);
+
+    const test = await fetch(`https://graasp.eu/spaces/${id}`, DEFAULT_GET);
+    console.log(test);
 
     return [];
   }
