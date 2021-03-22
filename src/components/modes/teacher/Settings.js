@@ -78,7 +78,6 @@ class Settings extends Component {
       checkbox: PropTypes.string,
       verbForm: PropTypes.string,
       form: PropTypes.string,
-      modal: PropTypes.string,
     }).isRequired,
     open: PropTypes.bool.isRequired,
     settings: PropTypes.shape({
