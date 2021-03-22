@@ -16,9 +16,6 @@ export const getChildren = async (id, apiHost) => {
   } catch (e) {
     console.error(e);
 
-    const test = await fetch(`https://graasp.eu/spaces/${id}`, DEFAULT_GET);
-    console.log(test);
-
     return [];
   }
 };

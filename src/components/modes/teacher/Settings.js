@@ -39,6 +39,8 @@ const styles = theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(4),
     outline: 'none',
+    overflow: 'auto',
+    maxHeight: '80%',
   },
   button: {
     margin: theme.spacing(),
@@ -76,6 +78,7 @@ class Settings extends Component {
       checkbox: PropTypes.string,
       verbForm: PropTypes.string,
       form: PropTypes.string,
+      modal: PropTypes.string,
     }).isRequired,
     open: PropTypes.bool.isRequired,
     settings: PropTypes.shape({
