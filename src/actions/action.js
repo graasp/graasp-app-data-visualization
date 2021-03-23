@@ -1,5 +1,9 @@
 import Qs from 'qs';
-import { DEFAULT_VISIBILITY } from '../config/settings';
+import {
+  ACTIONS_DEFAULT_PAGE,
+  ACTIONS_PAGE_SIZE,
+  DEFAULT_VISIBILITY,
+} from '../config/settings';
 import { flag, getApiContext, isErrorResponse, postMessage } from './common';
 import {
   FLAG_POSTING_ACTION,
@@ -22,7 +26,6 @@ const flagGettingActions = flag(FLAG_GETTING_ACTIONS);
 
 const getActions = async (
   params = {
-    spaceId: [],
     userId: [],
     visibility: undefined,
   },
@@ -30,17 +33,27 @@ const getActions = async (
   dispatch(flagGettingActions(true));
   try {
     const { apiHost, spaceId: currentSpaceId } = getApiContext(getState);
-    // by default include current space id
-    const { spaceId = [] } = params;
+    let { spaces = [] } = getState().appInstance?.content.settings || {};
 
-    if (!spaceId.length) {
-      spaceId.push(currentSpaceId);
+    // by default include current space id
+    if (!spaces) {
+      spaces = [currentSpaceId];
+    }
+
+    if (!spaces.length) {
+      return dispatch({
+        type: GET_ACTIONS_SUCCEEDED,
+        payload: [],
+      });
     }
 
     // create url from params
-    const url = `//${apiHost + ACTIONS_ENDPOINT}?${Qs.stringify(
-      params,
-    )}&pageSize=1000&page=0`;
+    const url = `//${apiHost + ACTIONS_ENDPOINT}?${Qs.stringify({
+      ...params,
+      spaceId: spaces,
+      pageSize: ACTIONS_PAGE_SIZE,
+      page: ACTIONS_DEFAULT_PAGE,
+    })}`;
 
     const response = await fetch(url, DEFAULT_GET_REQUEST);
 
@@ -50,13 +63,13 @@ const getActions = async (
     const actions = await response.json();
 
     // tell redux that we have the actions
-    dispatch({
+    return dispatch({
       type: GET_ACTIONS_SUCCEEDED,
       payload: actions,
     });
   } catch (err) {
     // tell redux that we encountered an error
-    dispatch({
+    return dispatch({
       type: GET_ACTIONS_FAILED,
       payload: err,
     });

@@ -7,6 +7,8 @@ import TeacherView from './TeacherView';
 import { DASHBOARD_VIEW, DEFAULT_VIEW } from '../../../config/views';
 import { getActions, getAppInstanceResources } from '../../../actions';
 import Loader from '../../common/Loader';
+import NoDataAvailable from '../../common/NoDataAvailable';
+import Settings from './Settings';
 
 class TeacherMode extends Component {
   static propTypes = {
@@ -16,6 +18,8 @@ class TeacherMode extends Component {
     actions: PropTypes.array,
     dispatchGetAppInstanceResources: PropTypes.func.isRequired,
     dispatchGetActions: PropTypes.func.isRequired,
+    data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    t: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -42,10 +46,19 @@ class TeacherMode extends Component {
   }
 
   render() {
-    const { view, activity } = this.props;
+    const { view, activity, data } = this.props;
     if (activity) {
       return <Loader />;
     }
+    if (!data.length) {
+      return (
+        <>
+          <NoDataAvailable />
+          <Settings />
+        </>
+      );
+    }
+
     switch (view) {
       case DASHBOARD_VIEW:
       case DEFAULT_VIEW:
@@ -54,9 +67,10 @@ class TeacherMode extends Component {
     }
   }
 }
-const mapStateToProps = ({ context, appInstanceResources }) => ({
+const mapStateToProps = ({ context, appInstanceResources, action }) => ({
   appInstanceId: context.appInstanceId,
   activity: Boolean(appInstanceResources.activity.length),
+  data: action.content,
 });
 
 const mapDispatchToProps = {

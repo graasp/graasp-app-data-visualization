@@ -56,6 +56,11 @@ const getAppInstance = async () => async (dispatch, getState) => {
 
     const appInstance = await response.json();
 
+    // set default selected space if is not defined
+    if (appInstance?.settings && !appInstance.settings?.spaces && spaceId) {
+      appInstance.settings.spaces = [spaceId];
+    }
+
     // send the app instance to the reducer
     return dispatch({
       type: GET_APP_INSTANCE_SUCCEEDED,

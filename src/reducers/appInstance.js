@@ -11,6 +11,7 @@ import { showErrorToast } from '../utils/toasts';
 
 const DEFAULT_SETTINGS = {
   headerVisible: false,
+  spaces: null,
 };
 
 const INITIAL_STATE = {

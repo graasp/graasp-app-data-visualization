@@ -1,8 +1,14 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useState,
+  useCallback,
+} from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import PropTypes from 'prop-types';
 import Loader from '../../../../common/Loader';
 import { HEIGHT, MARGIN, WIDTH, X_AXIS, Y_AXIS } from '../../../chartDesign';
+import { DISABLED_COLOR } from '../../../../../config/settings';
 
 const LineChart = ({ data, colors, xAxis, yAxis, id, values, maxTicks }) => {
   const [hiddenKeys, setHiddenKeys] = useState([]);
@@ -10,19 +16,19 @@ const LineChart = ({ data, colors, xAxis, yAxis, id, values, maxTicks }) => {
   const [filteredColor, setFilteredColor] = useState(colors);
   const [size, setSize] = useState(0);
 
-  const updateSize = () => {
+  const updateSize = useCallback(() => {
     if (document.getElementById(id)) {
       const height = document.getElementById(id).clientHeight;
       if (height > 0) {
         setSize(height);
       }
     }
-  };
+  }, [id]);
   useLayoutEffect(() => {
     window.addEventListener('resize', updateSize);
     updateSize();
     return () => window.removeEventListener('resize', updateSize);
-  }, []);
+  }, [updateSize]);
 
   if (document.getElementById(id)) {
     const height = document.getElementById(id).clientHeight;
@@ -31,33 +37,36 @@ const LineChart = ({ data, colors, xAxis, yAxis, id, values, maxTicks }) => {
     }
   }
 
-  const enabledData = hidden => {
-    const dataFiltered = [];
-    const colorFiltered = {};
-    data.forEach(d => {
-      if (hidden.includes(d.id)) {
-        const Obj = {};
-        Obj.id = d.id;
-        const ObjData = [];
-        d.data.forEach(e => {
-          ObjData.push({
-            x: e.x,
-            y: 0,
+  const enabledData = useCallback(
+    hidden => {
+      const dataFiltered = [];
+      const colorFiltered = {};
+      data.forEach(d => {
+        if (hidden.includes(d.id)) {
+          const Obj = {};
+          Obj.id = d.id;
+          const ObjData = [];
+          d.data.forEach(e => {
+            ObjData.push({
+              x: e.x,
+              y: 0,
+            });
           });
-        });
-        Obj.data = ObjData;
-        dataFiltered.push(Obj);
-        colorFiltered[d.id] = 'grey';
-      } else {
-        dataFiltered.push(d);
-        colorFiltered[d.id] = colors[d.id];
-      }
-    });
-    setFilteredColor(colorFiltered);
-    setFilteredData(dataFiltered);
-  };
+          Obj.data = ObjData;
+          dataFiltered.push(Obj);
+          colorFiltered[d.id] = DISABLED_COLOR;
+        } else {
+          dataFiltered.push(d);
+          colorFiltered[d.id] = colors[d.id];
+        }
+      });
+      setFilteredColor(colorFiltered);
+      setFilteredData(dataFiltered);
+    },
+    [data, colors],
+  );
 
-  useEffect(() => enabledData(hiddenKeys), [data]);
+  useEffect(() => enabledData(hiddenKeys), [enabledData, hiddenKeys]);
 
   const toggle = d => {
     let temp = hiddenKeys;

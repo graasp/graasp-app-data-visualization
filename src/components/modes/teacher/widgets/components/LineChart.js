@@ -1,41 +1,52 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { ResponsiveLine } from '@nivo/line';
 import PropTypes from 'prop-types';
 import Loader from '../../../../common/Loader';
 import { HEIGHT, MARGIN, WIDTH, X_AXIS, Y_AXIS } from '../../../chartDesign';
+import { DISABLED_COLOR } from '../../../../../config/settings';
 
 const LineChart = ({ data, colors, xAxis, yAxis, values, maxTicks }) => {
+  const { t } = useTranslation();
   const [hiddenKeys, setHiddenKeys] = useState([]);
   const [filteredData, setFilteredData] = useState(data);
   const [filteredColor, setFilteredColor] = useState(colors);
+  const activity = Boolean(
+    useSelector(({ appInstanceResources }) => appInstanceResources.activity)
+      .length,
+  );
 
-  const enabledData = hidden => {
-    const dataFiltered = [];
-    const colorFiltered = {};
-    data.forEach(d => {
-      if (hidden.includes(d.id)) {
-        const Obj = {};
-        Obj.id = d.id;
-        const ObjData = [];
-        d.data.forEach(e => {
-          ObjData.push({
-            x: e.x,
-            y: 0,
+  const enabledData = useCallback(
+    hidden => {
+      const dataFiltered = [];
+      const colorFiltered = {};
+      data.forEach(d => {
+        if (hidden.includes(d.id)) {
+          const Obj = {};
+          Obj.id = d.id;
+          const ObjData = [];
+          d.data.forEach(e => {
+            ObjData.push({
+              x: e.x,
+              y: 0,
+            });
           });
-        });
-        Obj.data = ObjData;
-        dataFiltered.push(Obj);
-        colorFiltered[d.id] = 'grey';
-      } else {
-        dataFiltered.push(d);
-        colorFiltered[d.id] = colors[d.id];
-      }
-    });
-    setFilteredColor(colorFiltered);
-    setFilteredData(dataFiltered);
-  };
+          Obj.data = ObjData;
+          dataFiltered.push(Obj);
+          colorFiltered[d.id] = DISABLED_COLOR;
+        } else {
+          dataFiltered.push(d);
+          colorFiltered[d.id] = colors[d.id];
+        }
+      });
+      setFilteredColor(colorFiltered);
+      setFilteredData(dataFiltered);
+    },
+    [colors, data],
+  );
 
-  useEffect(() => enabledData(hiddenKeys), [data]);
+  useEffect(() => enabledData(hiddenKeys), [data, enabledData, hiddenKeys]);
   const toggle = d => {
     let temp = hiddenKeys;
     if (!hiddenKeys.includes(d.id)) {
@@ -47,6 +58,10 @@ const LineChart = ({ data, colors, xAxis, yAxis, values, maxTicks }) => {
     }
     enabledData(temp);
   };
+
+  if (activity) {
+    return <Loader />;
+  }
 
   if (data.length > 0) {
     return (
@@ -106,7 +121,7 @@ const LineChart = ({ data, colors, xAxis, yAxis, values, maxTicks }) => {
       </div>
     );
   }
-  return <Loader />;
+  return t('Data is not available at the moment');
 };
 
 LineChart.propTypes = {

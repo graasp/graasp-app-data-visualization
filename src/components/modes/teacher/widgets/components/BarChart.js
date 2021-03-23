@@ -6,13 +6,14 @@ import _ from 'lodash';
 import Loader from '../../../../common/Loader';
 import { HEIGHT, MARGIN, WIDTH, X_AXIS, Y_AXIS } from '../../../chartDesign';
 import { getColorForScheme } from '../util';
+import { DISABLED_COLOR } from '../../../../../config/settings';
 
 const BarChart = ({ data, keys, indexBy, xAxis, yAxis, values, maxTicks }) => {
   const [hiddenKeys, setHiddenKeys] = useState([]);
 
   const colors = ({ id }) => {
     if (hiddenKeys.includes(id)) {
-      return 'grey';
+      return DISABLED_COLOR;
     }
     return getColorForScheme(id, keys);
   };
@@ -37,7 +38,9 @@ const BarChart = ({ data, keys, indexBy, xAxis, yAxis, values, maxTicks }) => {
         const Obj = {};
         Obj.id = key;
         Obj.label = key;
-        Obj.fill = hiddenKeys.includes(key) ? 'grey' : colors({ id: key });
+        Obj.fill = hiddenKeys.includes(key)
+          ? DISABLED_COLOR
+          : colors({ id: key });
         Obj.itemTextColor = 'white';
         return Obj;
       })

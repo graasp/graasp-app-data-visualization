@@ -6,6 +6,7 @@ import StudentView from './StudentView';
 import { DEFAULT_VIEW, FEEDBACK_VIEW } from '../../../config/views';
 import { getActions, getAppInstanceResources } from '../../../actions';
 import Loader from '../../common/Loader';
+import NoDataAvailable from '../../common/NoDataAvailable';
 
 class StudentMode extends Component {
   static propTypes = {
@@ -15,7 +16,9 @@ class StudentMode extends Component {
     dispatchGetAppInstanceResources: PropTypes.func.isRequired,
     dispatchGetActions: PropTypes.func.isRequired,
     userId: PropTypes.string,
-    spaceId: PropTypes.string,
+    action: PropTypes.shape({
+      content: PropTypes.arrayOf(PropTypes.shape({})),
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -28,7 +31,6 @@ class StudentMode extends Component {
   componentDidMount() {
     const {
       userId,
-      spaceId,
       dispatchGetAppInstanceResources,
       dispatchGetActions,
     } = this.props;
@@ -36,7 +38,7 @@ class StudentMode extends Component {
     // by default get the resources for this user
     dispatchGetAppInstanceResources({ userId });
     // by default get all actions for this user
-    dispatchGetActions({ spaceId, visibility: 'public' });
+    dispatchGetActions({ visibility: 'public' });
   }
 
   componentDidUpdate({ appInstanceId: prevAppInstanceId }) {
@@ -52,10 +54,14 @@ class StudentMode extends Component {
   }
 
   render() {
-    const { view, activity } = this.props;
+    const { view, activity, action } = this.props;
     if (activity) {
       return <Loader />;
     }
+    if (!action?.content.length) {
+      return <NoDataAvailable />;
+    }
+
     switch (view) {
       case FEEDBACK_VIEW:
       case DEFAULT_VIEW:
@@ -65,10 +71,9 @@ class StudentMode extends Component {
   }
 }
 const mapStateToProps = ({ context, appInstanceResources, action }) => {
-  const { userId, appInstanceId, spaceId } = context;
+  const { userId, appInstanceId } = context;
   return {
     userId,
-    spaceId,
     appInstanceId,
     action,
     activity: appInstanceResources.activity.length,

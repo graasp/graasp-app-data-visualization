@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -8,16 +9,17 @@ import { connect } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import SettingsIcon from '@material-ui/icons/Settings';
-import Checkbox from '@material-ui/core/Checkbox';
 import { Fab } from '@material-ui/core';
 import { withTranslation } from 'react-i18next';
 import {
   closeSettings,
+  getActions,
   openSettings,
   patchAppInstance,
 } from '../../../actions';
-import Loader from '../../common/Loader';
 import { getUniqueVerbs } from './widgets/util';
+import SpaceTree from '../../common/SpaceTree';
+import ActionsCheckboxes from '../../common/ActionsCheckboxes';
 
 function getModalStyle() {
   const top = 50;
@@ -37,17 +39,20 @@ const styles = theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(4),
     outline: 'none',
+    overflow: 'auto',
+    maxHeight: '80%',
   },
   button: {
     margin: theme.spacing(),
   },
   fab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
   form: {
     width: '100%',
+    marginBottom: theme.spacing(2),
   },
   verbForm: {
     marginTop: theme.spacing(2),
@@ -75,11 +80,11 @@ class Settings extends Component {
       form: PropTypes.string,
     }).isRequired,
     open: PropTypes.bool.isRequired,
-    activity: PropTypes.bool.isRequired,
     settings: PropTypes.shape({
       headerVisible: PropTypes.bool.isRequired,
       studentsOnly: PropTypes.bool.isRequired,
       hiddenVerbs: PropTypes.arrayOf().isRequired,
+      spaces: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
     t: PropTypes.func.isRequired,
     dispatchCloseSettings: PropTypes.func.isRequired,
@@ -88,7 +93,11 @@ class Settings extends Component {
     i18n: PropTypes.shape({
       defaultNS: PropTypes.string,
     }).isRequired,
-    verbs: PropTypes.arrayOf(PropTypes.string).isRequired,
+    dispatchGetActions: PropTypes.func.isRequired,
+  };
+
+  state = {
+    selectedSpacesState: [],
   };
 
   saveSettings = settingsToChange => {
@@ -113,69 +122,27 @@ class Settings extends Component {
   };
 
   handleClose = () => {
-    const { dispatchCloseSettings } = this.props;
+    const { dispatchCloseSettings, settings, dispatchGetActions } = this.props;
+    const { selectedSpacesState } = this.state;
     dispatchCloseSettings();
-  };
 
-  handleChangeHiddenVerbs = verb => {
-    const {
-      settings: { hiddenVerbs = [] },
-    } = this.props;
-    const checked = !hiddenVerbs.includes(verb);
-    let newHiddenVerbs = [...hiddenVerbs];
-    if (checked) {
-      newHiddenVerbs.push(verb);
-    } else {
-      newHiddenVerbs = newHiddenVerbs.filter(thisVerb => thisVerb !== verb);
+    // fetch actions again if selected spaces changed
+    if (!_.isEqual(selectedSpacesState, settings.spaces)) {
+      dispatchGetActions();
     }
-    this.saveSettings({ hiddenVerbs: newHiddenVerbs });
   };
 
-  renderActionChecks = () => {
-    const {
-      verbs,
-      classes,
-      t,
-      settings: { hiddenVerbs = [] },
-    } = this.props;
+  handleOpen = () => {
+    const { dispatchOpenSettings, settings } = this.props;
+    // set initial settings state to compare on close
+    this.setState({ selectedSpacesState: settings.spaces });
 
-    const checkboxes = verbs.map(verb => {
-      const checkbox = (
-        <Checkbox
-          color="primary"
-          checked={!hiddenVerbs.includes(verb)}
-          onChange={() => this.handleChangeHiddenVerbs(verb)}
-          name={verb}
-          value={verb}
-        />
-      );
-      return (
-        <FormControlLabel
-          className={classes.checkbox}
-          control={checkbox}
-          label={verb}
-        />
-      );
-    });
-    return (
-      <>
-        <FormControl className={classes.verbForm}>
-          <Typography variant="h6" className={classes.verbTitle}>
-            {t('Include the following action verbs')}
-          </Typography>
-          {checkboxes}
-        </FormControl>
-      </>
-    );
+    dispatchOpenSettings();
   };
 
   renderModalContent() {
-    const { t, settings, activity, classes } = this.props;
+    const { t, settings, classes } = this.props;
     const { headerVisible } = settings;
-
-    if (activity) {
-      return <Loader />;
-    }
 
     const switchControl = (
       <Switch
@@ -187,18 +154,22 @@ class Settings extends Component {
     );
 
     return (
-      <FormControl component="fieldset" className={classes.form}>
-        <FormControlLabel
-          control={switchControl}
-          label={t('Show Header to Students')}
-        />
-        {this.renderActionChecks()}
-      </FormControl>
+      <>
+        <FormControl component="fieldset" className={classes.form}>
+          <FormControlLabel
+            control={switchControl}
+            label={t('Show Header to Students')}
+          />
+          <ActionsCheckboxes />
+        </FormControl>
+
+        <SpaceTree />
+      </>
     );
   }
 
   render() {
-    const { open, classes, t, dispatchOpenSettings } = this.props;
+    const { open, classes, t } = this.props;
 
     return (
       <div>
@@ -219,7 +190,7 @@ class Settings extends Component {
           color="primary"
           aria-label={t('Settings')}
           className={classes.fab}
-          onClick={dispatchOpenSettings}
+          onClick={() => this.handleOpen()}
         >
           <SettingsIcon />
         </Fab>
@@ -232,7 +203,6 @@ const mapStateToProps = ({ layout, appInstance, action: { content } }) => {
   return {
     open: layout.settings.open,
     settings: appInstance.content.settings,
-    activity: Boolean(appInstance.activity.length),
     verbs: getUniqueVerbs(content).sort(),
   };
 };
@@ -241,6 +211,7 @@ const mapDispatchToProps = {
   dispatchCloseSettings: closeSettings,
   dispatchOpenSettings: openSettings,
   dispatchPatchAppInstance: patchAppInstance,
+  dispatchGetActions: getActions,
 };
 
 const ConnectedComponent = connect(

@@ -1,6 +1,6 @@
 import { ResponsiveBar } from '@nivo/bar';
 import PropTypes from 'prop-types';
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useCallback } from 'react';
 import Loader from '../../../../common/Loader';
 import { HEIGHT, X_AXIS, Y_AXIS } from '../../../chartDesign';
 
@@ -16,19 +16,20 @@ const BarChart = ({
 }) => {
   const [size, setSize] = useState(0);
 
-  function updateSize() {
+  const updateSize = useCallback(() => {
     if (document.getElementById(id)) {
       const height = document.getElementById(id).clientHeight;
       if (height > 0) {
         setSize(height);
       }
     }
-  }
+  }, [id]);
+
   useLayoutEffect(() => {
     window.addEventListener('resize', updateSize);
     updateSize();
     return () => window.removeEventListener('resize', updateSize);
-  }, []);
+  }, [updateSize]);
 
   if (document.getElementById(id)) {
     const height = document.getElementById(id).clientHeight;

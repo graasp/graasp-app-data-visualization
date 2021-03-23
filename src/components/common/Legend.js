@@ -25,7 +25,7 @@ const Legend = ({ id, verbList }) => {
 
   useEffect(() => {
     dispatch(updateLegendById(action, id));
-  }, [action]);
+  }, [action, dispatch, id]);
 
   const renderVerbList = () => {
     if (verbList.length !== 0) {

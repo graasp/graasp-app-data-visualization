@@ -74,6 +74,20 @@
       "spaceId": "5b56e70ab253020033364411"
     }
   ],
+  "introduction-id": [
+    { "_id": "introduction-children-id", "name": "Children of introduction" }
+  ],
+  "root-id": [
+    { "_id": "dataviz-id", "name": "Data Visualization" },
+    { "_id": "normalspace-id", "name": "Normal Space Data" },
+    { "_id": "moodle-id", "name": "Moodle Import" }
+  ],
+  "dataviz-id": [
+    { "_id": "introduction-id", "name": "Introduction" },
+    { "_id": "activity-id", "name": "Activity" },
+    { "_id": "conclusion-id", "name": "Conclusion" }
+  ],
+
   "actions": [
     {
       "user": "5f01b091e4c424001ae4ca7d",

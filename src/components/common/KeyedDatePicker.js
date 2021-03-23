@@ -55,7 +55,7 @@ const KeyedDatePicker = ({ id, data, chartDataById }) => {
     if (from !== prevFrom || to !== prevTo) {
       dispatch(updateDateById(from, to, id));
     }
-  }, [from, to]);
+  }, [from, to, chartDataById, dispatch, id]);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

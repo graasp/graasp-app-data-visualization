@@ -35,3 +35,12 @@ export const TICK_NUMBER_FOR_TIME_PERIOD = {
 export const TICK_NUMBER_FOR_DATE_FULL_YEAR = [2, 4, 8];
 
 export const SCREEN_SIZE_RANGE = [750, 1200, 1920];
+
+export const TREE_VIEW_MAX_WIDTH = 400;
+export const TREE_VIEW_MAX_HEIGHT = 350;
+export const SPACE_TREE_PARENT_NAME = 'Spaces';
+
+export const ACTIONS_PAGE_SIZE = 1000;
+export const ACTIONS_DEFAULT_PAGE = 0;
+
+export const DISABLED_COLOR = 'grey';
