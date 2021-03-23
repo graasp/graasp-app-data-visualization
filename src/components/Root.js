@@ -62,6 +62,8 @@ const theme = createMuiTheme({
 const Root = ({ classes }) => {
   const dispatch = useDispatch();
 
+  // this function is updated only when dispatch changes
+  // avoid side effects from useLayoutEffect
   const updateSize = useCallback(() => {
     const width = window.innerWidth;
     dispatch(updateWindowSize(width));

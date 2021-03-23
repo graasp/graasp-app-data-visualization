@@ -1,12 +1,12 @@
 import _ from 'lodash';
-import { SPACES_ENDPOINT } from '../config/api';
+import { buildGetSpaceChildrenEndpoint } from '../config/api';
 import { DEFAULT_GET } from './utils';
 
 // eslint-disable-next-line import/prefer-default-export
 export const getChildren = async (id, apiHost) => {
   try {
     const res = await fetch(
-      `//${apiHost}${SPACES_ENDPOINT}/${id}/navspace-children`,
+      `//${apiHost}${buildGetSpaceChildrenEndpoint(id)}`,
       DEFAULT_GET,
     );
 

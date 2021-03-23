@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { ResponsiveRadar } from '@nivo/radar';
 import PropTypes from 'prop-types';
 import Loader from '../../../../common/Loader';
+import { DISABLED_COLOR } from '../../../../../config/settings';
 
 const RadarChart = ({ data, colors, keys, indexBy }) => {
   const [hiddenKeys, setHiddenKeys] = useState([]);
@@ -26,7 +27,7 @@ const RadarChart = ({ data, colors, keys, indexBy }) => {
       });
       keys.forEach(key => {
         if (hidden.includes(key)) {
-          colorFiltered[key] = 'grey';
+          colorFiltered[key] = DISABLED_COLOR;
         } else {
           colorFiltered[key] = colors[key];
         }

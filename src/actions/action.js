@@ -1,5 +1,9 @@
 import Qs from 'qs';
-import { DEFAULT_VISIBILITY } from '../config/settings';
+import {
+  ACTIONS_DEFAULT_PAGE,
+  ACTIONS_PAGE_SIZE,
+  DEFAULT_VISIBILITY,
+} from '../config/settings';
 import { flag, getApiContext, isErrorResponse, postMessage } from './common';
 import {
   FLAG_POSTING_ACTION,
@@ -47,8 +51,8 @@ const getActions = async (
     const url = `//${apiHost + ACTIONS_ENDPOINT}?${Qs.stringify({
       ...params,
       spaceId: spaces,
-      pageSize: 1000,
-      page: 0,
+      pageSize: ACTIONS_PAGE_SIZE,
+      page: ACTIONS_DEFAULT_PAGE,
     })}`;
 
     const response = await fetch(url, DEFAULT_GET_REQUEST);

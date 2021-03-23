@@ -8,6 +8,7 @@ import { ResponsiveLine } from '@nivo/line';
 import PropTypes from 'prop-types';
 import Loader from '../../../../common/Loader';
 import { HEIGHT, MARGIN, WIDTH, X_AXIS, Y_AXIS } from '../../../chartDesign';
+import { DISABLED_COLOR } from '../../../../../config/settings';
 
 const LineChart = ({ data, colors, xAxis, yAxis, id, values, maxTicks }) => {
   const [hiddenKeys, setHiddenKeys] = useState([]);
@@ -53,7 +54,7 @@ const LineChart = ({ data, colors, xAxis, yAxis, id, values, maxTicks }) => {
           });
           Obj.data = ObjData;
           dataFiltered.push(Obj);
-          colorFiltered[d.id] = 'grey';
+          colorFiltered[d.id] = DISABLED_COLOR;
         } else {
           dataFiltered.push(d);
           colorFiltered[d.id] = colors[d.id];
