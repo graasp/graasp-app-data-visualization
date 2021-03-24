@@ -1,4 +1,4 @@
-import { ALLOWED_VERBS, AVG, MAX, USER } from '../types';
+import { AVG, MAX, USER } from '../types';
 
 export const formatDataForOMeter = (properties = [], key, attribute) => {
   const entryObj = {};
@@ -28,14 +28,14 @@ export const calculateAverage = (data, nbOfUsers) => {
   return Obj;
 };
 
-export const sumActionByWeight = (data, weights) => {
+export const sumActionByWeight = (data, allowedVerbs) => {
   const Obj = {};
 
   data.forEach(d => {
     const { user } = d;
     Obj[user] = 0;
-    ALLOWED_VERBS.forEach(verb => {
-      Obj[user] += d[verb] * weights[verb];
+    allowedVerbs.forEach(verb => {
+      Obj[user] += d[verb];
     });
   });
   return Obj;

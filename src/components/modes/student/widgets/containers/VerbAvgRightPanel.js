@@ -1,18 +1,21 @@
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import RightPanelBox from '../components/RightPanelBox';
 import {
   fillDataForRightPanelBox,
   formatDataForRadarOrRightPanel,
   Occurrence,
 } from '../util';
-import { ALLOWED_VERBS, AVG, USER, USER_ID, VERB } from '../types';
+import { AVG, USER, USER_ID, VERB } from '../types';
+import { getUniqueVerbs } from '../../../teacher/widgets/util';
 
 const tableProperties = [USER, AVG];
 
-const filterData = (actions, userId) => {
+const filterData = (actions, userId, hiddenVerbs) => {
+  const allowedVerbs = _.difference(getUniqueVerbs(actions), hiddenVerbs);
   const userList = Occurrence(actions, USER_ID);
   const formattedData = formatDataForRadarOrRightPanel(
-    ALLOWED_VERBS,
+    allowedVerbs,
     VERB,
     tableProperties,
   );
@@ -20,13 +23,21 @@ const filterData = (actions, userId) => {
     actions,
     formattedData,
     userId,
-    ALLOWED_VERBS,
+    allowedVerbs,
     userList.length,
   );
 };
 
-const mapStateToProps = ({ action: { content }, context: { userId } }) => ({
-  data: filterData(content, userId),
+const mapStateToProps = ({
+  action: { content },
+  context: { userId },
+  appInstance: {
+    content: {
+      settings: { hiddenVerbs },
+    },
+  },
+}) => ({
+  data: filterData(content, userId, hiddenVerbs),
 });
 
 export default connect(mapStateToProps)(RightPanelBox);

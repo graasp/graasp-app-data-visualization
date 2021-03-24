@@ -25,16 +25,7 @@ export const DATE_FORMAT_SHORT_YEAR = 'DD/MM/YY';
 export const DATE_FORMAT_FULL_YEAR = 'DD/MM/YYYY';
 
 export const VERB_AVG_CHART_MAX_CHART_NUMBER = 8;
-export const VERB_CHART_MAX_CHART_NUMBER = 7;
-
-export const TICK_NUMBER_FOR_TIME_PERIOD = {
-  FULLSCREEN: [4, 7, 10],
-  HALFSCREEN: [2, 3, 4],
-};
-
-export const TICK_NUMBER_FOR_DATE_FULL_YEAR = [2, 4, 8];
-
-export const SCREEN_SIZE_RANGE = [750, 1200, 1920];
+export const VERB_CHART_MAX_CHART_NUMBER = 6;
 
 export const TREE_VIEW_MAX_WIDTH = 400;
 export const TREE_VIEW_MAX_HEIGHT = 350;
@@ -44,3 +35,7 @@ export const ACTIONS_PAGE_SIZE = 1000;
 export const ACTIONS_DEFAULT_PAGE = 0;
 
 export const DISABLED_COLOR = 'grey';
+
+export const TIME_PERIOD_LABEL_WIDTH = 100;
+export const FULL_YEAR_LABEL_WIDTH = 70;
+export const LEGEND_WIDTH = 120;

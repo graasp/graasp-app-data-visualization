@@ -12,9 +12,9 @@ const RightPanelBox = ({ data }) => {
     if (data.length !== 0) {
       return data.map(action => (
         <TableRow key={action.verb}>
-          <TableCell>{action.verb}</TableCell>
-          <TableCell>{action.You}</TableCell>
-          <TableCell>{action.Average}</TableCell>
+          <TableCell align="center">{action.verb}</TableCell>
+          <TableCell align="center">{action.You}</TableCell>
+          <TableCell align="center">{action.Average}</TableCell>
         </TableRow>
       ));
     }
@@ -26,9 +26,9 @@ const RightPanelBox = ({ data }) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Actions</TableCell>
-            <TableCell>You</TableCell>
-            <TableCell>Average</TableCell>
+            <TableCell align="center">Actions</TableCell>
+            <TableCell align="center">You</TableCell>
+            <TableCell align="center">Average</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>{renderVerbList()}</TableBody>

@@ -14,8 +14,8 @@ import {
 import { DATE, VERB_CHART_DATE_PICKER_ID } from '../types';
 import { fromDate, toDate } from '../../../student/widgets/util';
 import {
-  SCREEN_SIZE_RANGE,
-  TICK_NUMBER_FOR_TIME_PERIOD,
+  LEGEND_WIDTH,
+  TIME_PERIOD_LABEL_WIDTH,
   VERB_CHART_MAX_CHART_NUMBER,
 } from '../../../../../config/settings';
 
@@ -46,29 +46,32 @@ const mapStateToProps = ({
       settings: { hiddenVerbs },
     },
   },
-}) => ({
-  data: BarData(
-    content,
-    fromDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
-    toDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
-    hiddenVerbs,
-  ),
-  keys: _.difference(getUniqueVerbs(content), hiddenVerbs),
-  indexBy: 'date',
-  xAxis,
-  yAxis,
-  values: formatDates(
-    fillTheDates(
+}) => {
+  const maxTicks = nbOfTicks({
+    componentWidth: windowSize / 2,
+    labelWidth: TIME_PERIOD_LABEL_WIDTH,
+    margin: LEGEND_WIDTH,
+  });
+  return {
+    data: BarData(
+      content,
       fromDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
       toDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
+      hiddenVerbs,
     ),
-    VERB_CHART_MAX_CHART_NUMBER,
-  ),
-  maxTicks: nbOfTicks(
-    TICK_NUMBER_FOR_TIME_PERIOD.HALFSCREEN,
-    SCREEN_SIZE_RANGE,
-    windowSize,
-  ),
-});
+    keys: _.difference(getUniqueVerbs(content), hiddenVerbs),
+    indexBy: 'date',
+    xAxis,
+    yAxis,
+    values: formatDates(
+      fillTheDates(
+        fromDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
+        toDate(chartDataById, VERB_CHART_DATE_PICKER_ID),
+      ),
+      VERB_CHART_MAX_CHART_NUMBER,
+    ),
+    maxTicks,
+  };
+};
 
 export default connect(mapStateToProps)(BarChart);

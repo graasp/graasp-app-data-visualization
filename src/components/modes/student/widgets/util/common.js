@@ -117,17 +117,6 @@ export const changeDateFormatForArray = arr => {
   return temp;
 };
 
-export const nbOfTicks = (
-  arrayOfTickValues,
-  arrayOfBreakpoints,
-  windowsSize,
-) => {
-  let tick = 0;
-
-  for (let i = arrayOfBreakpoints.length; i >= 0; i -= 1) {
-    if (windowsSize <= arrayOfBreakpoints[i]) {
-      tick = arrayOfTickValues[i];
-    }
-  }
-  return tick;
+export const nbOfTicks = ({ componentWidth, labelWidth, margin = 0 }) => {
+  return Math.max(Math.floor((componentWidth - margin) / labelWidth) - 1, 1);
 };

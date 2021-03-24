@@ -19,20 +19,10 @@ const styles = theme => ({
     margin: theme.spacing(),
   },
   widget: {},
-  paperRightSide: {
-    width: 210,
-    margin: theme.spacing(),
-    padding: theme.spacing(3),
-    border: 1,
-    borderColor: '#5050d2',
-    borderStyle: 'solid',
-    borderRadius: 20,
-    backgroundColor: 'rgba(253,242,255,0.56)',
-  },
   paper: {
     width: 'auto',
     margin: theme.spacing(),
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
     border: 1,
     textAlign: 'center',
     borderColor: '#5050d2',
@@ -46,6 +36,15 @@ const styles = theme => ({
     marginTop: 10,
     color: '#5050d2',
   },
+  ewfds: {
+    width: '100%',
+  },
+  dddd: {
+    width: '100%',
+  },
+  root: {
+    flexGrow: 1,
+  },
 });
 
 function isInRightPanel(tool) {
@@ -56,24 +55,22 @@ export const StudentView = ({ classes, tool, content }) => {
   if (content.length > 0) {
     if (isInRightPanel(tool)) {
       return (
-        <div>
-          <div className={classes.main}>
-            <Grid container>
-              <Grid item sm={2} className={classes.widget}>
-                <Paper className={classes.paperRightSide}>
-                  <Typography className={classes.title} gutterBottom>
-                    Your Participation
-                  </Typography>
-                  <VerbAvgRightPanelWidget />
-                </Paper>
-              </Grid>
-              <Grid item sm={2} className={classes.widget}>
-                <Paper className={classes.paperRightSide}>
-                  <StudentSpeedOMeterWidget />
-                </Paper>
-              </Grid>
+        <div className={classes.main}>
+          <Grid container>
+            <Grid item xs={12} sm={6} className={classes.widget}>
+              <Paper className={classes.paper}>
+                <Typography className={classes.title} gutterBottom noWrap>
+                  Your Participation
+                </Typography>
+                <VerbAvgRightPanelWidget />
+              </Paper>
             </Grid>
-          </div>
+            <Grid item xs={12} sm={6} className={classes.widget}>
+              <Paper className={classes.paper}>
+                <StudentSpeedOMeterWidget />
+              </Paper>
+            </Grid>
+          </Grid>
         </div>
       );
     }

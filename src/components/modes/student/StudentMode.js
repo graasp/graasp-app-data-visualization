@@ -38,7 +38,7 @@ class StudentMode extends Component {
     // by default get the resources for this user
     dispatchGetAppInstanceResources({ userId });
     // by default get all actions for this user
-    dispatchGetActions({ visibility: 'public' });
+    dispatchGetActions();
   }
 
   componentDidUpdate({ appInstanceId: prevAppInstanceId }) {

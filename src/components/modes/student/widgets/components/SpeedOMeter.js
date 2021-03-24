@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactSpeedometer from 'react-d3-speedometer';
 import Typography from '@material-ui/core/Typography';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { AVG, MAX, USER } from '../types';
 
 const SpeedOMeter = ({ value, colors, segments }) => {
+  const matches = useMediaQuery(theme => theme.breakpoints.down('xs'));
+
   const currentValue = () => {
-    return value[USER];
+    return value[USER] || 0;
   };
 
   const stops = () => {
@@ -19,20 +22,20 @@ const SpeedOMeter = ({ value, colors, segments }) => {
     return arr;
   };
 
+  const width = matches ? window.innerWidth : window.innerWidth / 2;
+
   if (value[MAX] !== 0 && value[MAX]) {
     return (
       <div>
-        <div
-          style={{
-            height: 140,
-          }}
-        >
+        <div style={{ height: width / 2 }}>
           <ReactSpeedometer
+            height={width / 2 + 30}
+            fluidWidth
+            forceRender
             maxValue={value[MAX]}
             segments={segments}
             segmentColors={colors}
             customSegmentStops={stops()}
-            fluidWidth
             value={currentValue()}
             needleHeightRatio={0.8}
             needleColor="#BBAAFF"
@@ -41,7 +44,7 @@ const SpeedOMeter = ({ value, colors, segments }) => {
           />
         </div>
         <Typography variant="body1" display="block" gutterBottom>
-          {`Your participation: ${value[USER]}`}
+          {`Your participation: ${value[USER] || 0}`}
         </Typography>
         <Typography variant="body1" display="block" gutterBottom>
           {`Average participation: ${value[AVG]}`}

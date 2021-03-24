@@ -65,7 +65,7 @@ const Root = ({ classes }) => {
   // this function is updated only when dispatch changes
   // avoid side effects from useLayoutEffect
   const updateSize = useCallback(() => {
-    const width = window.innerWidth;
+    const width = document.querySelector(`.${classes.root}`).offsetWidth;
     dispatch(updateWindowSize(width));
   }, [dispatch]);
 
