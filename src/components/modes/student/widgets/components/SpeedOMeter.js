@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ReactSpeedometer from 'react-d3-speedometer';
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +7,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { AVG, MAX, USER } from '../types';
 
 const SpeedOMeter = ({ value, colors, segments }) => {
+  const { t } = useTranslation();
   const matches = useMediaQuery(theme => theme.breakpoints.down('xs'));
 
   const currentValue = () => {
@@ -27,9 +29,9 @@ const SpeedOMeter = ({ value, colors, segments }) => {
   if (value[MAX] !== 0 && value[MAX]) {
     return (
       <div>
+        {/* the speedometer height is always half of the width */}
         <div style={{ height: width / 2 }}>
           <ReactSpeedometer
-            height={width / 2 + 30}
             fluidWidth
             forceRender
             maxValue={value[MAX]}
@@ -44,13 +46,13 @@ const SpeedOMeter = ({ value, colors, segments }) => {
           />
         </div>
         <Typography variant="body1" display="block" gutterBottom>
-          {`Your participation: ${value[USER] || 0}`}
+          {`${t('Your participation')}: ${value[USER] || 0}`}
         </Typography>
         <Typography variant="body1" display="block" gutterBottom>
-          {`Average participation: ${value[AVG]}`}
+          {`${t('Average participation')}: ${value[AVG]}`}
         </Typography>
         <Typography variant="body1" display="block" gutterBottom>
-          {`Maximum participation: ${value[MAX]}`}
+          {`${t('Maximum participation')}: ${value[MAX]}`}
         </Typography>
       </div>
     );

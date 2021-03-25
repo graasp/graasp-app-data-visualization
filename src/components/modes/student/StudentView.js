@@ -51,7 +51,7 @@ function isInRightPanel(tool) {
   return tool;
 }
 
-export const StudentView = ({ classes, tool, content }) => {
+export const StudentView = ({ classes, tool, content, t }) => {
   if (content.length > 0) {
     if (isInRightPanel(tool)) {
       return (
@@ -60,7 +60,7 @@ export const StudentView = ({ classes, tool, content }) => {
             <Grid item xs={12} sm={6} className={classes.widget}>
               <Paper className={classes.paper}>
                 <Typography className={classes.title} gutterBottom noWrap>
-                  Your Participation
+                  {t('Your Participation')}
                 </Typography>
                 <VerbAvgRightPanelWidget />
               </Paper>
@@ -82,7 +82,7 @@ export const StudentView = ({ classes, tool, content }) => {
             <Grid item sm={6} className={classes.widget}>
               <Paper className={classes.paper}>
                 <Typography className={classes.title} gutterBottom>
-                  Total Activity Actions
+                  {t('Total Activity Actions')}
                 </Typography>
                 <VerbAvgWidget />
               </Paper>
@@ -90,7 +90,7 @@ export const StudentView = ({ classes, tool, content }) => {
             <Grid item sm={6} className={classes.widget}>
               <Paper className={classes.paper}>
                 <Typography className={classes.title} gutterBottom>
-                  Your Activity Levels
+                  {t('Your Activity Levels')}
                 </Typography>
                 <VerbRadarWidget />
               </Paper>
@@ -98,7 +98,7 @@ export const StudentView = ({ classes, tool, content }) => {
             <Grid item sm={12} className={classes.widget}>
               <Paper className={classes.paper}>
                 <Typography className={classes.title} gutterBottom>
-                  Detailed Activity Overview
+                  {t('Detailed Activity Overview')}
                 </Typography>
                 <VerbAvgBarWidget />
               </Paper>
@@ -122,6 +122,7 @@ StudentView.propTypes = {
   }).isRequired,
   tool: PropTypes.bool.isRequired,
   content: PropTypes.arrayOf(PropTypes.object).isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ context: { tool }, action: { content } }) => {

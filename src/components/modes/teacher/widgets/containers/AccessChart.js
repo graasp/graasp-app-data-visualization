@@ -7,7 +7,6 @@ import {
   createObjectForLine,
   DataPicking,
   fillTheDates,
-  nbOfTicks,
   RemovePropertyOfObjectFromArray,
   TotalAccesses,
   UniqueAccesses,
@@ -24,6 +23,7 @@ import {
   LEGEND_WIDTH,
   FULL_YEAR_LABEL_WIDTH,
 } from '../../../../../config/settings';
+import { nbOfTicks } from '../../../../../utils/layout';
 
 const xAxis = 'date';
 const yAxis = 'Visits';

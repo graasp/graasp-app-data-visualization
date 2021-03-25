@@ -9,7 +9,6 @@ import {
   fillTheDates,
   formatDates,
   getUniqueVerbs,
-  nbOfTicks,
 } from '../util';
 import { DATE, VERB_CHART_DATE_PICKER_ID } from '../types';
 import { fromDate, toDate } from '../../../student/widgets/util';
@@ -18,6 +17,7 @@ import {
   TIME_PERIOD_LABEL_WIDTH,
   VERB_CHART_MAX_CHART_NUMBER,
 } from '../../../../../config/settings';
+import { nbOfTicks } from '../../../../../utils/layout';
 
 // todo: automatically update
 const defaultValues = { navigate: 0, open: 0, change: 0, create: 0 };

@@ -7,7 +7,6 @@ import {
   formatDataForBarChart,
   fromDate,
   getVerbsForBarChart,
-  nbOfTicks,
   Occurrence,
   selectedActions,
   toDate,
@@ -28,6 +27,7 @@ import {
   TIME_PERIOD_LABEL_WIDTH,
   LEGEND_WIDTH,
 } from '../../../../../config/settings';
+import { nbOfTicks } from '../../../../../utils/layout';
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';

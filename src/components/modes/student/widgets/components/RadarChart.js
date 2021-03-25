@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { ResponsiveRadar } from '@nivo/radar';
 import PropTypes from 'prop-types';
-import Loader from '../../../../common/Loader';
 import { DISABLED_COLOR } from '../../../../../config/settings';
 
 const RadarChart = ({ data, colors, keys, indexBy }) => {
@@ -51,10 +50,6 @@ const RadarChart = ({ data, colors, keys, indexBy }) => {
     }
     enabledData(temp);
   };
-
-  if (!colors) {
-    return <Loader />;
-  }
 
   return (
     <div style={{ height: 400 }}>

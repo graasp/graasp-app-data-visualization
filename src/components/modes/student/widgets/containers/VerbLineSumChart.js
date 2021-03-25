@@ -7,7 +7,6 @@ import {
   fillDataForLineChart,
   formatDataForLineChart,
   fromDate,
-  nbOfTicks,
   Occurrence,
   selectedActions,
   toDate,
@@ -24,6 +23,7 @@ import {
   FULL_YEAR_LABEL_WIDTH,
   LEGEND_WIDTH,
 } from '../../../../../config/settings';
+import { nbOfTicks } from '../../../../../utils/layout';
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
