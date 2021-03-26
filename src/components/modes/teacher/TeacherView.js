@@ -33,7 +33,7 @@ export class TeacherView extends PureComponent {
     paper: {
       width: 'auto',
       margin: theme.spacing(),
-      padding: theme.spacing(3),
+      padding: theme.spacing(1),
       textAlign: 'center',
       border: 1,
       borderColor: '#5050d2',

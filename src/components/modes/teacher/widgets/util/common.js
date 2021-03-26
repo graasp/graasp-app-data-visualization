@@ -190,24 +190,8 @@ export const toDate = (chartDataById, id) => {
   return undefined;
 };
 
-export const nbOfTicks = (
-  arrayOfTickValues,
-  arrayOfBreakpoints,
-  windowsSize,
-) => {
-  let tick = 0;
-
-  for (let i = arrayOfBreakpoints.length; i >= 0; i -= 1) {
-    if (windowsSize <= arrayOfBreakpoints[i]) {
-      tick = arrayOfTickValues[i];
-    }
-  }
-
-  return tick;
-};
-
 export const formatChunkDate = group =>
-  group.length > 1 ? `${group[0]} - ${group[group.length - 1]}` : group[0];
+  group.length > 1 ? `${group[0]}-${group[group.length - 1]}` : group[0];
 
 // compute ideal nb of chunk from data
 export const getChunkNb = (data, maxChartNb) => {

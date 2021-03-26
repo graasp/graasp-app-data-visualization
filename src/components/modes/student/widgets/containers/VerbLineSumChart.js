@@ -7,7 +7,6 @@ import {
   fillDataForLineChart,
   formatDataForLineChart,
   fromDate,
-  nbOfTicks,
   Occurrence,
   selectedActions,
   toDate,
@@ -21,9 +20,10 @@ import {
 } from '../types';
 import { fillTheDates } from '../../../teacher/widgets/util';
 import {
-  SCREEN_SIZE_RANGE,
-  TICK_NUMBER_FOR_DATE_FULL_YEAR,
+  FULL_YEAR_LABEL_WIDTH,
+  LEGEND_WIDTH,
 } from '../../../../../config/settings';
+import { nbOfTicks } from '../../../../../utils/layout';
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
@@ -72,10 +72,10 @@ const mapStateToProps = ({
       toDate(chartDataById, VERB_LINE_DATE_PICKER_ID),
     ),
   ),
-  maxTicks: nbOfTicks(
-    TICK_NUMBER_FOR_DATE_FULL_YEAR,
-    SCREEN_SIZE_RANGE,
-    windowSize,
-  ),
+  maxTicks: nbOfTicks({
+    componentWidth: windowSize / 2,
+    margin: LEGEND_WIDTH,
+    labelWidth: FULL_YEAR_LABEL_WIDTH,
+  }),
 });
 export default connect(mapStateToProps)(LineChart);

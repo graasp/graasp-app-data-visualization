@@ -7,7 +7,6 @@ import {
   createObjectForLine,
   DataPicking,
   fillTheDates,
-  nbOfTicks,
   RemovePropertyOfObjectFromArray,
   TotalAccesses,
   UniqueAccesses,
@@ -21,9 +20,10 @@ import {
 } from '../types';
 import { fromDate, toDate } from '../../../student/widgets/util';
 import {
-  SCREEN_SIZE_RANGE,
-  TICK_NUMBER_FOR_DATE_FULL_YEAR,
+  LEGEND_WIDTH,
+  FULL_YEAR_LABEL_WIDTH,
 } from '../../../../../config/settings';
+import { nbOfTicks } from '../../../../../utils/layout';
 
 const xAxis = 'date';
 const yAxis = 'Visits';
@@ -81,11 +81,11 @@ const mapStateToProps = ({
       toDate(chartDataById, ACCESS_LINE_DATE_PICKER_ID),
     ),
   ),
-  maxTicks: nbOfTicks(
-    TICK_NUMBER_FOR_DATE_FULL_YEAR,
-    SCREEN_SIZE_RANGE,
-    windowSize,
-  ),
+  maxTicks: nbOfTicks({
+    componentWidth: windowSize / 2,
+    margin: LEGEND_WIDTH,
+    labelWidth: FULL_YEAR_LABEL_WIDTH,
+  }),
 });
 
 export default connect(mapStateToProps)(LineChart);

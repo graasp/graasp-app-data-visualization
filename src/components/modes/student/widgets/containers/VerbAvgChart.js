@@ -7,7 +7,6 @@ import {
   formatDataForBarChart,
   fromDate,
   getVerbsForBarChart,
-  nbOfTicks,
   Occurrence,
   selectedActions,
   toDate,
@@ -25,9 +24,10 @@ import {
 } from '../../../teacher/widgets/util';
 import {
   VERB_AVG_CHART_MAX_CHART_NUMBER,
-  TICK_NUMBER_FOR_TIME_PERIOD,
-  SCREEN_SIZE_RANGE,
+  TIME_PERIOD_LABEL_WIDTH,
+  LEGEND_WIDTH,
 } from '../../../../../config/settings';
+import { nbOfTicks } from '../../../../../utils/layout';
 
 const xAxis = 'date';
 const yAxis = 'Occurrence';
@@ -88,11 +88,11 @@ const mapStateToProps = ({
     ),
     VERB_AVG_CHART_MAX_CHART_NUMBER,
   ),
-  maxTicks: nbOfTicks(
-    TICK_NUMBER_FOR_TIME_PERIOD.FULLSCREEN,
-    SCREEN_SIZE_RANGE,
-    windowSize,
-  ),
+  maxTicks: nbOfTicks({
+    componentWidth: windowSize,
+    labelWidth: TIME_PERIOD_LABEL_WIDTH,
+    margin: LEGEND_WIDTH,
+  }),
 });
 
 export default connect(mapStateToProps)(BarChart);

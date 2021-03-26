@@ -1,17 +1,31 @@
 export const xTickValues = (values, tickCount) => {
-  const temp = [];
   const l = values.length;
-  let step = l / tickCount;
-  step = Math.ceil(step);
-  if (l > tickCount) {
-    if (step > 0) {
-      for (let i = 0; i < l; i += step) {
-        temp.push(values[i]);
-      }
-    }
-    return temp;
+
+  // keep all values if it's less than necessary
+  if (l < tickCount) {
+    return values;
   }
-  return values;
+
+  // display no tick
+  if (tickCount === 1) {
+    return [];
+  }
+
+  // keep first value
+  const temp = [values[0]];
+
+  const step = Math.ceil(l / tickCount);
+
+  // keep middle values every step
+  const middleValues = values.slice(step, -step);
+  for (let i = 0; i < middleValues.length; i += step) {
+    temp.push(middleValues[i]);
+  }
+
+  // keep last value
+  temp.push(values[l - 1]);
+
+  return temp;
 };
 
 // const tickValueY = data => {

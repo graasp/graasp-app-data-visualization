@@ -38,6 +38,7 @@ class StudentMode extends Component {
     // by default get the resources for this user
     dispatchGetAppInstanceResources({ userId });
     // by default get all actions for this user
+    // a non-admin user can only fetch public actions
     dispatchGetActions({ visibility: 'public' });
   }
 
