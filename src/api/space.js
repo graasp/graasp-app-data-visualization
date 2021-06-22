@@ -14,6 +14,7 @@ export const getChildren = async (id, apiHost) => {
 
     return !_.isEmpty(content) ? content : [];
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(e);
 
     return [];
