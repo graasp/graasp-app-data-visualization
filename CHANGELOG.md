@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/graasp/graasp-app-data-visualization/compare/v0.2.0...v0.2.1) (2021-06-22)
+
+### Features
+
+- add space tree in settings modal ([6f1d567](https://github.com/graasp/graasp-app-data-visualization/commit/6f1d56756847baa77f8b4f85d17235137d827e2f))
+- add space tree to include their actions ([762ac30](https://github.com/graasp/graasp-app-data-visualization/commit/762ac309a3545e7e5b981f3b83ee3164dd1d0f9a))
+- add verb checkboxes in settings ([7a4361b](https://github.com/graasp/graasp-app-data-visualization/commit/7a4361b5f5c52af6421df80fa3399b4e0d5e5fdd))
+- automatic actions and scheme for widgets ([991ca06](https://github.com/graasp/graasp-app-data-visualization/commit/991ca062f5f3765c1efcf992925d909fd9f9cb27))
+- display data range by default, correct invalid dates ([731810e](https://github.com/graasp/graasp-app-data-visualization/commit/731810e6a85dd62110cb8a3dcbd7f92ca4408639))
+
+### Bug Fixes
+
+- avoid infinite loader ([31ed727](https://github.com/graasp/graasp-app-data-visualization/commit/31ed727d62c7cc5dc2d9d99b199aa8d75bfa3ff8))
+- handle dates correctly to display visits ([51213fb](https://github.com/graasp/graasp-app-data-visualization/commit/51213fbae6e3e7ac21f987547e7ad715b33ded28))
+- ignore console statement ([b06830b](https://github.com/graasp/graasp-app-data-visualization/commit/b06830b61d2f18fc9476843922b643c0d8e792e0))
+- removed next/after weeks in date picker ([04e81e1](https://github.com/graasp/graasp-app-data-visualization/commit/04e81e1ccd667dffca137285af80db2402e69e32))
+
+### Tests
+
+- add test for getSpaceTree, apply PR changes ([3dc749f](https://github.com/graasp/graasp-app-data-visualization/commit/3dc749ffcbf3356019ace19d4ddc6f820e7212ef))
+
 ## [0.2.0](https://github.com/graasp/graasp-app-data-visualization/compare/v0.1.0...v0.2.0) (2020-08-02)
 
 ### ⚠ BREAKING CHANGES
